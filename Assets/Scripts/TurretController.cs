@@ -9,10 +9,14 @@ public class TurretController : MonoBehaviour
     public float maxRotationSpeed;
     public GameObject projectile;
     private GameObject muzzle;
+    private GameObject effectObject;
+    private ParticleSystem shootingEffect;
     
     void Start()
     {
         this.muzzle = this.transform.GetChild(0).transform.GetChild(0).gameObject;
+        this.effectObject = muzzle.transform.GetChild(0).gameObject;
+        this.shootingEffect = this.effectObject.GetComponent<ParticleSystem>();
         this.viewCamera = Camera.main;
         this.maxRotationSpeed = 10f;
     }
@@ -33,6 +37,7 @@ public class TurretController : MonoBehaviour
         }
 
         if(Input.GetMouseButtonDown(0)) {
+            this.shootingEffect.Play();
             this.Shoot();
         }
     }
