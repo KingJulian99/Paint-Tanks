@@ -8,12 +8,14 @@ public class TurretController : MonoBehaviour
     public Camera viewCamera;
     public float maxRotationSpeed;
     public GameObject projectile;
+    private GameObject barrel;
     private GameObject muzzle;
     private GameObject effectObject;
     private ParticleSystem shootingEffect;
     
     void Start()
     {
+        this.barrel = this.transform.GetChild(0).gameObject;
         this.muzzle = this.transform.GetChild(0).transform.GetChild(0).gameObject;
         this.effectObject = muzzle.transform.GetChild(0).gameObject;
         this.shootingEffect = this.effectObject.GetComponent<ParticleSystem>();
@@ -59,6 +61,7 @@ public class TurretController : MonoBehaviour
     }
 
     void Shoot() {
+        this.barrel.GetComponent<Animator>().SetTrigger("Shoot");
         GameObject shot = Instantiate(projectile, this.muzzle.transform.position, this.muzzle.transform.rotation);
     }
 }
