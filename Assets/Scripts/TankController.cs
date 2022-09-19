@@ -6,10 +6,12 @@ public class TankController : MonoBehaviour
 {
 
     private float driveSpeed;
+    private CharacterController characterController;
 
     void Start()
     {
         this.driveSpeed = 5.0f;
+        this.characterController = this.GetComponent<CharacterController>();
     }
 
     void Update()   // Refactor to use fixed update
@@ -17,11 +19,13 @@ public class TankController : MonoBehaviour
 
         // Tank movements
         if(Input.GetKey("w")) {
-            this.transform.Translate(Vector3.forward * Time.deltaTime * driveSpeed);
+            this.characterController.SimpleMove(this.transform.forward * driveSpeed);
+            //this.transform.Translate(Vector3.forward * Time.deltaTime * driveSpeed);
         }
 
         if(Input.GetKey("s")) {
-            this.transform.Translate(-Vector3.forward * Time.deltaTime * driveSpeed);
+            this.characterController.SimpleMove(-this.transform.forward * driveSpeed);
+            //this.transform.Translate(-Vector3.forward * Time.deltaTime * driveSpeed);
         }
 
         if(Input.GetKey("d")) {
