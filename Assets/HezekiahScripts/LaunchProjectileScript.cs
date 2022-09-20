@@ -8,16 +8,19 @@ public class LaunchProjectileScript : MonoBehaviour
     public float launchVelocity = 1500f;
     public float reload_time = 1;
     private bool can_shoot = true;
+    private bool isLocalPlayer;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        isLocalPlayer = gameObject.transform.root.GetComponent<PlayerTank>().isLocalPlayer;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer) { return; }
+
         if (Input.GetButtonDown("Fire1") && can_shoot)
         {
             GameObject ball = Instantiate(projectile, transform.position, transform.rotation);

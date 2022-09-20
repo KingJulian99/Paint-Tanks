@@ -1,14 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 public class RotateTurretScript : MonoBehaviour
 {
     private Vector3 pointToLook;
+    private bool isLocalPlayer;
+
+    private void Start()
+    {
+        isLocalPlayer = gameObject.transform.root.GetComponent<PlayerTank>().isLocalPlayer;
+    }
 
     // Update is called once per frame
     void Update()
     {
+        if(!isLocalPlayer) { return; }
+
         Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane ground = new Plane(Vector3.up, Vector3.zero);
         float ray_length;

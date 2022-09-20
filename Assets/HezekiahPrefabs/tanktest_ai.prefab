@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 920568795219270573, guid: ab15cff3ec8275044b3c41c8bf192656, type: 3}
+      propertyPath: m_AssetId
+      value: 608139e33d6af2b43aa5cdc992825169
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956349008456792762, guid: ab15cff3ec8275044b3c41c8bf192656, type: 3}
+      propertyPath: m_AssetId
+      value: 608139e33d6af2b43aa5cdc992825169
+      objectReference: {fileID: 0}
     - target: {fileID: 7121242698419324874, guid: ab15cff3ec8275044b3c41c8bf192656, type: 3}
       propertyPath: m_Name
       value: tanktest_ai
@@ -67,4 +75,5 @@ PrefabInstance:
     - {fileID: 968356761, guid: ab15cff3ec8275044b3c41c8bf192656, type: 3}
     - {fileID: 568453461, guid: ab15cff3ec8275044b3c41c8bf192656, type: 3}
     - {fileID: 1381711685, guid: ab15cff3ec8275044b3c41c8bf192656, type: 3}
+    - {fileID: -1541605063538604132, guid: ab15cff3ec8275044b3c41c8bf192656, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ab15cff3ec8275044b3c41c8bf192656, type: 3}
