@@ -129,6 +129,8 @@ Material:
     - _OPACITY: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _QueueControl: 0
+    - _QueueOffset: 0
     - _SPECULAR_IOR: 1.5
     - _SPECULAR_ROUGHNESS: 0
     - _SmoothnessTextureChannel: 0
