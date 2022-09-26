@@ -15,7 +15,6 @@ public class BulletController : MonoBehaviour
     void Start()
     {
         this.bulletSpeed = 10f;
-        this.bouncesLeft = 2;
     }
 
     void FixedUpdate()
@@ -26,13 +25,11 @@ public class BulletController : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
+
         this.bouncesLeft--;
 
         if(this.bouncesLeft < 0) {
-            //Destroy(this.gameObject);
-            this.GetComponent<Renderer>().material.color = Color.red;
-            this.bulletSpeed = 0f;
-            print("Paintball destroyed!");
+            Explode(other);
         }
 
         // Reflect
@@ -44,5 +41,30 @@ public class BulletController : MonoBehaviour
         if(p != null){
             PaintManager.instance.paint(p, other.contacts[0].point, radius, hardness, strength, paintColor);
         }
+    }
+
+    void OnTriggerEnter(Collider other) {
+        if(other.gameObject.tag == "Tank") {
+            // Take health from the other tank 🔪 (if it's on a different team!)
+            if( !(other.gameObject.GetComponent<TankController>().teamColor == this.paintColor) ) {
+                other.gameObject.GetComponent<TankController>().health -= 50;
+            }
+
+            // Make this paintball explode
+            this.bouncesLeft = 0;
+            Explode(other);
+        }
+    }
+
+    void Explode<T>(T other) { // other is either collider or collision
+        // "Destroy" the bullet
+        this.bulletSpeed = 0f;
+        Destroy(this.GetComponent<Rigidbody>());
+        Destroy(this.GetComponent<SphereCollider>());
+        Destroy(this.GetComponent<MeshRenderer>());
+        this.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+
+        // Actually destroy the bullet after the ParticleSystem is done.
+        Destroy(this.gameObject, 5.0f);
     }
 }

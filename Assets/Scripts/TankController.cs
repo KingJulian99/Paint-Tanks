@@ -7,16 +7,20 @@ public class TankController : MonoBehaviour
 
     public float driveSpeed;
     public float rotateSpeed;
+    public int health;
     public Color teamColor;
+    public int bounceNumber;
     private CharacterController characterController;
     private TurretController turretController;
 
     void Start()
     {
-        // Setting movement variables
+        // Setting movement variables and other defaults
         this.driveSpeed = 5.0f;
         this.rotateSpeed = 55.0f;
+        this.health = 100;
         this.characterController = this.GetComponent<CharacterController>();
+        this.bounceNumber = 2;
 
         // Changing to team Colors
         Material tankMaterial = GetComponent<Renderer>().material;
@@ -27,8 +31,10 @@ public class TankController : MonoBehaviour
 
         // Setting bullet color in turret controller
         turretController = this.transform.GetChild(0).GetComponent<TurretController>();
-        turretController.teamColor = this.teamColor;
-        
+        turretController.setTeamColor(this.teamColor);
+
+        // Setting bullet bounce limit in turret controller
+        turretController.setBounceNumber(this.bounceNumber);
     }
 
     void Update()
@@ -49,6 +55,10 @@ public class TankController : MonoBehaviour
 
         if(Input.GetKey("a")) {
             this.transform.Rotate(0.0f, -this.rotateSpeed * Time.deltaTime, 0.0f);
+        }
+
+        if(this.health <= 0) {
+            Destroy(this.gameObject);
         }
 
     }

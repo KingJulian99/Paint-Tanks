@@ -12,7 +12,6 @@ public class TurretController : MonoBehaviour
     */
     
     public float maxRotationSpeed;
-    public Color teamColor;
     public Camera viewCamera;
     public GameObject projectile;
 
@@ -25,10 +24,13 @@ public class TurretController : MonoBehaviour
                 - Muzzle (GameObject)
                     - Splash Shot (Grouped Particle System)
     */
+
     private GameObject barrel;
     private GameObject muzzle;
     private GameObject effectObject;
     private ParticleSystem shootingEffect;
+    private int bounceNumber;
+    private Color teamColor;
     
     void Start()
     {
@@ -57,7 +59,6 @@ public class TurretController : MonoBehaviour
         }
 
         if(Input.GetMouseButtonDown(0)) {
-            this.shootingEffect.Play();
             this.Shoot();
         }
     }
@@ -79,15 +80,28 @@ public class TurretController : MonoBehaviour
     }
 
     void Shoot() {
+        // Smoke 😎🚬
+        this.shootingEffect.Play();
+
         // Animate
         this.barrel.GetComponent<Animator>().SetTrigger("Shoot");
 
         // Skiet mos
         GameObject shot = Instantiate(projectile, this.muzzle.transform.position, this.muzzle.transform.rotation);
 
-
         // Set Color for the bullet and paint
         shot.GetComponent<Renderer>().material.SetColor("_BaseColor", teamColor);
         shot.GetComponent<BulletController>().paintColor = teamColor;
+
+        // Set amount of bounces left
+        shot.GetComponent<BulletController>().bouncesLeft = this.bounceNumber;
+    }
+
+    public void setBounceNumber(int bounceLimit) {
+        this.bounceNumber = bounceLimit;
+    }
+
+    public void setTeamColor(Color teamColor) {
+        this.teamColor = teamColor;
     }
 }

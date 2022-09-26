@@ -312,7 +312,7 @@ GameObject:
   - component: {fileID: 5086112365449298993}
   m_Layer: 0
   m_Name: Barrel
-  m_TagString: Untagged
+  m_TagString: Tank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -447,11 +447,11 @@ GameObject:
   - component: {fileID: 5241405876868861626}
   - component: {fileID: 8023657061604211312}
   - component: {fileID: 8689788080069063132}
-  - component: {fileID: 5086112364838281079}
   - component: {fileID: 5086112366432559090}
+  - component: {fileID: 6420748293719385649}
   m_Layer: 0
   m_Name: Tank
-  m_TagString: Untagged
+  m_TagString: Tank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -538,20 +538,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   driveSpeed: 0
   rotateSpeed: 0
---- !u!64 &5086112364838281079
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8383800240097368997}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2959467708922500008, guid: fac5b11f939f79945b07d67fae6be149, type: 3}
+  health: 0
+  teamColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!143 &5086112366432559090
 CharacterController:
   m_ObjectHideFlags: 0
@@ -563,13 +551,26 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 0.01
-  m_Radius: 0.006
+  m_Height: 0.001
+  m_Radius: 0.004
   m_SlopeLimit: 10
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.005, z: 0}
+  m_Center: {x: 0, y: 0.0035, z: 0}
+--- !u!65 &6420748293719385649
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8383800240097368997}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0076837256, y: 0.009212436, z: 0.011408024}
+  m_Center: {x: 2.083278e-12, y: 0.00343809, z: -0.00013980642}
 --- !u!1 &8479345984220759218
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,7 +585,7 @@ GameObject:
   - component: {fileID: 5086112365412091524}
   m_Layer: 0
   m_Name: Turret
-  m_TagString: Untagged
+  m_TagString: Tank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -668,8 +669,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxRotationSpeed: 0
+  teamColor: {r: 0, g: 0, b: 0, a: 0}
   viewCamera: {fileID: 0}
   projectile: {fileID: 8711198788665320963, guid: b78524c424e58194f88eef765c96a4ec, type: 3}
+  bounceNumber: 3
 --- !u!1001 &1479441514630823990
 PrefabInstance:
   m_ObjectHideFlags: 0
