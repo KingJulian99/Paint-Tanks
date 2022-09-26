@@ -15,6 +15,8 @@ public class BulletController : MonoBehaviour
     void Start()
     {
         this.bulletSpeed = 10f;
+        Material test = this.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().trailMaterial;
+        test.SetColor("_Color", paintColor);
     }
 
     void FixedUpdate()
