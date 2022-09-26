@@ -4,10 +4,26 @@ using UnityEngine;
 
 public class TurretController : MonoBehaviour
 {
+    /*
+        Controller for the Turret component of a Tank.
 
-    public Camera viewCamera;
+        All aiming calculations assume that the tank is on a plane at (0,0,0) facing upwards.
+        All aiming to towards a point on the plane, and no other objects are considered (walls, players etc.).
+    */
+    
     public float maxRotationSpeed;
+    public Camera viewCamera;
     public GameObject projectile;
+
+    /*
+        All private variables are fetched from this GameObject's children.
+        This GameObject is the turret of the tank, and is assumed to have the structure:
+        
+        Turret (GameObject)
+            - Barrel (GameObject)
+                - Muzzle (GameObject)
+                    - Splash Shot (Grouped Particle System)
+    */
     private GameObject barrel;
     private GameObject muzzle;
     private GameObject effectObject;
@@ -16,8 +32,8 @@ public class TurretController : MonoBehaviour
     void Start()
     {
         this.barrel = this.transform.GetChild(0).gameObject;
-        this.muzzle = this.transform.GetChild(0).transform.GetChild(0).gameObject;
-        this.effectObject = muzzle.transform.GetChild(0).gameObject;
+        this.muzzle = this.barrel.transform.GetChild(0).gameObject;
+        this.effectObject = this.muzzle.transform.GetChild(0).gameObject;
         this.shootingEffect = this.effectObject.GetComponent<ParticleSystem>();
         this.viewCamera = Camera.main;
         this.maxRotationSpeed = 10f;
@@ -25,7 +41,8 @@ public class TurretController : MonoBehaviour
 
     void Update()
     {
-        Debug.DrawLine(this.muzzle.transform.position, this.muzzle.transform.position + this.muzzle.transform.forward * 10, Color.red);
+        // Debug.DrawLine(this.muzzle.transform.position, this.muzzle.transform.position + this.muzzle.transform.forward * 10, Color.red);
+
         Ray ray = viewCamera.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
         float rayDistance;
@@ -47,7 +64,7 @@ public class TurretController : MonoBehaviour
     void LookAt(Vector3 point) {
         Vector3 heightCorrectedPoint = new Vector3(point.x, this.transform.position.y, point.z);
 
-        //Debug.DrawLine(this.transform.position, this.transform.position + this.transform.forward * 10, Color.red);
+        // Debug.DrawLine(this.transform.position, this.transform.position + this.transform.forward * 10, Color.red);
 
         this.transform.Rotate(new Vector3(0, this.GetAngleBetweenBarrelAndPoint(heightCorrectedPoint) * this.maxRotationSpeed * Time.deltaTime, 0));
     }
@@ -55,7 +72,7 @@ public class TurretController : MonoBehaviour
     float GetAngleBetweenBarrelAndPoint(Vector3 correctedPoint) {
         Vector3 directionToPoint = -(this.transform.position - correctedPoint).normalized;
 
-        //Debug.DrawLine(this.transform.position, this.transform.position + directionToPoint * 10, Color.blue);
+        // Debug.DrawLine(this.transform.position, this.transform.position + directionToPoint * 10, Color.blue);
 
         return -Vector3.SignedAngle(directionToPoint, this.transform.forward, Vector3.up);
     }

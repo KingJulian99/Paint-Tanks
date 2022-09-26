@@ -7,6 +7,10 @@ public class BulletController : MonoBehaviour
 
     public float bulletSpeed;
     public int bouncesLeft;
+    public Color paintColor;
+    public float radius = 3;
+    public float strength = 1;
+    public float hardness = 0.3f;
     
     void Start()
     {
@@ -31,7 +35,14 @@ public class BulletController : MonoBehaviour
             print("Paintball destroyed!");
         }
 
+        // Reflect
         Vector3 reflectedDirection = Vector3.Reflect(this.transform.forward, other.contacts[0].normal);
         this.transform.rotation = Quaternion.LookRotation(reflectedDirection);
+
+        // Paint
+        Paintable p = other.collider.GetComponent<Paintable>();
+        if(p != null){
+            PaintManager.instance.paint(p, other.contacts[0].point, radius, hardness, strength, paintColor);
+        }
     }
 }

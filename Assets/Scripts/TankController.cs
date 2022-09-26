@@ -5,37 +5,36 @@ using UnityEngine;
 public class TankController : MonoBehaviour
 {
 
-    private float driveSpeed;
+    public float driveSpeed;
+    public float rotateSpeed;
     private CharacterController characterController;
 
     void Start()
     {
         this.driveSpeed = 5.0f;
+        this.rotateSpeed = 55.0f;
         this.characterController = this.GetComponent<CharacterController>();
     }
 
-    void Update()   // Refactor to use fixed update
+    void Update()
     {
 
         // Tank movements
         if(Input.GetKey("w")) {
             this.characterController.SimpleMove(this.transform.forward * driveSpeed);
-            //this.transform.Translate(Vector3.forward * Time.deltaTime * driveSpeed);
         }
 
         if(Input.GetKey("s")) {
             this.characterController.SimpleMove(-this.transform.forward * driveSpeed);
-            //this.transform.Translate(-Vector3.forward * Time.deltaTime * driveSpeed);
         }
 
         if(Input.GetKey("d")) {
-            this.transform.Rotate(0.0f, 55.0f * Time.deltaTime, 0.0f);
+            this.transform.Rotate(0.0f, this.rotateSpeed * Time.deltaTime, 0.0f);
         }
 
         if(Input.GetKey("a")) {
-            this.transform.Rotate(0.0f, -55.0f * Time.deltaTime, 0.0f);
+            this.transform.Rotate(0.0f, -this.rotateSpeed * Time.deltaTime, 0.0f);
         }
-
 
     }
 }
