@@ -12,6 +12,7 @@ public class TurretController : MonoBehaviour
     */
     
     public float maxRotationSpeed;
+    public Color teamColor;
     public Camera viewCamera;
     public GameObject projectile;
 
@@ -78,7 +79,15 @@ public class TurretController : MonoBehaviour
     }
 
     void Shoot() {
+        // Animate
         this.barrel.GetComponent<Animator>().SetTrigger("Shoot");
+
+        // Skiet mos
         GameObject shot = Instantiate(projectile, this.muzzle.transform.position, this.muzzle.transform.rotation);
+
+
+        // Set Color for the bullet and paint
+        shot.GetComponent<Renderer>().material.SetColor("_BaseColor", teamColor);
+        shot.GetComponent<BulletController>().paintColor = teamColor;
     }
 }
