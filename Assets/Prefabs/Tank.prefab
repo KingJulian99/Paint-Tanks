@@ -540,6 +540,7 @@ MonoBehaviour:
   rotateSpeed: 0
   health: 0
   teamColor: {r: 0, g: 0, b: 0, a: 0}
+  bounceNumber: 0
 --- !u!143 &5086112366432559090
 CharacterController:
   m_ObjectHideFlags: 0
@@ -553,8 +554,8 @@ CharacterController:
   serializedVersion: 2
   m_Height: 0.001
   m_Radius: 0.004
-  m_SlopeLimit: 10
-  m_StepOffset: 0.3
+  m_SlopeLimit: 0.1
+  m_StepOffset: 0.1
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.0035, z: 0}
@@ -669,10 +670,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxRotationSpeed: 0
-  teamColor: {r: 0, g: 0, b: 0, a: 0}
   viewCamera: {fileID: 0}
   projectile: {fileID: 8711198788665320963, guid: b78524c424e58194f88eef765c96a4ec, type: 3}
-  bounceNumber: 3
 --- !u!1001 &1479441514630823990
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -29,16 +29,22 @@ public class TurretController : MonoBehaviour
     private GameObject muzzle;
     private GameObject effectObject;
     private ParticleSystem shootingEffect;
+
+    private TankController tankController;
     private int bounceNumber;
     private Color teamColor;
     
     void Start()
     {
-        this.barrel = this.transform.GetChild(0).gameObject;
+        this.barrel = this.gameObject.transform.GetChild(0).gameObject;
         this.muzzle = this.barrel.transform.GetChild(0).gameObject;
         this.effectObject = this.muzzle.transform.GetChild(0).gameObject;
         this.shootingEffect = this.effectObject.GetComponent<ParticleSystem>();
         this.viewCamera = Camera.main;
+
+        this.tankController = this.gameObject.transform.parent.gameObject.GetComponent<TankController>();
+        this.teamColor = tankController.teamColor;
+        this.bounceNumber = tankController.bounceNumber;
         this.maxRotationSpeed = 10f;
     }
 
@@ -86,15 +92,18 @@ public class TurretController : MonoBehaviour
         // Animate
         this.barrel.GetComponent<Animator>().SetTrigger("Shoot");
 
+        // Get number of bounces
+        this.setBounceNumber(this.tankController.bounceNumber);
+
+        // Get team color
+        this.setTeamColor(this.tankController.teamColor);
+
         // Skiet mos
         GameObject shot = Instantiate(projectile, this.muzzle.transform.position, this.muzzle.transform.rotation);
 
-        // Set Color for the bullet and paint
-        shot.GetComponent<Renderer>().material.SetColor("_BaseColor", teamColor);
-        shot.GetComponent<BulletController>().paintColor = teamColor;
-
-        // Set amount of bounces left
-        shot.GetComponent<BulletController>().bouncesLeft = this.bounceNumber;
+        // Set Color for the bullet, paint, paint explosion and amount of bounces left.
+        shot.GetComponent<BulletController>().Setup(this.teamColor, this.bounceNumber);
+       
     }
 
     public void setBounceNumber(int bounceLimit) {

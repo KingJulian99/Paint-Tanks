@@ -3697,7 +3697,7 @@ ParticleSystem:
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
     m_Planes:
-    - {fileID: 0}
+    - {fileID: 3337332185122751692, guid: 97899ec339a88cf498adc2bd1df34eb8, type: 3}
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -5024,3 +5024,4 @@ MonoBehaviour:
   radius: 1
   strength: 1
   hardness: 0.001
+  splashMaterial: {fileID: 2100000, guid: 314ae1dd9c5944948bf1c4eecedb1b31, type: 2}

@@ -11,12 +11,29 @@ public class BulletController : MonoBehaviour
     public float radius = 3;
     public float strength = 1;
     public float hardness = 0.3f;
+    public Material splashMaterial;
     
     void Start()
     {
-        this.bulletSpeed = 10f;
-        Material test = this.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().trailMaterial;
-        test.SetColor("_Color", paintColor);
+        this.bulletSpeed = 10.0f;
+    }
+
+    public void Setup(Color teamColor, int bounceLimit) {
+
+        this.bouncesLeft = bounceLimit;
+
+        this.paintColor = teamColor;
+
+        this.SetColors();
+
+    }
+
+    void SetColors() {
+        this.gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", this.paintColor);
+
+        Material newMaterial = Instantiate(splashMaterial);
+        newMaterial.SetColor("_Color", this.paintColor);
+        this.gameObject.transform.GetChild(0).gameObject.GetComponent<ParticleSystemRenderer>().trailMaterial = newMaterial;
     }
 
     void FixedUpdate()
@@ -64,7 +81,7 @@ public class BulletController : MonoBehaviour
         Destroy(this.GetComponent<Rigidbody>());
         Destroy(this.GetComponent<SphereCollider>());
         Destroy(this.GetComponent<MeshRenderer>());
-        this.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+        this.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
 
         // Actually destroy the bullet after the ParticleSystem is done.
         Destroy(this.gameObject, 5.0f);
