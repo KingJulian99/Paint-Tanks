@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-
+    // My variable instantiation is whack
     public float bulletSpeed;
     public int bouncesLeft;
     public Color paintColor;
@@ -12,6 +12,8 @@ public class BulletController : MonoBehaviour
     public float strength = 1;
     public float hardness = 0.3f;
     public Material splashMaterial;
+
+    private int paintExplodeQuantity = 9;
     
     void Start()
     {
@@ -40,23 +42,44 @@ public class BulletController : MonoBehaviour
     {
         this.transform.Translate(Vector3.forward * bulletSpeed * Time.fixedDeltaTime);
         //Debug.DrawRay(this.transform.position, -this.transform.forward * 10, Color.green, 10f);
+
+        RaycastHit hit;
+
+        if(Physics.Raycast(transform.position, -Vector3.up, out hit, Mathf.Infinity)) {
+            Debug.DrawRay(transform.position, -Vector3.up * hit.distance, Color.red);
+
+            Paintable p = hit.collider.GetComponent<Paintable>();
+            if(p != null){
+                PaintManager.instance.paint(p, hit.point, radius, hardness, 0.1f, paintColor);
+            }
+        }
     }
 
     void OnCollisionEnter(Collision other)
     {
+        // Get other paintable object if available
+        Paintable p = other.collider.GetComponent<Paintable>();
 
         this.bouncesLeft--;
 
         if(this.bouncesLeft < 0) {
+            // Paint largely on wall
+            if(p != null){
+                PaintManager.instance.paint(p, other.contacts[0].point, radius * 3, hardness, strength, paintColor);
+            }
+
+            // Destroy the ball and paint on floor
             Explode(other);
+
+            // End prematurely
+            return;
         }
 
         // Reflect
         Vector3 reflectedDirection = Vector3.Reflect(this.transform.forward, other.contacts[0].normal);
         this.transform.rotation = Quaternion.LookRotation(reflectedDirection);
 
-        // Paint
-        Paintable p = other.collider.GetComponent<Paintable>();
+        // Paint normally
         if(p != null){
             PaintManager.instance.paint(p, other.contacts[0].point, radius, hardness, strength, paintColor);
         }
@@ -76,6 +99,36 @@ public class BulletController : MonoBehaviour
     }
 
     void Explode<T>(T other) { // other is either collider or collision
+        
+        // Raycast and spread paint on the floor
+
+        float yDrift = 30f;
+        float xDrift = 20f;
+        
+        Vector3 direction = -Vector3.up;
+        direction = Quaternion.AngleAxis(-yDrift, Vector3.forward) * direction;
+        RaycastHit hit;
+
+        for(int i = 0; i < paintExplodeQuantity; i++) {
+
+            direction = Quaternion.AngleAxis(xDrift, Vector3.right) * direction;
+
+            if(i % 3 == 0 && i != 0) {
+                direction = Quaternion.AngleAxis(-xDrift*3, Vector3.right) * direction;
+                direction = Quaternion.AngleAxis(yDrift, Vector3.forward) * direction;
+            }
+
+            //Debug.DrawRay(transform.position, direction * 20f, Color.green, 100f);
+
+            if(Physics.Raycast(transform.position, direction, out hit, Mathf.Infinity)) {
+
+                Paintable p = hit.collider.GetComponent<Paintable>();
+                if(p != null){
+                    PaintManager.instance.paint(p, hit.point, radius, hardness, 0.8f, paintColor);
+                }
+            }
+        }
+
         // "Destroy" the bullet
         this.bulletSpeed = 0f;
         Destroy(this.GetComponent<Rigidbody>());

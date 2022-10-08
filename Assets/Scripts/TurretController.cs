@@ -5,6 +5,14 @@ using UnityEngine;
 public class TurretController : MonoBehaviour
 {
     /*
+        This GameObject is the turret of the tank, and is assumed to have the structure:
+            
+            Turret (GameObject)
+                - Barrel (GameObject)
+                    - Muzzle (GameObject)
+                        - Splash Shot (Grouped Particle System)
+
+
         Controller for the Turret component of a Tank.
 
         All aiming calculations assume that the tank is on a plane at (0,0,0) facing upwards.
@@ -15,15 +23,6 @@ public class TurretController : MonoBehaviour
     public Camera viewCamera;
     public GameObject projectile;
 
-    /*
-        All private variables are fetched from this GameObject's children.
-        This GameObject is the turret of the tank, and is assumed to have the structure:
-        
-        Turret (GameObject)
-            - Barrel (GameObject)
-                - Muzzle (GameObject)
-                    - Splash Shot (Grouped Particle System)
-    */
 
     private GameObject barrel;
     private GameObject muzzle;
@@ -33,6 +32,7 @@ public class TurretController : MonoBehaviour
     private TankController tankController;
     private int bounceNumber;
     private Color teamColor;
+    
     
     void Start()
     {
@@ -95,7 +95,7 @@ public class TurretController : MonoBehaviour
         // Get number of bounces
         this.setBounceNumber(this.tankController.bounceNumber);
 
-        // Get team color
+        // Set team color
         this.setTeamColor(this.tankController.teamColor);
 
         // Skiet mos
