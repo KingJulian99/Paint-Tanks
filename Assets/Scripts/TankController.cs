@@ -16,6 +16,7 @@ public class TankController : MonoBehaviour
     private float gravity;
     private bool rotatingUncontrollably;
     private ParticleSystem alertEffect;
+    private ParticleSystem alertEffectRemove;
 
 
     void Start()
@@ -29,6 +30,7 @@ public class TankController : MonoBehaviour
         this.gravity = -9.0f;
         this.rotatingUncontrollably = false;
         this.alertEffect = this.gameObject.transform.GetChild(1).gameObject.GetComponent<ParticleSystem>();
+        this.alertEffectRemove = this.gameObject.transform.GetChild(2).gameObject.GetComponent<ParticleSystem>();
 
         ChangeTankColor();
     }
@@ -104,10 +106,22 @@ public class TankController : MonoBehaviour
         string colorBelow = GetTeamColor(tex.GetPixel((int)pixelUV.x, (int)pixelUV.y));
         if(colorBelow != "none" && colorBelow != GetTeamColor(this.teamColor)) {
             this.driveSpeed = 3.0f;
-            this.alertEffect.Play();
+            if(!this.alertEffect.isPlaying) {
+                this.alertEffect.Play();
+            }
+            if(this.alertEffectRemove.isPlaying) {
+                this.alertEffectRemove.Pause();
+                this.alertEffectRemove.Clear();
+            }
         } else {
             this.driveSpeed = 5.0f; 
-            this.alertEffect.Pause();
+            if(this.alertEffect.isPlaying) {
+                this.alertEffect.Pause();
+                this.alertEffect.Clear();
+            }
+            if(!this.alertEffectRemove.isPlaying) {
+                this.alertEffectRemove.Play();
+            }
         }
 
         // Clean up
