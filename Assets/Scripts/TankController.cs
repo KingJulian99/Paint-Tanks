@@ -15,6 +15,7 @@ public class TankController : MonoBehaviour
     private float randomRotationSpeed; 
     private float gravity;
     private bool rotatingUncontrollably;
+    private ParticleSystem alertEffect;
 
 
     void Start()
@@ -27,6 +28,7 @@ public class TankController : MonoBehaviour
         this.randomRotationSpeed = Random.Range(10.0f, 20.0f);
         this.gravity = -9.0f;
         this.rotatingUncontrollably = false;
+        this.alertEffect = this.gameObject.transform.GetChild(1).gameObject.GetComponent<ParticleSystem>();
 
         ChangeTankColor();
     }
@@ -35,6 +37,8 @@ public class TankController : MonoBehaviour
     {
 
         ChangeTankColor();
+
+        GroundPaintCheck();
 
         if ( !this.characterController.isGrounded ) {
             this.characterController.Move( new Vector3(0.0f, this.gravity * Time.deltaTime, 0.0f) ); // applies "gravity"
@@ -66,6 +70,70 @@ public class TankController : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+    }
+
+    public void GroundPaintCheck() {
+        /*
+            This function casts a ray below the center of the tank, getting the color directly below.
+            If the color is deemed to be that of another team, the tank is slowed.
+        */
+
+        RaycastHit hit;
+
+        if (!Physics.Raycast(transform.position, -Vector3.up, out hit)) {return;}
+
+        Renderer rend = hit.transform.GetComponent<Renderer>();
+        MeshCollider meshCollider = hit.collider as MeshCollider;
+
+        if (rend == null || rend.sharedMaterial == null || rend.sharedMaterial.GetTexture("_MaskTexture") == null || meshCollider == null)
+            return;
+
+        RenderTexture rendTex = rend.material.GetTexture("_MaskTexture") as RenderTexture;
+        RenderTexture.active = rendTex;
+
+        Texture2D tex = new Texture2D(rendTex.width, rendTex.height, TextureFormat.RGB24, false); 
+
+        tex.ReadPixels(new Rect(0, 0, rendTex.width, rendTex.height), 0, 0);
+        tex.Apply();
+        
+        Vector2 pixelUV = hit.textureCoord;
+        pixelUV.x *= tex.width;
+        pixelUV.y *= tex.height;
+
+        // Do color difference.
+        string colorBelow = GetTeamColor(tex.GetPixel((int)pixelUV.x, (int)pixelUV.y));
+        if(colorBelow != "none" && colorBelow != GetTeamColor(this.teamColor)) {
+            this.driveSpeed = 3.0f;
+            this.alertEffect.Play();
+        } else {
+            this.driveSpeed = 5.0f; 
+            this.alertEffect.Pause();
+        }
+
+        // Clean up
+        RenderTexture.active = null;
+        DestroyImmediate(tex);
+
+    }
+
+    public string GetTeamColor(Color color) {
+        
+        if(color.r == 0.0f && color.g == 0.0f && color.b == 0.0f) {
+            return "none";
+
+        } else if(color.r >= color.g) {
+            if(color.r >= color.b) {
+                return "red";
+            } else {
+                return "blue";
+            }
+        } else {
+            if(color.g >= color.b) {
+                return "green";
+            } else {
+                return "blue";
+            }
+        }
     }
 
     public void RotateUncontrollably() {
