@@ -8,6 +8,7 @@ TagManager:
   - AI
   - Projectile
   - PowerUp
+  - Tank
   layers:
   - Default
   - TransparentFX

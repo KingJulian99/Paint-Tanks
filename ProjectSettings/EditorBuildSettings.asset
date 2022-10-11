@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Hezekiah's Test Scene.unity
     guid: 2cb4925997ed00948b9f0271343b846b
-  - enabled: 0
-    path: Assets/Scenes/Offline.unity
-    guid: 5d6f29d4fa4bf8f418d524724af49db6
+  - enabled: 1
+    path: Assets/Scenes/Julians Multiplayer Scene.unity
+    guid: 8c3d96efba562524f924c19a333fc69f
   m_configObjects: {}
