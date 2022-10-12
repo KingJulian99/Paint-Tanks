@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretController : MonoBehaviour
+public class TurretAIController : MonoBehaviour
 {
     /*
         This GameObject is the turret of the tank, and is assumed to have the structure:
@@ -29,12 +29,19 @@ public class TurretController : MonoBehaviour
     private GameObject effectObject;
     private ParticleSystem shootingEffect;
 
-    private TankController tankController;
     private int bounceNumber;
     private Color teamColor;
 
     private float reloadTime;
     private bool canShoot;
+
+    // AI fields
+    private TankAIController tankAIController;
+    private GameObject target;
+    private bool lineOfSight;
+    private float angle;
+
+    private bool victory = false;
 
     void Start()
     {
@@ -44,64 +51,55 @@ public class TurretController : MonoBehaviour
         this.shootingEffect = this.effectObject.GetComponent<ParticleSystem>();
         this.viewCamera = Camera.main;
 
-        this.tankController = this.gameObject.transform.parent.gameObject.GetComponent<TankController>();
-        this.teamColor = tankController.teamColor;
-        this.bounceNumber = tankController.bounceNumber;
+        this.tankAIController = this.gameObject.transform.parent.GetComponent<TankAIController>();
+        this.teamColor = tankAIController.teamColor;
+        this.bounceNumber = tankAIController.bounceNumber;
         this.maxRotationSpeed = 10f;
         this.reloadTime = 1;
         this.canShoot = true;
+
+        tankAIController.Victory += VictoryDance;
+        
     }
 
     void Update()
     {
-        // Debug.DrawLine(this.muzzle.transform.position, this.muzzle.transform.position + this.muzzle.transform.forward * 10, Color.red);
+        if(!this.tankAIController.gotTargets) { return; }
 
-        Ray ray = viewCamera.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        float rayDistance;
+        this.target = this.tankAIController.target;
+        this.lineOfSight = this.tankAIController.lineOfSight;
 
-        if(groundPlane.Raycast(ray, out rayDistance)) {
-            Vector3 pointOnPlane = ray.GetPoint(rayDistance);
+        if(target == null) { return; }
 
-            //Debug.DrawLine(ray.origin, pointOnPlane, Color.green);
-            
-            this.LookAt(pointOnPlane);
-        }
+        this.LookAt();
 
-        // Check if reload is complete 
-        if(Input.GetMouseButtonDown(0) && canShoot) {
+        // Check if angle between this and target is less than 10
+        // and there is line of sight target
+        if(this.angle < 10 && this.canShoot && this.lineOfSight) {
             this.Shoot();
-            canShoot = false;
+            this.canShoot = false;
         }
 
-        if (!canShoot)
+        if (!this.canShoot)
         {
-            if (reloadTime > 0)
+            if (this.reloadTime > 0)
             {
-                reloadTime -= Time.deltaTime;
+                this.reloadTime -= Time.deltaTime;
             }
             else
             {
-                reloadTime = 1;
-                canShoot = true;
+                this.reloadTime = 1;
+                this.canShoot = true;
             }
         }
     }
 
-    void LookAt(Vector3 point) {
-        Vector3 heightCorrectedPoint = new Vector3(point.x, this.transform.position.y, point.z);
+    void LookAt() {
+        Vector3 pointToLook = (target.transform.position - gameObject.transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(pointToLook.x, 0, pointToLook.z));
+        gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, lookRotation, Time.deltaTime * maxRotationSpeed);
 
-        // Debug.DrawLine(this.transform.position, this.transform.position + this.transform.forward * 10, Color.red);
-
-        this.transform.Rotate(new Vector3(0, this.GetAngleBetweenBarrelAndPoint(heightCorrectedPoint) * this.maxRotationSpeed * Time.deltaTime, 0));
-    }
-
-    float GetAngleBetweenBarrelAndPoint(Vector3 correctedPoint) {
-        Vector3 directionToPoint = -(this.transform.position - correctedPoint).normalized;
-
-        // Debug.DrawLine(this.transform.position, this.transform.position + directionToPoint * 10, Color.blue);
-
-        return -Vector3.SignedAngle(directionToPoint, this.transform.forward, Vector3.up);
+        angle = Vector3.Angle(pointToLook, gameObject.transform.forward);
     }
 
     void Shoot() {
@@ -112,10 +110,10 @@ public class TurretController : MonoBehaviour
         this.barrel.GetComponent<Animator>().SetTrigger("Shoot");
 
         // Get number of bounces
-        this.setBounceNumber(this.tankController.bounceNumber);
+        this.setBounceNumber(this.tankAIController.bounceNumber);
 
         // Set team color
-        this.setTeamColor(this.tankController.teamColor);
+        this.setTeamColor(this.tankAIController.teamColor);
 
         // Skiet mos
         GameObject shot = Instantiate(projectile, this.muzzle.transform.position, this.muzzle.transform.rotation);
@@ -131,5 +129,10 @@ public class TurretController : MonoBehaviour
 
     public void setTeamColor(Color teamColor) {
         this.teamColor = teamColor;
+    }
+
+    public void VictoryDance()
+    {
+        this.gameObject.transform.Rotate(0, Time.deltaTime * this.maxRotationSpeed * 100f, 0);
     }
 }

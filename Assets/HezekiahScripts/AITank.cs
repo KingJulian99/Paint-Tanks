@@ -6,8 +6,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public delegate void VictoryNotify();
-
 public class AITank : MonoBehaviour
 {
     private NavMeshAgent navAgent;
@@ -20,7 +18,6 @@ public class AITank : MonoBehaviour
 
     public event VictoryNotify Victory;
 
-    // Start is called before the first frame update
     public void Spawned()
     {
         targets = new List<GameObject>();

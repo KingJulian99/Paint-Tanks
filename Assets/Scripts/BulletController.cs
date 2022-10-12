@@ -96,6 +96,13 @@ public class BulletController : MonoBehaviour
             this.bouncesLeft = 0;
             Explode(other);
         }
+        else if(other.gameObject.tag == "TankAI")
+        {
+            other.gameObject.GetComponent<TankAIController>().health -= 50;
+
+            this.bouncesLeft = 0;
+            Explode(other);
+        }
     }
 
     void Explode<T>(T other) { // other is either collider or collision
