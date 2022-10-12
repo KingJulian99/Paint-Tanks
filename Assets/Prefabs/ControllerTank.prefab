@@ -5168,6 +5168,50 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &7429674790590348791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8842272885081567441}
+  - component: {fileID: 3231388215171336049}
+  m_Layer: 0
+  m_Name: Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8842272885081567441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7429674790590348791}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.00052898284, y: 0.005349957, z: 0.00067}
+  m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2365971548090415982}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3231388215171336049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7429674790590348791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e858d69eead2e6649b833d7f10885fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7826512047162676918
 GameObject:
   m_ObjectHideFlags: 0
@@ -10049,12 +10093,13 @@ GameObject:
   - component: {fileID: 9156641897440526623}
   - component: {fileID: 5241405876868861626}
   - component: {fileID: 8023657061604211312}
-  - component: {fileID: 8689788080069063132}
   - component: {fileID: 5086112366432559090}
   - component: {fileID: 6420748293719385649}
+  - component: {fileID: 6103753636388688664}
+  - component: {fileID: 7097859384532580028}
   m_Layer: 0
-  m_Name: Tank
-  m_TagString: Tank
+  m_Name: ControllerTank
+  m_TagString: GamepadTank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10129,23 +10174,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8689788080069063132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8383800240097368997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07cb946cb5017b642a4fcf5e54e596bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  driveSpeed: 0
-  rotateSpeed: 0
-  health: 0
-  teamColor: {r: 0, g: 0, b: 0, a: 0}
-  bounceNumber: 0
 --- !u!143 &5086112366432559090
 CharacterController:
   m_ObjectHideFlags: 0
@@ -10177,6 +10205,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.0076837256, y: 0.009212436, z: 0.011408024}
   m_Center: {x: 2.083278e-12, y: 0.00343809, z: -0.00013980642}
+--- !u!114 &6103753636388688664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8383800240097368997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0e8d10608a83134891d5a945028bd14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowDown: 0
+--- !u!114 &7097859384532580028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8383800240097368997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 240f0d20dae9d664396b41ed36560420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  driveSpeed: 0
+  rotateSpeed: 0
+  health: 0
+  teamColor: {r: 0, g: 0, b: 0, a: 0}
+  bounceNumber: 0
 --- !u!1001 &3843805054970219124
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10251,6 +10309,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1923140751600086039, guid: acc73a9d825b91d4e833911cb7cb50e6, type: 3}
     - {fileID: 5025482585391595029, guid: acc73a9d825b91d4e833911cb7cb50e6, type: 3}
+    - {fileID: 6977517564621352538, guid: acc73a9d825b91d4e833911cb7cb50e6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: acc73a9d825b91d4e833911cb7cb50e6, type: 3}
 --- !u!4 &2365971548090415982 stripped
 Transform:
@@ -10262,7 +10321,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8540841165860928547, guid: acc73a9d825b91d4e833911cb7cb50e6, type: 3}
   m_PrefabInstance: {fileID: 3843805054970219124}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4426052842799570509
+--- !u!114 &8251200503055573637
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10271,7 +10330,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4886644863920354903}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c250001f1252df745ad6d071a8713c38, type: 3}
+  m_Script: {fileID: 11500000, guid: c57bd7dbac1f7a245bf65cff2cb1ab8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxRotationSpeed: 0

@@ -9,6 +9,7 @@ TagManager:
   - Projectile
   - PowerUp
   - Tank
+  - GamepadTank
   layers:
   - Default
   - TransparentFX
