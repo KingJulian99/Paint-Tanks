@@ -8,7 +8,7 @@ public class PowerUpSpawnerScript : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject powerUp;
+    private Object[] powerUps;
 
     [SerializeField]
     private int numPowerUps = 1;
@@ -16,11 +16,7 @@ public class PowerUpSpawnerScript : MonoBehaviour
     [SerializeField]
     private GameObject[] spawnPoints;
 
-    [SerializeField]
-    private GameObject spawnedPowerUps;
-
     private GameObject container;
-
     private float respawnTime;
     private bool canSpawn;
 
@@ -39,6 +35,7 @@ public class PowerUpSpawnerScript : MonoBehaviour
 
     private void InitialiseSpawnContainer()
     {
+        GameObject spawnedPowerUps = new GameObject("PowerUpContainer");
         container = Instantiate(spawnedPowerUps);
     }
 
@@ -50,8 +47,9 @@ public class PowerUpSpawnerScript : MonoBehaviour
             if (canSpawn)
             {
                 int spwn = Random.Range(0, spawnPoints.Length);
+                int pwr = Random.Range(0, powerUps.Length);
 
-                GameObject new_powerUp = Instantiate(powerUp, spawnPoints[spwn].transform);
+                GameObject new_powerUp = Instantiate(powerUps[pwr], spawnPoints[spwn].transform) as GameObject;
 
                 new_powerUp.transform.SetParent(container.transform);
 
@@ -69,5 +67,10 @@ public class PowerUpSpawnerScript : MonoBehaviour
             }
         }
 
+    }
+
+    public void SetPowerUps(Object[] powerUps)
+    {
+        this.powerUps = powerUps;
     }
 }
