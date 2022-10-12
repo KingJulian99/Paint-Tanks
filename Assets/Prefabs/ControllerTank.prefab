@@ -10335,4 +10335,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxRotationSpeed: 0
   viewCamera: {fileID: 0}
-  projectile: {fileID: 0}
+  projectile: {fileID: 8711198788665320963, guid: b78524c424e58194f88eef765c96a4ec, type: 3}
