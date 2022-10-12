@@ -96,6 +96,17 @@ public class BulletController : MonoBehaviour
             this.bouncesLeft = 0;
             Explode(other);
         }
+
+        if(other.gameObject.tag == "GamepadTank") {
+            // Take health from the other tank 🔪 (if it's on a different team!)
+            if( !(other.gameObject.GetComponent<GamepadTankController>().teamColor == this.paintColor) ) {
+                other.gameObject.GetComponent<GamepadTankController>().health -= 50;
+            }
+
+            // Make this paintball explode
+            this.bouncesLeft = 0;
+            Explode(other);
+        }
     }
 
     void Explode<T>(T other) { // other is either collider or collision
