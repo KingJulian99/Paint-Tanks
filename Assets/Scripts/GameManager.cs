@@ -25,19 +25,22 @@ public class GameManager : MonoBehaviour
         // Create map
         currentMap = Instantiate(map, new Vector3(0, 0, 0), new Quaternion());
 
+        teamColors = new List<Color>();
+
+        teamColors.Add(Color.red);
+        teamColors.Add(Color.green);
+        teamColors.Add(Color.blue);
+        // Get team colors
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    teamColors.Add(new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f)));
+        //}
+
+        currentMap.transform.Find("SpawnManager").GetComponent<SpawnScript>().SetTeamColors(teamColors);
+
         // Load Powerups
         powerUps = Resources.LoadAll("PowerUps", typeof(GameObject));
         currentMap.transform.Find("PowerUpSpawner").GetComponent<PowerUpSpawnerScript>().SetPowerUps(powerUps);
-
-        teamColors = new List<Color>();
-        // Get team colors
-        for (int i = 0; i < 4; i++)
-        {
-            teamColors.Add(new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f)));
-        }
-
-        Debug.Log(teamColors.Count);
-        currentMap.transform.Find("SpawnManager").GetComponent<SpawnScript>().SetTeamColors(teamColors);
 
         OnGameSetup();
     }

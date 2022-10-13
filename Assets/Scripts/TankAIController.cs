@@ -32,23 +32,6 @@ public class TankAIController : MonoBehaviour
 
     public event VictoryNotify Victory;
 
-    // Executes when all players and ai are spawned
-    // Gets the list of targets
-    public void Spawned()
-    {
-        targets = new List<GameObject>();
-
-        foreach (Transform child in playerContainer.transform)
-        {
-            if (child.gameObject != gameObject)
-            {
-                targets.Add(child.gameObject);
-            }
-        }
-
-        gotTargets = true;
-    }
-
     private void Awake()
     {
         navAgent = GetComponent<NavMeshAgent>();
@@ -56,7 +39,7 @@ public class TankAIController : MonoBehaviour
         lineOfSight = false;
 
         SpawnScript s = GameObject.Find("SpawnManager").GetComponent<SpawnScript>();
-        s.SpawnDone += Spawned;
+        s.SpawnDone += SetUpAI;
     }
 
     void Start()
@@ -71,8 +54,6 @@ public class TankAIController : MonoBehaviour
         this.rotatingUncontrollably = false;
         this.alertEffect = this.gameObject.transform.GetChild(1).gameObject.GetComponent<ParticleSystem>();
         this.alertEffectRemove = this.gameObject.transform.GetChild(2).gameObject.GetComponent<ParticleSystem>();
-
-        this.teamColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
 
         ChangeTankColor();
     }
@@ -116,6 +97,23 @@ public class TankAIController : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+    }
+
+    // Executes when all players and ai are spawned
+    // Gets the list of targets
+    private void SetUpAI()
+    {
+        targets = new List<GameObject>();
+
+        foreach (Transform child in playerContainer.transform)
+        {
+            if (child.gameObject != gameObject)
+            {
+                targets.Add(child.gameObject);
+            }
+        }
+
+        gotTargets = true;
     }
 
     // Checks whether the AI has line of sight of its target
@@ -245,6 +243,11 @@ public class TankAIController : MonoBehaviour
                 return "blue";
             }
         }
+    }
+
+    public void SetTeamColor(Color color)
+    {
+        this.teamColor = color;
     }
 
     public void RotateUncontrollably() {

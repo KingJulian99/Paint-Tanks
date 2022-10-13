@@ -24,8 +24,6 @@ public class SpawnScript : MonoBehaviour
         GameObject gm = GameObject.Find("GameManager");
         GameManager gameManager = gm.GetComponent<GameManager>();
         gameManager.GameSetup += SpawnPlayers;
-
-        OnSpawnDone();
     }
 
     private void SpawnPlayers()
@@ -39,14 +37,15 @@ public class SpawnScript : MonoBehaviour
         // Set players team color
         p.transform.GetComponent<TankController>().SetTeamColor(teamColors[0]);
 
-        Debug.Log(teamColors.Count);
         // Spawn AI at subsequent spawn points
         for (int i = 1; i < spawn_points.Length; i++)
         {
             p = Instantiate(ai, spawn_points[i].transform.position, spawn_points[i].transform.rotation);
             p.transform.SetParent(playerContainer.transform);
-            p.transform.GetComponent<TankController>().SetTeamColor(teamColors[i]);
+            p.transform.GetComponent<TankAIController>().SetTeamColor(teamColors[i]);
         }
+
+        OnSpawnDone();
     }
 
     protected virtual void OnSpawnDone()

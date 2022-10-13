@@ -41,8 +41,6 @@ public class TurretAIController : MonoBehaviour
     private bool lineOfSight;
     private float angle;
 
-    private bool victory = false;
-
     void Start()
     {
         this.barrel = this.gameObject.transform.GetChild(0).gameObject;

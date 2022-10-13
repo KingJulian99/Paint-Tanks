@@ -109,9 +109,12 @@ public class BulletController : MonoBehaviour
             this.bouncesLeft = 0;
             Explode(other);
         }
-        else if(other.gameObject.tag == "TankAI")
+        else if(other.gameObject.tag == "AI")
         {
-            other.gameObject.GetComponent<TankAIController>().health -= 50;
+            if (!(other.gameObject.GetComponent<TankAIController>().teamColor == this.paintColor))
+            {
+                other.gameObject.GetComponent<TankAIController>().health -= 50;
+            }
 
             this.bouncesLeft = 0;
             Explode(other);

@@ -7,7 +7,7 @@ public class DoubleBarrelPowerUp : MonoBehaviour
 {
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag != "Projectile")
+        if (collider.gameObject.tag == "Tank")
         {
             SpawnTurret(collider.gameObject);
 
