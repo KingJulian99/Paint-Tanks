@@ -25,7 +25,7 @@ public class TankController : MonoBehaviour
         this.rotateSpeed = 55.0f;
         this.health = 100;
         this.characterController = this.GetComponent<CharacterController>();
-        this.bounceNumber = 0;
+        this.bounceNumber = 1;
         this.randomRotationSpeed = Random.Range(10.0f, 20.0f);
         this.gravity = -9.0f;
         this.rotatingUncontrollably = false;
