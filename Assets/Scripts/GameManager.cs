@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
             teamColors.Add(new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f)));
         }
 
+        Debug.Log(teamColors.Count);
         currentMap.transform.Find("SpawnManager").GetComponent<SpawnScript>().SetTeamColors(teamColors);
 
         OnGameSetup();

@@ -21,8 +21,9 @@ public class SpawnScript : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        GameManager gm = new GameManager();
-        gm.GameSetup += SpawnPlayers;
+        GameObject gm = GameObject.Find("GameManager");
+        GameManager gameManager = gm.GetComponent<GameManager>();
+        gameManager.GameSetup += SpawnPlayers;
 
         OnSpawnDone();
     }
@@ -38,6 +39,7 @@ public class SpawnScript : MonoBehaviour
         // Set players team color
         p.transform.GetComponent<TankController>().SetTeamColor(teamColors[0]);
 
+        Debug.Log(teamColors.Count);
         // Spawn AI at subsequent spawn points
         for (int i = 1; i < spawn_points.Length; i++)
         {
