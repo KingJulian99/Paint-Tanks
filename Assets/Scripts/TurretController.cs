@@ -32,8 +32,10 @@ public class TurretController : MonoBehaviour
     private TankController tankController;
     private int bounceNumber;
     private Color teamColor;
-    
-    
+
+    private float reloadTime;
+    private bool canShoot;
+
     void Start()
     {
         this.barrel = this.gameObject.transform.GetChild(0).gameObject;
@@ -46,6 +48,8 @@ public class TurretController : MonoBehaviour
         this.teamColor = tankController.teamColor;
         this.bounceNumber = tankController.bounceNumber;
         this.maxRotationSpeed = 10f;
+        this.reloadTime = 1;
+        this.canShoot = true;
     }
 
     void Update()
@@ -64,8 +68,23 @@ public class TurretController : MonoBehaviour
             this.LookAt(pointOnPlane);
         }
 
-        if(Input.GetMouseButtonDown(0)) {
+        // Check if reload is complete 
+        if(Input.GetMouseButtonDown(0) && canShoot) {
             this.Shoot();
+            canShoot = false;
+        }
+
+        if (!canShoot)
+        {
+            if (reloadTime > 0)
+            {
+                reloadTime -= Time.deltaTime;
+            }
+            else
+            {
+                reloadTime = 1;
+                canShoot = true;
+            }
         }
     }
 
@@ -103,7 +122,7 @@ public class TurretController : MonoBehaviour
 
         // Set Color for the bullet, paint, paint explosion and amount of bounces left.
         shot.GetComponent<BulletController>().Setup(this.teamColor, this.bounceNumber);
-       
+        
     }
 
     public void setBounceNumber(int bounceLimit) {

@@ -2,38 +2,49 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 
-public class TankProperties : NetworkBehaviour
+public class TankProperties : MonoBehaviour
 {
-
-    [SerializeField]
     private int health = 100;
 
-    private void OnCollisionEnter(Collision collision)
+    public void TakeDamage(int damage)
     {
-        if(collision.gameObject.tag == "Projectile")
+        health -= damage;
+    }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if(collision.gameObject.tag == "Projectile")
+    //    {
+    //        int damage = collision.gameObject.GetComponent<ProjectileProperties>().damage;
+
+    //        TakeDamage(damage);
+
+    //        if(health <= 0)
+    //        {
+    //            DestroyTank();
+    //        }
+    //    }
+
+    //}
+
+    private void Update()
+    {
+        if(health <= 0)
         {
-            int damage = collision.gameObject.GetComponent<ProjectileProperties>().damage;
-
-            health -= damage;
-
-            Debug.Log(health);
-
-            if(health <= 0)
-            {
-                DestroyTank();
-            }
+            DestroyTank();
         }
     }
 
     private void DestroyTank()
     {
         GameObject turret = gameObject.transform.GetChild(0).gameObject;
+
         turret.AddComponent<Rigidbody>();
 
         turret.GetComponent<Rigidbody>().AddForce(new Vector3(0,10f,0), mode: ForceMode.Impulse);
-        Destroy(gameObject, 2);
+        
+        Destroy(gameObject, 1f);
     }
 
 }

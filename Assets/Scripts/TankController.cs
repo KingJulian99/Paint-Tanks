@@ -150,6 +150,11 @@ public class TankController : MonoBehaviour
         }
     }
 
+    public void SetTeamColor(Color color)
+    {
+        this.teamColor = color;
+    }
+
     public void RotateUncontrollably() {
         this.rotatingUncontrollably = true;
     }

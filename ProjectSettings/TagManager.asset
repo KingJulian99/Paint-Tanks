@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - gun
+  - AI
+  - Projectile
+  - PowerUp
   - Tank
   - GamepadTank
   - Ground
