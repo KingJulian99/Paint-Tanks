@@ -69,7 +69,7 @@ public class TankMovement : MonoBehaviour
             }
 
             // Forward and back movement
-            this.GetComponent<CharacterController>().SimpleMove(this.transform.forward * (this.shpeeeeed - this.slowDown));
+            this.GetComponent<CharacterController>().SimpleMove(this.transform.forward * this.shpeeeeed);
 
             // Rotation
             this.transform.Rotate(0.0f, this.rotateSpeed * Time.deltaTime * this.rotateBodyDirection.x, 0.0f);

@@ -58,7 +58,6 @@ public class BulletController : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
 
-        print("collision!");
         // Get other paintable object if available
         Paintable p = other.collider.GetComponent<Paintable>();
 

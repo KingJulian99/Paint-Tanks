@@ -72,49 +72,53 @@ public class GamepadTankController : MonoBehaviour
         Renderer rend = hit.transform.GetComponent<Renderer>();
         MeshCollider meshCollider = hit.collider as MeshCollider;
 
-        if (rend == null || rend.sharedMaterial == null || rend.sharedMaterial.GetTexture("_MaskTexture") == null || meshCollider == null)
-            return;
+        // Do check here
+        if(hit.collider.tag == "Ground") {
 
-        RenderTexture rendTex = rend.material.GetTexture("_MaskTexture") as RenderTexture;
-        RenderTexture.active = rendTex;
+            if (rend == null || rend.sharedMaterial == null || rend.sharedMaterial.GetTexture("_MaskTexture") == null || meshCollider == null) {return;}
 
-        Texture2D tex = new Texture2D(rendTex.width, rendTex.height, TextureFormat.RGB24, false); 
+            RenderTexture rendTex = rend.material.GetTexture("_MaskTexture") as RenderTexture;
+            RenderTexture.active = rendTex;
 
-        tex.ReadPixels(new Rect(0, 0, rendTex.width, rendTex.height), 0, 0);
-        tex.Apply();
+            Texture2D tex = new Texture2D(rendTex.width, rendTex.height, TextureFormat.RGB24, false); 
+
+            tex.ReadPixels(new Rect(0, 0, rendTex.width, rendTex.height), 0, 0);
+            tex.Apply();
+            
+            Vector2 pixelUV = hit.textureCoord;
+            pixelUV.x *= tex.width;
+            pixelUV.y *= tex.height;
+
+            // Do color difference.
+            string colorBelow = GetTeamColor(tex.GetPixel((int)pixelUV.x, (int)pixelUV.y));
+            if(colorBelow != "none" && colorBelow != GetTeamColor(this.teamColor)) {
+                this.driveSpeed = 3.0f;
+                this.tankMovement.slowDown = 2.0f;
+                if(!this.alertEffect.isPlaying) {
+                    this.alertEffect.Play();
+                }
+                if(this.alertEffectRemove.isPlaying) {
+                    this.alertEffectRemove.Pause();
+                    this.alertEffectRemove.Clear();
+                }
+            } else {
+                this.driveSpeed = 5.0f; 
+                this.tankMovement.slowDown = 0.0f;
+                if(this.alertEffect.isPlaying) {
+                    this.alertEffect.Pause();
+                    this.alertEffect.Clear();
+                }
+                if(!this.alertEffectRemove.isPlaying) {
+                    this.alertEffectRemove.Play();
+                }
+            }
+
+            // Clean up
+            RenderTexture.active = null;
+            DestroyImmediate(tex);
         
-        Vector2 pixelUV = hit.textureCoord;
-        pixelUV.x *= tex.width;
-        pixelUV.y *= tex.height;
-
-        // Do color difference.
-        string colorBelow = GetTeamColor(tex.GetPixel((int)pixelUV.x, (int)pixelUV.y));
-        if(colorBelow != "none" && colorBelow != GetTeamColor(this.teamColor)) {
-            this.driveSpeed = 3.0f;
-            this.tankMovement.slowDown = 2.0f;
-            if(!this.alertEffect.isPlaying) {
-                this.alertEffect.Play();
-            }
-            if(this.alertEffectRemove.isPlaying) {
-                this.alertEffectRemove.Pause();
-                this.alertEffectRemove.Clear();
-            }
-        } else {
-            this.driveSpeed = 5.0f; 
-            this.tankMovement.slowDown = 0.0f;
-            if(this.alertEffect.isPlaying) {
-                this.alertEffect.Pause();
-                this.alertEffect.Clear();
-            }
-            if(!this.alertEffectRemove.isPlaying) {
-                this.alertEffectRemove.Play();
-            }
         }
-
-        // Clean up
-        RenderTexture.active = null;
-        DestroyImmediate(tex);
-
+        
     }
 
     public string GetTeamColor(Color color) {
