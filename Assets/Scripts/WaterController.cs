@@ -9,5 +9,10 @@ public class WaterController : MonoBehaviour
             other.gameObject.GetComponent<TankController>().SetGravity(-1.25f);
             other.gameObject.GetComponent<TankController>().RotateUncontrollably();
         }
+
+        if(other.gameObject.tag == "GamepadTank") {
+            other.gameObject.GetComponent<GamepadTankController>().SetGravity(-1.25f);
+            other.gameObject.GetComponent<GamepadTankController>().RotateUncontrollably();
+        }
     }
 }
