@@ -58,7 +58,6 @@ public class BulletController : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
 
-        print("collision!");
         // Get other paintable object if available
         Paintable p = other.collider.GetComponent<Paintable>();
 
@@ -109,7 +108,8 @@ public class BulletController : MonoBehaviour
             this.bouncesLeft = 0;
             Explode(other);
         }
-        else if(other.gameObject.tag == "AI")
+        
+        if(other.gameObject.tag == "AI")
         {
             if (!(other.gameObject.GetComponent<TankAIController>().teamColor == this.paintColor))
             {
@@ -120,23 +120,6 @@ public class BulletController : MonoBehaviour
             Explode(other);
         }
 
-        if(other.gameObject.tag == "GamepadTank") {
-            // Take health from the other tank 🔪 (if it's on a different team!)
-            if( !(other.gameObject.GetComponent<GamepadTankController>().teamColor == this.paintColor) ) {
-                other.gameObject.GetComponent<GamepadTankController>().health -= 50;
-            }
-
-            // Make this paintball explode
-            this.bouncesLeft = 0;
-            Explode(other);
-        }
-        else if(other.gameObject.tag == "TankAI")
-        {
-            other.gameObject.GetComponent<TankAIController>().health -= 50;
-
-            this.bouncesLeft = 0;
-            Explode(other);
-        }
     }
 
     void Explode<T>(T other) { // other is either collider or collision
