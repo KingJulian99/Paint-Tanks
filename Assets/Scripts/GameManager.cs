@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
         teamColors.Add(Color.red);
         teamColors.Add(Color.green);
         teamColors.Add(Color.blue);
+        
         // Get team colors
         //for (int i = 0; i < 4; i++)
         //{
@@ -42,13 +43,28 @@ public class GameManager : MonoBehaviour
         powerUps = Resources.LoadAll("PowerUps", typeof(GameObject));
         currentMap.transform.Find("PowerUpSpawner").GetComponent<PowerUpSpawnerScript>().SetPowerUps(powerUps);
 
+        gameTime = 180f;
+
         OnGameSetup();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(gameTime > 0)
+        {
+            gameTime -= Time.deltaTime;
+        }
+        else
+        {
+            GameOver();
+        }
+    }
+
+    // What happens when the game ends after the timer hits 0
+    private void GameOver()
+    {
+        Debug.Log("Game Over");
     }
 
     protected virtual void OnGameSetup()

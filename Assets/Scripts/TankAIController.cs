@@ -40,6 +40,7 @@ public class TankAIController : MonoBehaviour
 
         SpawnScript s = GameObject.Find("SpawnManager").GetComponent<SpawnScript>();
         s.SpawnDone += SetUpAI;
+        s.RespawnDone += AddToTargets;
     }
 
     void Start()
@@ -137,6 +138,7 @@ public class TankAIController : MonoBehaviour
         // Check if target is not dead
         if (target != null) { return target; }
 
+        Debug.Log(targets.Count);
         // Assign new target
         if (targets.Count > 0)
         {
@@ -161,6 +163,13 @@ public class TankAIController : MonoBehaviour
                 targets.RemoveAt(i);
             }
         }
+    }
+
+    // When a player respawns add them to the list of targets
+    private void AddToTargets(GameObject go)
+    {
+        Debug.Log("Added new target");
+        targets.Add(go);
     }
 
     protected virtual void OnVictory()

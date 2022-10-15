@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void TankDestroyedNotify(GameObject go);
+
 public class TankController : MonoBehaviour
 {
 
@@ -17,6 +19,8 @@ public class TankController : MonoBehaviour
     private bool rotatingUncontrollably;
     private ParticleSystem alertEffect;
     private ParticleSystem alertEffectRemove;
+
+    public event TankDestroyedNotify TankDestroyed;
 
 
     void Start()
@@ -70,6 +74,7 @@ public class TankController : MonoBehaviour
         
         if(this.health <= 0) {
             Destroy(this.gameObject);
+            OnTankDestroyed();
         }
 
     }
@@ -172,5 +177,10 @@ public class TankController : MonoBehaviour
         tankMaterial.SetColor("_BaseColor", this.teamColor);
         Material turretMaterial = this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material;
         turretMaterial.SetColor("_BaseColor", this.teamColor);
+    }
+
+    protected virtual void OnTankDestroyed()
+    {
+        TankDestroyed?.Invoke(this.gameObject);
     }
 }
