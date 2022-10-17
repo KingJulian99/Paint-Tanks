@@ -265,7 +265,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.7
+      scalar: 0.3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -318,7 +318,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 13
+      scalar: 30
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -29663,6 +29663,8 @@ MonoBehaviour:
   health: 0
   teamColor: {r: 0, g: 0, b: 0, a: 0}
   bounceNumber: 0
+  alive: 0
+  paintExplosionMaterial: {fileID: 2100000, guid: 5db52b3943f355740b7561c1349a335d, type: 2}
 --- !u!1 &8439891987688372064
 GameObject:
   m_ObjectHideFlags: 0
