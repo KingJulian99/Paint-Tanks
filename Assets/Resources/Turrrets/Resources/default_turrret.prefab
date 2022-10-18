@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 4762920796400956337}
   - component: {fileID: 909348890640697750}
   - component: {fileID: 1251089710148931597}
-  - component: {fileID: 2385795303487127183}
   m_Layer: 0
   m_Name: default_turrret
   m_TagString: Untagged
@@ -169,18 +168,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2385795303487127183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2385795303487127176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 444168b9b8f156241a7e53b7d4c107e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5542069131840430905
 GameObject:
   m_ObjectHideFlags: 0

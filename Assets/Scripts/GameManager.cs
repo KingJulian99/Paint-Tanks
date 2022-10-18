@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Multiplayer.Samples.Utilities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public delegate void GameSetupNotify();
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
+    private Button playButton;
+    [SerializeField]
+    private GameObject mapPanel;
+
+    private bool gameStart;
     private float gameTime;
 
-    [SerializeField]
     private GameObject map;
-
     private GameObject currentMap;
     private Object[] powerUps;
 
@@ -22,6 +29,53 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameStart = false;
+
+        if (playButton != null)
+        {
+            playButton.onClick.AddListener(() =>
+            {
+                this.SetupGame(180f);
+            });
+        }
+
+        DontDestroyOnLoad(this);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!gameStart) { return; }
+
+        if(gameTime > 0)
+        {
+            gameTime -= Time.deltaTime;
+        }
+        else
+        {
+            GameOver();
+        }
+    }
+
+    private void test()
+    {
+        SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+    }
+
+    public void SetupGame(float gameTime)
+    {
+        map = mapPanel.GetComponent<MapSelector>().GetSelectedMap();
+
+        if(map == null)
+        {
+            Debug.Log("Select map.");
+            return;
+        }
+
+        SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+
+        Debug.Log("Map: " + map);
+
         // Create map
         currentMap = Instantiate(map, new Vector3(0, 0, 0), new Quaternion());
 
@@ -30,7 +84,7 @@ public class GameManager : MonoBehaviour
         teamColors.Add(Color.red);
         teamColors.Add(Color.green);
         teamColors.Add(Color.blue);
-        
+
         // Get team colors
         //for (int i = 0; i < 4; i++)
         //{
@@ -43,22 +97,11 @@ public class GameManager : MonoBehaviour
         powerUps = Resources.LoadAll("PowerUps", typeof(GameObject));
         currentMap.transform.Find("PowerUpSpawner").GetComponent<PowerUpSpawnerScript>().SetPowerUps(powerUps);
 
-        gameTime = 180f;
+        this.gameTime = gameTime;
+
+        Debug.Log("Here");
 
         OnGameSetup();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(gameTime > 0)
-        {
-            gameTime -= Time.deltaTime;
-        }
-        else
-        {
-            GameOver();
-        }
     }
 
     // What happens when the game ends after the timer hits 0
@@ -69,6 +112,7 @@ public class GameManager : MonoBehaviour
 
     protected virtual void OnGameSetup()
     {
+        gameStart = true;
         GameSetup?.Invoke();
     }
 }

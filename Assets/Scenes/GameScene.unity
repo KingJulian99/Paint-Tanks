@@ -300,7 +300,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1977657763
 Transform:
   m_ObjectHideFlags: 0
@@ -328,7 +328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c888d63e53027c49892783d1b81408b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 280753295555314071, guid: 12fa238b3c754be44bbe9617b986b27c, type: 3}
+  playButton: {fileID: 0}
+  mapPanel: {fileID: 0}
 --- !u!1 &2096845883
 GameObject:
   m_ObjectHideFlags: 0

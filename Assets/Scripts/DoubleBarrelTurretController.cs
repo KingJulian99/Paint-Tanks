@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoubleBarrelTurretController : MonoBehaviour
+public class TurretController : MonoBehaviour
 {
     /*
         This GameObject is the turret of the tank, and is assumed to have the structure:
@@ -23,14 +23,11 @@ public class DoubleBarrelTurretController : MonoBehaviour
     public Camera viewCamera;
     public GameObject projectile;
 
-    [SerializeField]
-    private GameObject leftBarrel;
-    [SerializeField]
-    private GameObject rightBarrel;
 
-    private GameObject leftMuzzle, rightMuzzle;
-    private GameObject leftEffectObject, rightEffectObject;
-    private ParticleSystem leftShootingEffect, rightShootingEffect;
+    private GameObject barrel;
+    private GameObject muzzle;
+    private GameObject effectObject;
+    private ParticleSystem shootingEffect;
 
     private TankController tankController;
     private int bounceNumber;
@@ -41,15 +38,10 @@ public class DoubleBarrelTurretController : MonoBehaviour
 
     void Start()
     {
-        this.leftMuzzle = this.leftBarrel.transform.GetChild(0).gameObject;
-        this.rightMuzzle = this.rightBarrel.transform.GetChild(0).gameObject;
-        
-        this.leftEffectObject = this.leftMuzzle.transform.GetChild(0).gameObject;
-        this.rightEffectObject = this.rightMuzzle.transform.GetChild(0).gameObject;
-
-        this.leftShootingEffect = this.leftEffectObject.GetComponent<ParticleSystem>();
-        this.rightShootingEffect = this.rightEffectObject.GetComponent<ParticleSystem>();
-
+        this.barrel = this.gameObject.transform.GetChild(0).gameObject;
+        this.muzzle = this.barrel.transform.GetChild(0).gameObject;
+        this.effectObject = this.muzzle.transform.GetChild(0).gameObject;
+        this.shootingEffect = this.effectObject.GetComponent<ParticleSystem>();
         this.viewCamera = Camera.main;
 
         this.tankController = this.gameObject.transform.parent.gameObject.GetComponent<TankController>();
@@ -114,12 +106,10 @@ public class DoubleBarrelTurretController : MonoBehaviour
 
     void Shoot() {
         // Smoke 😎🚬
-        this.leftShootingEffect.Play();
-        this.rightShootingEffect.Play();
+        this.shootingEffect.Play();
 
         // Animate
-        this.leftBarrel.GetComponent<Animator>().SetTrigger("Shoot");
-        this.rightBarrel.GetComponent<Animator>().SetTrigger("Shoot");
+        this.barrel.GetComponent<Animator>().SetTrigger("Shoot");
 
         // Get number of bounces
         this.setBounceNumber(this.tankController.bounceNumber);
@@ -128,13 +118,11 @@ public class DoubleBarrelTurretController : MonoBehaviour
         this.setTeamColor(this.tankController.teamColor);
 
         // Skiet mos
-        GameObject leftShot = Instantiate(projectile, this.leftMuzzle.transform.position, this.leftMuzzle.transform.rotation);
-        GameObject rightShot = Instantiate(projectile, this.rightMuzzle.transform.position, this.rightMuzzle.transform.rotation);
+        GameObject shot = Instantiate(projectile, this.muzzle.transform.position, this.muzzle.transform.rotation);
 
         // Set Color for the bullet, paint, paint explosion and amount of bounces left.
-        leftShot.GetComponent<BulletController>().Setup(this.teamColor, this.bounceNumber);
-        rightShot.GetComponent<BulletController>().Setup(this.teamColor, this.bounceNumber);
-
+        shot.GetComponent<BulletController>().Setup(this.teamColor, this.bounceNumber);
+        
     }
 
     public void setBounceNumber(int bounceLimit) {
