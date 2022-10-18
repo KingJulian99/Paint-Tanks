@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TargetController : MonoBehaviour
 {
-
-    public PlayerControls controls;
 
     private float radiusScale;
 
@@ -15,24 +14,34 @@ public class TargetController : MonoBehaviour
 
     private GameObject parent; 
 
+    private PlayerInput m_PlayerInput;
+
+    private InputAction m_RotateTarget;
+
 
     void Awake() {
-        this.controls = new PlayerControls();
         this.parent = this.transform.parent.gameObject;
         this.radiusScale = 2.0f;
         this.lastKnownInput = new Vector2(0.0f, 1.0f) * this.radiusScale;
+    }
 
-        controls.Gameplay.RotateTarget.performed += context => {
+    void Update() {
+
+        if (m_PlayerInput == null)
+        {
+            m_PlayerInput = this.gameObject.transform.parent.gameObject.transform.parent.gameObject.GetComponent<PlayerInput>();
+            m_RotateTarget = m_PlayerInput.actions["RotateTarget"];
+        }
+
+        m_RotateTarget.performed += context => {
             this.targetInput = context.ReadValue<Vector2>();
             this.lastKnownInput = context.ReadValue<Vector2>();
         };
 
-        controls.Gameplay.RotateTarget.canceled += context => {
+        m_RotateTarget.canceled += context => {
             this.targetInput = Vector2.zero;
         };
-    }
 
-    void Update() {
         // x & z
         Vector3 addition = new Vector3(this.targetInput.x, 0, this.targetInput.y) * this.radiusScale;
         //print(addition);
@@ -42,11 +51,4 @@ public class TargetController : MonoBehaviour
         this.transform.position = this.parent.transform.position + addition;
     }
 
-    void OnEnable() {
-        controls.Gameplay.Enable();
-    }
-
-    void OnDisable() {
-        controls.Gameplay.Disable();
-    }
 }
