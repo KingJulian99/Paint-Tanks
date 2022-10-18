@@ -53,32 +53,21 @@ public class GamepadTurretController : MonoBehaviour
 
     void Update()
     {
-        // Debug.DrawLine(this.muzzle.transform.position, this.muzzle.transform.position + this.muzzle.transform.forward * 10, Color.red);
-
-        Ray ray = viewCamera.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        float rayDistance;
-
-        if(groundPlane.Raycast(ray, out rayDistance)) {
-            Vector3 pointOnPlane = ray.GetPoint(rayDistance);
-
-            //Debug.DrawLine(ray.origin, pointOnPlane, Color.green);
-
-            this.distanceToTarget = Vector3.Distance(this.target.transform.position, this.transform.position);
-            
-            this.LookAt(pointOnPlane);
-        }
-
+        this.LookAt();
     }
 
-    void LookAt(Vector3 point) {
-        point = this.transform.GetChild(1).gameObject.transform.position; //NEW addition
+    void LookAt() {
+
+        Vector3 point = this.transform.GetChild(1).gameObject.transform.position; 
 
         Vector3 heightCorrectedPoint = new Vector3(point.x, this.transform.position.y, point.z);
+
+        this.distanceToTarget = Vector3.Distance(heightCorrectedPoint, this.transform.position);
 
         // Debug.DrawLine(this.transform.position, this.transform.position + this.transform.forward * 10, Color.red);
 
         this.transform.Rotate(new Vector3(0, this.GetAngleBetweenBarrelAndPoint(heightCorrectedPoint) * this.maxRotationSpeed * Time.deltaTime * (distanceToTarget * 0.5f), 0));
+
     }
 
     float GetAngleBetweenBarrelAndPoint(Vector3 correctedPoint) {
