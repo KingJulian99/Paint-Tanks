@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void TankDestroyedNotify(GameObject go);
+
 public class TankController : MonoBehaviour
 {
 
@@ -21,7 +23,8 @@ public class TankController : MonoBehaviour
     private ParticleSystem alertEffectRemove;
     private ParticleSystem explosion;
 
-
+    public event TankDestroyedNotify TankDestroyed;
+    
     void Start()
     {
         this.driveSpeed = 5.0f;
@@ -88,6 +91,8 @@ public class TankController : MonoBehaviour
         
         if(this.health <= 0 && this.alive) {
             this.alive = false;
+            
+            OnTankDestroyed();
             Explode();
         }
 
@@ -217,5 +222,10 @@ public class TankController : MonoBehaviour
         tankMaterial.SetColor("_BaseColor", this.teamColor);
         Material turretMaterial = this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material;
         turretMaterial.SetColor("_BaseColor", this.teamColor);
+    }
+
+    protected virtual void OnTankDestroyed()
+    {
+        TankDestroyed?.Invoke(this.gameObject);
     }
 }

@@ -9,12 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 505458ea4e45e2241bdaab3fbec8ed8d
   - enabled: 1
-    path: Assets/Scenes/Hezekiah's Test Scene.unity
-    guid: 2cb4925997ed00948b9f0271343b846b
-  - enabled: 1
     path: Assets/Scenes/Julians Multiplayer Scene.unity
     guid: 8c3d96efba562524f924c19a333fc69f
   - enabled: 1
     path: Assets/Scenes/Castle Scene.unity
     guid: f4adbb2a8dc2022459d6e75590509631
+  - enabled: 1
+    path: Assets/Scenes/GameSettings.unity
+    guid: e385f068aeefd654887cfdc8890f9485
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: b347085d9782e424c94ba2851215a46a
   m_configObjects: {}
