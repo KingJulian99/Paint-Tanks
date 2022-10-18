@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Julians Multiplayer Scene.unity
     guid: 8c3d96efba562524f924c19a333fc69f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Castle Scene.unity
     guid: f4adbb2a8dc2022459d6e75590509631
   - enabled: 1
