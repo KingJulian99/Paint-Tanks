@@ -17,7 +17,7 @@ public class TankMovement : MonoBehaviour
     private float shpeeeeed = 0.0f; // speed
     public float slowDown = 0.0f;
 
-    private float rotateSpeed = 55.0f;
+    private float rotateSpeed = 10.0f;
 
     private Vector2 rotateBodyDirection;
 
@@ -27,63 +27,12 @@ public class TankMovement : MonoBehaviour
     private InputAction m_RotateBody;
     private InputAction m_Shoot;
 
+    private Vector3 driveTarget;
+    private bool drive;
+
     void Awake() {
-        // controls = new PlayerControls();
-
         turretController = this.transform.GetChild(0).GetComponent<GamepadTurretController>();
-
-        // controls.Gameplay.Forward.performed += context => {
-        //     this.forward = true;
-        // };
-
-        // controls.Gameplay.Forward.canceled += context => {
-        //     this.forward = false;
-        // };
-
-        // controls.Gameplay.Backward.performed += context => {
-        //     this.backward = true;
-        // };
-
-        // controls.Gameplay.Backward.canceled += context => {
-        //     this.backward = false;
-        // };
-
-        // controls.Gameplay.RotateBody.performed += context => {
-        //     this.rotateBodyDirection = context.ReadValue<Vector2>();
-        // };
-
-        // controls.Gameplay.RotateBody.canceled += context => {
-        //     this.rotateBodyDirection = Vector2.zero;
-        // };
-
-        // controls.Gameplay.Shoot.performed += context => {
-        //     this.turretController.Shoot();
-        // };
     }
-
-    // private void OnForward() {
-    //     print("forward!");
-    //     print("isgrounded: " + this.GetComponent<CharacterController>().isGrounded);
-    //     // if (this.GetComponent<CharacterController>().isGrounded) {
-    //     //     this.GetComponent<CharacterController>().SimpleMove(this.transform.forward * (this.shpeeeeed - this.slowDown));
-    //     // }
-    //     this.shpeeeeed = 5.0f;
-        
-    // }
-
-    // private void OnBackward() {
-    //     print("backward!");
-    //     // if (this.GetComponent<CharacterController>().isGrounded) {
-    //     //     this.GetComponent<CharacterController>().SimpleMove(-this.transform.forward * (this.shpeeeeed + this.slowDown));
-    //     // }
-    //     this.shpeeeeed = -5.0f;
-        
-    // }
-
-    // private void OnRotateBody(InputValue value) {
-    //     this.rotateBodyDirection = value.Get<Vector2>();
-    //     this.transform.Rotate(0.0f, this.rotateSpeed * Time.deltaTime * this.rotateBodyDirection.x, 0.0f);
-    // }
 
 
     void Update() {
@@ -114,10 +63,12 @@ public class TankMovement : MonoBehaviour
         };
 
         m_RotateBody.performed += context => {
+            drive = true;
             this.rotateBodyDirection = context.ReadValue<Vector2>();
         };
 
         m_RotateBody.canceled += context => {
+            drive = false;
             this.rotateBodyDirection = Vector2.zero;
         };
 
@@ -140,12 +91,30 @@ public class TankMovement : MonoBehaviour
         if (this.GetComponent<CharacterController>().isGrounded) {
             
             // Forward and back movement
-            this.GetComponent<CharacterController>().SimpleMove(this.transform.forward * this.shpeeeeed);
+            //this.GetComponent<CharacterController>().SimpleMove(this.transform.forward * this.shpeeeeed);
 
             // Rotation
-            this.transform.Rotate(0.0f, this.rotateSpeed * Time.deltaTime * this.rotateBodyDirection.x, 0.0f);
+            //this.transform.Rotate(0.0f, this.rotateSpeed * Time.deltaTime * this.rotateBodyDirection.x, 0.0f);
+
+            // Single stick rotation
+            if(this.drive){
+
+                // Rotate in direction
+                this.driveTarget = this.transform.position + new Vector3(this.rotateBodyDirection.x, 0, this.rotateBodyDirection.y);
+                this.transform.Rotate(new Vector3(0, GetAngleBetweenThisAndPoint(this.driveTarget)* this.rotateSpeed * Time.deltaTime, 0));
+
+                // Move in that desired way
+                Vector3 moveDirection = -(this.transform.position - this.driveTarget).normalized;
+                this.GetComponent<CharacterController>().SimpleMove(moveDirection * (5.0f - this.slowDown));
+            }
+            
         }
         
+    }
+
+    float GetAngleBetweenThisAndPoint(Vector3 correctedPoint) {
+        Vector3 directionToPoint = -(this.transform.position - correctedPoint).normalized;
+        return -Vector3.SignedAngle(directionToPoint, this.transform.forward, Vector3.up);
     }
    
 }
