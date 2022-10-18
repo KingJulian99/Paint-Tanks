@@ -14,6 +14,8 @@ public class TankAIController : MonoBehaviour
     public int health;
     public Color teamColor;
     public int bounceNumber;
+    public bool alive;
+    public Material paintExplosionMaterial;
 
     private CharacterController characterController;
     private float randomRotationSpeed; 
@@ -21,6 +23,7 @@ public class TankAIController : MonoBehaviour
     private bool rotatingUncontrollably;
     private ParticleSystem alertEffect;
     private ParticleSystem alertEffectRemove;
+    private ParticleSystem explosion;
 
     // AI fields
     private NavMeshAgent navAgent;
@@ -55,6 +58,23 @@ public class TankAIController : MonoBehaviour
         this.rotatingUncontrollably = false;
         this.alertEffect = this.gameObject.transform.GetChild(1).gameObject.GetComponent<ParticleSystem>();
         this.alertEffectRemove = this.gameObject.transform.GetChild(2).gameObject.GetComponent<ParticleSystem>();
+        this.alive = true;
+        
+        GameObject ex = this.gameObject.transform.Find("Explosion").gameObject;
+        this.explosion = ex.GetComponent<ParticleSystem>();
+
+        Material newMaterial = Instantiate(paintExplosionMaterial);
+        newMaterial.SetColor("_BaseColor", this.teamColor);
+
+        var main = this.explosion.main;
+        main.simulationSpeed = 0.6f;
+
+        // Setting the explosion color
+        ex.transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = newMaterial;
+        ex.transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = newMaterial;
+        ex.transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystemRenderer>().trailMaterial = newMaterial;
+        ex.transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = newMaterial;
+        ex.transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystemRenderer>().trailMaterial = newMaterial;
 
         ChangeTankColor();
     }
@@ -93,9 +113,27 @@ public class TankAIController : MonoBehaviour
                 navAgent.SetDestination(gameObject.transform.position);
             }
         }
-        
-        if(this.health <= 0) {
-            Destroy(this.gameObject);
+
+        if (this.health <= 0 && this.alive)
+        {
+            Debug.Log("Dead");
+            this.alive = false;
+
+            //OnTankAIDestroyed();
+            Explode();
+        }
+
+        if (this.health <= 0) {
+            RaycastHit hit;
+            // Does the ray intersect any objects excluding the player layer
+            if (Physics.Raycast(transform.position, -Vector3.up, out hit, Mathf.Infinity))
+            {
+                Paintable p = hit.collider.GetComponent<Paintable>();
+                if (p != null)
+                {
+                    PaintManager.instance.paint(p, hit.point, 4, 0.3f, 0.1f, this.teamColor);
+                }
+            }
         }
 
     }
@@ -257,6 +295,21 @@ public class TankAIController : MonoBehaviour
     public void SetTeamColor(Color color)
     {
         this.teamColor = color;
+    }
+
+    public void Explode()
+    {
+
+        // Play particlesystem
+        this.explosion.Play();
+
+        // Raycast and paint
+        // Big one below:
+
+
+        // Destroy it all (can change in future) 
+        Destroy(this.gameObject, 0.45f);
+
     }
 
     public void RotateUncontrollably() {

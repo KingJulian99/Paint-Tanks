@@ -16,13 +16,13 @@ public class GameManager : MonoBehaviour
     private GameObject mapPanel;
 
     private bool gameStart;
-    private float gameTime;
+    public float gameTime;
 
-    private GameObject map;
-    private GameObject currentMap;
-    private Object[] powerUps;
+    public GameObject map;
+    public GameObject currentMap;
+    public Object[] powerUps;
 
-    private List<Color> teamColors;
+    public List<Color> teamColors;
 
     public event GameSetupNotify GameSetup;
 
@@ -57,11 +57,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void test()
-    {
-        SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
-    }
-
     public void SetupGame(float gameTime)
     {
         map = mapPanel.GetComponent<MapSelector>().GetSelectedMap();
@@ -73,35 +68,6 @@ public class GameManager : MonoBehaviour
         }
 
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
-
-        Debug.Log("Map: " + map);
-
-        // Create map
-        currentMap = Instantiate(map, new Vector3(0, 0, 0), new Quaternion());
-
-        teamColors = new List<Color>();
-
-        teamColors.Add(Color.red);
-        teamColors.Add(Color.green);
-        teamColors.Add(Color.blue);
-
-        // Get team colors
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    teamColors.Add(new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f)));
-        //}
-
-        currentMap.transform.Find("SpawnManager").GetComponent<SpawnScript>().SetTeamColors(teamColors);
-
-        // Load Powerups
-        powerUps = Resources.LoadAll("PowerUps", typeof(GameObject));
-        currentMap.transform.Find("PowerUpSpawner").GetComponent<PowerUpSpawnerScript>().SetPowerUps(powerUps);
-
-        this.gameTime = gameTime;
-
-        Debug.Log("Here");
-
-        OnGameSetup();
     }
 
     // What happens when the game ends after the timer hits 0
@@ -110,7 +76,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Over");
     }
 
-    protected virtual void OnGameSetup()
+    public virtual void OnGameSetup()
     {
         gameStart = true;
         GameSetup?.Invoke();

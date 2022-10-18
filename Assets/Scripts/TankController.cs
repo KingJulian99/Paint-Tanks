@@ -91,6 +91,8 @@ public class TankController : MonoBehaviour
         
         if(this.health <= 0 && this.alive) {
             this.alive = false;
+            
+            OnTankDestroyed();
             Explode();
         }
 
@@ -104,7 +106,6 @@ public class TankController : MonoBehaviour
                     PaintManager.instance.paint(p, hit.point, 4, 0.3f, 0.1f, this.teamColor);
                 }
             }
-            OnTankDestroyed();
         }
 
     }

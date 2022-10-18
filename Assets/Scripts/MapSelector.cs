@@ -32,6 +32,8 @@ public class MapSelector : MonoBehaviour
                 previousSelected.GetComponentInChildren<Toggle>().isOn = false;
                 previousSelected.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.5f);
             }
+
+            map = go.GetComponent<MapProperties>().map;
         }
         else
         {
@@ -41,7 +43,6 @@ public class MapSelector : MonoBehaviour
 
 
         previousSelected = go;
-        map = go.GetComponent<MapProperties>().map;
     }
 
     public GameObject GetSelectedMap()
