@@ -10149,6 +10149,7 @@ MonoBehaviour:
   bounceNumber: 0
   alive: 0
   paintExplosionMaterial: {fileID: 2100000, guid: 5db52b3943f355740b7561c1349a335d, type: 2}
+  hBarNumber: 0
 --- !u!143 &5086112366432559090
 CharacterController:
   m_ObjectHideFlags: 0
@@ -10327,7 +10328,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8540841165860928547, guid: acc73a9d825b91d4e833911cb7cb50e6, type: 3}
   m_PrefabInstance: {fileID: 3843805054970219124}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4426052842799570509
+--- !u!114 &3394591825379669657
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10336,7 +10337,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4886644863920354903}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c250001f1252df745ad6d071a8713c38, type: 3}
+  m_Script: {fileID: 11500000, guid: 18b2c41c1139577458ef7ec7bbbc0355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxRotationSpeed: 0

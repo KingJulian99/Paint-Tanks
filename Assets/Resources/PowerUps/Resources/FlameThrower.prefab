@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 57bcf39804d5b3f43927cfae2917bd8a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,9 +95,9 @@ GameObject:
   - component: {fileID: 257416681675911073}
   - component: {fileID: 8310811980085206415}
   - component: {fileID: 844419751718583802}
-  - component: {fileID: 3520768354685773708}
+  - component: {fileID: 5771200417593024083}
   m_Layer: 0
-  m_Name: PowerUpBase
+  m_Name: FlameThrower
   m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,7 +182,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6, y: 25, z: 0.6}
   m_Center: {x: 0, y: 12.5, z: 0}
---- !u!114 &3520768354685773708
+--- !u!114 &5771200417593024083
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,7 +191,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5382502919576934914}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06e5ef3fbdf2e54499eab00319f436c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f966b5033eb41446a762211a330746f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power_type: Double_Barrel

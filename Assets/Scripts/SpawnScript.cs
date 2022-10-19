@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.ParticleSystem;
 using Random = UnityEngine.Random;
 
@@ -20,6 +21,8 @@ public class SpawnScript : MonoBehaviour
 
     private List<GameObject> spawnedPlayers;
 
+    private List<GameObject> heathBars;
+
     public event SpawnNotify SpawnDone;
     public event RespawnNotify RespawnDone;
 
@@ -28,25 +31,37 @@ public class SpawnScript : MonoBehaviour
     {
         GameObject gm = GameObject.Find("GameManager");
         GameManager gameManager = gm.GetComponent<GameManager>();
+
         spawnedPlayers = new List<GameObject>();
+        heathBars = new List<GameObject>();
 
         gameManager.GameSetup += SpawnPlayers;
     }
 
+    void OnPlayerJoined()
+    {
+        //SpawnPlayer(0, Color.red, 0);
+    }
+
     private void SpawnPlayers()
     {
-        SpawnPlayer(0, teamColors[0]);
+        SpawnKeyboardPlayer(0, teamColors[0], 0);
 
         // Spawn AI at subsequent spawn points
         for (int i = 1; i < spawn_points.Length; i++)
         {
-            SpawnAI(i, teamColors[i]);
+            SpawnAI(i, teamColors[i], i);
         }
 
         OnSpawnDone();
     }
 
-    private GameObject SpawnPlayer(int spawnPoint, Color teamColor)
+    public void SetHealthBars(List<GameObject> hBars)
+    {
+        this.heathBars = hBars;
+    }
+
+    private GameObject SpawnKeyboardPlayer(int spawnPoint, Color teamColor, int hBarNumber)
     {
         // Spawn Player at first spawn point
         GameObject p = Instantiate(player, spawn_points[spawnPoint].transform.position, spawn_points[spawnPoint].transform.rotation);
@@ -57,6 +72,9 @@ public class SpawnScript : MonoBehaviour
         // Set players team color
         p.transform.GetComponent<TankController>().SetTeamColor(teamColor);
 
+        // Set UI health bar
+        p.transform.GetComponent<TankController>().SetHealthBar(heathBars[hBarNumber], hBarNumber);
+
         // When Tank is Destroyed Respawn the player
         p.transform.GetComponent<TankController>().TankDestroyed += RespawnPlayer;
 
@@ -66,7 +84,7 @@ public class SpawnScript : MonoBehaviour
         return p;
     }
 
-    private GameObject SpawnAI(int spawnPoint, Color teamColor)
+    private GameObject SpawnAI(int spawnPoint, Color teamColor, int hBarNumber)
     {
         // Spawn Player at first spawn point
         GameObject p = Instantiate(ai, spawn_points[spawnPoint].transform.position, spawn_points[spawnPoint].transform.rotation);
@@ -76,6 +94,9 @@ public class SpawnScript : MonoBehaviour
 
         // Set players team color
         p.transform.GetComponent<TankAIController>().SetTeamColor(teamColor);
+
+        // Set UI health bar
+        p.transform.GetComponent<TankAIController>().SetHealthBar(heathBars[hBarNumber], hBarNumber);
 
         // When Tank is Destroyed Respawn the player
         //p.transform.GetComponent<TankAIController>().TankDestroyed += RespawnAI;
@@ -105,7 +126,7 @@ public class SpawnScript : MonoBehaviour
     private void RespawnPlayer(GameObject go)
     {
         int spwn = Random.Range(0, spawn_points.Length);
-        GameObject p = SpawnPlayer(spwn, go.transform.GetComponent<TankController>().teamColor);
+        GameObject p = SpawnKeyboardPlayer(spwn, go.transform.GetComponent<TankController>().teamColor, go.transform.GetComponent<TankController>().hBarNumber);
 
         OnRespawnDone(p);
     }
@@ -113,7 +134,7 @@ public class SpawnScript : MonoBehaviour
     private void RespawnAI(GameObject go)
     {
         int spwn = Random.Range(0, spawn_points.Length);
-        GameObject p = SpawnPlayer(spwn, go.transform.GetComponent<TankAIController>().teamColor);
+        GameObject p = SpawnKeyboardPlayer(spwn, go.transform.GetComponent<TankAIController>().teamColor, go.transform.GetComponent<TankController>().hBarNumber);
 
         OnRespawnDone(p);
     }

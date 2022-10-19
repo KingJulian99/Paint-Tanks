@@ -1553,7 +1553,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playButton: {fileID: 612220098}
   mapPanel: {fileID: 762834088}
-  paintManager: {fileID: 5199117536492982174, guid: 38c2b329e5331ef43ab5a3dbd3f83b2c, type: 3}
+  gameTime: 0
+  map: {fileID: 0}
+  currentMap: {fileID: 0}
+  powerUps: []
+  teamColors: []
 --- !u!1001 &2012779091
 PrefabInstance:
   m_ObjectHideFlags: 0

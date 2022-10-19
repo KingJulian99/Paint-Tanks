@@ -90,7 +90,7 @@ public class BulletController : MonoBehaviour
         if(other.gameObject.tag == "Tank") {
             // Take health from the other tank 🔪 (if it's on a different team!)
             if( !(other.gameObject.GetComponent<TankController>().teamColor == this.paintColor) ) {
-                other.gameObject.GetComponent<TankController>().health -= 50;
+                other.gameObject.GetComponent<TankController>().health -= 20;
             }
 
             // Make this paintball explode
@@ -113,7 +113,7 @@ public class BulletController : MonoBehaviour
         {
             if (!(other.gameObject.GetComponent<TankAIController>().teamColor == this.paintColor))
             {
-                other.gameObject.GetComponent<TankAIController>().health -= 50;
+                other.gameObject.GetComponent<TankAIController>().health -= 20;
             }
 
             this.bouncesLeft = 0;

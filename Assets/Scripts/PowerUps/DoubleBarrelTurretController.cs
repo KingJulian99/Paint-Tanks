@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretController : MonoBehaviour
+public class DoubleBarrelTurretController : MonoBehaviour
 {
     /*
         This GameObject is the turret of the tank, and is assumed to have the structure:
@@ -23,11 +23,14 @@ public class TurretController : MonoBehaviour
     public Camera viewCamera;
     public GameObject projectile;
 
+    [SerializeField]
+    private GameObject leftBarrel;
+    [SerializeField]
+    private GameObject rightBarrel;
 
-    private GameObject barrel;
-    private GameObject muzzle;
-    private GameObject effectObject;
-    private ParticleSystem shootingEffect;
+    private GameObject leftMuzzle, rightMuzzle;
+    private GameObject leftEffectObject, rightEffectObject;
+    private ParticleSystem leftShootingEffect, rightShootingEffect;
 
     private TankController tankController;
     private int bounceNumber;
@@ -36,12 +39,19 @@ public class TurretController : MonoBehaviour
     private float reloadTime;
     private bool canShoot;
 
+    private float duration;
+
     void Start()
     {
-        this.barrel = this.gameObject.transform.GetChild(0).gameObject;
-        this.muzzle = this.barrel.transform.GetChild(0).gameObject;
-        this.effectObject = this.muzzle.transform.GetChild(0).gameObject;
-        this.shootingEffect = this.effectObject.GetComponent<ParticleSystem>();
+        this.leftMuzzle = this.leftBarrel.transform.GetChild(0).gameObject;
+        this.rightMuzzle = this.rightBarrel.transform.GetChild(0).gameObject;
+        
+        this.leftEffectObject = this.leftMuzzle.transform.GetChild(0).gameObject;
+        this.rightEffectObject = this.rightMuzzle.transform.GetChild(0).gameObject;
+
+        this.leftShootingEffect = this.leftEffectObject.GetComponent<ParticleSystem>();
+        this.rightShootingEffect = this.rightEffectObject.GetComponent<ParticleSystem>();
+
         this.viewCamera = Camera.main;
 
         this.tankController = this.gameObject.transform.parent.gameObject.GetComponent<TankController>();
@@ -50,10 +60,20 @@ public class TurretController : MonoBehaviour
         this.maxRotationSpeed = 10f;
         this.reloadTime = 1;
         this.canShoot = true;
+
+        duration = 30f;
     }
 
     void Update()
     {
+        duration -= Time.deltaTime;
+        if (duration <= 0)
+        {
+            SpawnTurret(this.transform.parent.gameObject);
+        }
+
+        // Debug.DrawLine(this.muzzle.transform.position, this.muzzle.transform.position + this.muzzle.transform.forward * 10, Color.red);
+
         Ray ray = viewCamera.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
         float rayDistance;
@@ -104,10 +124,12 @@ public class TurretController : MonoBehaviour
 
     void Shoot() {
         // Smoke 😎🚬
-        this.shootingEffect.Play();
+        this.leftShootingEffect.Play();
+        this.rightShootingEffect.Play();
 
         // Animate
-        this.barrel.GetComponent<Animator>().SetTrigger("Shoot");
+        this.leftBarrel.GetComponent<Animator>().SetTrigger("Shoot");
+        this.rightBarrel.GetComponent<Animator>().SetTrigger("Shoot");
 
         // Get number of bounces
         this.setBounceNumber(this.tankController.bounceNumber);
@@ -116,11 +138,13 @@ public class TurretController : MonoBehaviour
         this.setTeamColor(this.tankController.teamColor);
 
         // Skiet mos
-        GameObject shot = Instantiate(projectile, this.muzzle.transform.position, this.muzzle.transform.rotation);
+        GameObject leftShot = Instantiate(projectile, this.leftMuzzle.transform.position, this.leftMuzzle.transform.rotation);
+        GameObject rightShot = Instantiate(projectile, this.rightMuzzle.transform.position, this.rightMuzzle.transform.rotation);
 
         // Set Color for the bullet, paint, paint explosion and amount of bounces left.
-        shot.GetComponent<BulletController>().Setup(this.teamColor, this.bounceNumber);
-        
+        leftShot.GetComponent<BulletController>().Setup(this.teamColor, this.bounceNumber);
+        rightShot.GetComponent<BulletController>().Setup(this.teamColor, this.bounceNumber);
+
     }
 
     public void setBounceNumber(int bounceLimit) {
@@ -129,5 +153,22 @@ public class TurretController : MonoBehaviour
 
     public void setTeamColor(Color teamColor) {
         this.teamColor = teamColor;
+    }
+
+    private void SpawnTurret(GameObject tank)
+    {
+        var t = Resources.Load("Turret", typeof(GameObject));
+
+        GameObject turret = tank.transform.Find("DoubleBarrel").gameObject;
+        Transform t_transform = turret.transform;
+
+        Destroy(turret);
+
+        if (t != null)
+        {
+            GameObject new_t = Instantiate(t, t_transform) as GameObject;
+            new_t.transform.SetParent(tank.transform);
+            new_t.GetComponent<TurretController>().setTeamColor(tank.transform.GetComponent<TankController>().teamColor);
+        }
     }
 }
