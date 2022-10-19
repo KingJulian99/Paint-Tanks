@@ -10,6 +10,8 @@ public class MapSpawner : MonoBehaviour
     private GameObject paintManager;
     [SerializeField]
     private List<GameObject> healthBars;
+    [SerializeField]
+    private GameObject timer;
 
     private GameManager manager;
 
@@ -37,6 +39,7 @@ public class MapSpawner : MonoBehaviour
 
         manager.currentMap.transform.Find("SpawnManager").GetComponent<SpawnScript>().SetTeamColors(manager.teamColors);
         manager.currentMap.transform.Find("SpawnManager").GetComponent< SpawnScript>().SetHealthBars(healthBars);
+        manager.currentMap.transform.Find("SpawnManager").GetComponent<SpawnScript>().SetTimer(timer);
 
         // Load Powerups
         manager.powerUps = Resources.LoadAll("PowerUps", typeof(GameObject));
