@@ -184,6 +184,7 @@ public class GamepadTankController : MonoBehaviour
         
 
         // Destroy it all (can change in future) 
+        Destroy(this.transform.parent.gameObject, 0.45f);
         Destroy(this.gameObject, 0.45f);
         
     }
