@@ -253,9 +253,9 @@ GameObject:
   - component: {fileID: 8031277941860689851}
   - component: {fileID: 6402727967612889118}
   - component: {fileID: 9169320458575060180}
-  - component: {fileID: 1512716679204342867}
+  - component: {fileID: -6828476713267322557}
   m_Layer: 0
-  m_Name: double_barrel
+  m_Name: DoubleBarrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -328,7 +328,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1512716679204342867
+--- !u!114 &-6828476713267322557
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -337,7 +337,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7223496794288241921}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18b2c41c1139577458ef7ec7bbbc0355, type: 3}
+  m_Script: {fileID: 11500000, guid: c250001f1252df745ad6d071a8713c38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxRotationSpeed: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2a0916feba6450a4886f6b527eac443c
+guid: 46ce07ed625a8304e93a9ce7ce3bfd85
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -9,6 +9,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Material
     second: {fileID: 2100000, guid: f5650f6482e79d34ba50d8d71c588f40, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Roller
+    second: {fileID: 5215228927631469644, guid: 9751bcd8c9cd9c344b421b54bd45bee2, type: 3}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

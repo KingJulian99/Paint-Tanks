@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public delegate void TankDestroyedNotify(GameObject go);
 
@@ -22,6 +23,10 @@ public class TankController : MonoBehaviour
     private ParticleSystem alertEffect;
     private ParticleSystem alertEffectRemove;
     private ParticleSystem explosion;
+
+    // UI fields
+    private GameObject healthBar;
+    public int hBarNumber;
 
     public event TankDestroyedNotify TankDestroyed;
     
@@ -54,6 +59,8 @@ public class TankController : MonoBehaviour
         this.gameObject.transform.GetChild(5).transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystemRenderer>().trailMaterial = newMaterial;
 
         ChangeTankColor();
+
+        healthBar.GetComponent<Image>().color = teamColor;
     }
 
     void Update()
@@ -62,6 +69,8 @@ public class TankController : MonoBehaviour
         ChangeTankColor();
 
         GroundPaintCheck();
+
+        UpdateHealth();
 
         if ( !this.characterController.isGrounded ) {
             this.characterController.Move( new Vector3(0.0f, this.gravity * Time.deltaTime, 0.0f) ); // applies "gravity"
@@ -222,6 +231,34 @@ public class TankController : MonoBehaviour
         tankMaterial.SetColor("_BaseColor", this.teamColor);
         Material turretMaterial = this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material;
         turretMaterial.SetColor("_BaseColor", this.teamColor);
+    }
+
+    public void SetHealthBar(GameObject healthBar, int barNum)
+    {
+        this.healthBar = healthBar;
+        this.hBarNumber = barNum;
+    }
+
+    private void UpdateHealth()
+    {
+        Transform barTransform = healthBar.transform.Find("Bar").GetComponent<Image>().transform;
+
+        if (health <= 0)
+        {
+            barTransform.localScale = Vector3.zero;
+        }
+        else
+        {
+            float healthRatio = health / 100f;
+
+            barTransform.localScale = new Vector3(healthRatio * 0.5f, barTransform.localScale.y, barTransform.localScale.z);
+        }
+
+        if (health < 40)
+        {
+            healthBar.transform.Find("Bar").GetComponent<Image>().color = Color.red;
+        }
+
     }
 
     protected virtual void OnTankDestroyed()

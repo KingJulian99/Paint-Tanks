@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 // Event to detect Victory
 public delegate void VictoryNotify();
@@ -32,6 +33,10 @@ public class TankAIController : MonoBehaviour
     public GameObject target;
     public bool lineOfSight;
     public bool gotTargets = false;
+
+    // UI fields
+    private GameObject healthBar;
+    public int hBarNumber;
 
     public event VictoryNotify Victory;
 
@@ -77,6 +82,8 @@ public class TankAIController : MonoBehaviour
         ex.transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystemRenderer>().trailMaterial = newMaterial;
 
         ChangeTankColor();
+
+        healthBar.GetComponent<Image>().color = teamColor;
     }
 
     void Update()
@@ -89,6 +96,8 @@ public class TankAIController : MonoBehaviour
         GroundPaintCheck();
 
         UpdateTargets();
+
+        UpdateHealth();
 
         target = GetTarget();
 
@@ -329,5 +338,32 @@ public class TankAIController : MonoBehaviour
         tankMaterial.SetColor("_BaseColor", this.teamColor);
         Material turretMaterial = this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material;
         turretMaterial.SetColor("_BaseColor", this.teamColor);
+    }
+
+    public void SetHealthBar(GameObject healthBar, int barNum)
+    {
+        this.healthBar = healthBar;
+        this.hBarNumber = barNum;
+    }
+
+    private void UpdateHealth()
+    {
+        Transform barTransform = healthBar.transform.Find("Bar").GetComponent<Image>().transform;
+
+        if (health <= 0) 
+        {
+            barTransform.localScale = Vector3.zero;
+        }
+        else
+        {
+            float healthRatio = health / 100f;
+
+            barTransform.localScale = new Vector3(healthRatio * 0.5f, barTransform.localScale.y, barTransform.localScale.z);
+        }
+
+        if (health < 40)
+        {
+            healthBar.transform.Find("Bar").GetComponent<Image>().color = Color.red;
+        }
     }
 }

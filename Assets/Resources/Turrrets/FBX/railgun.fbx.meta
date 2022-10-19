@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2a0916feba6450a4886f6b527eac443c
+guid: 2929796b17751f94da52886d83cde567
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -9,6 +9,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Material
     second: {fileID: 2100000, guid: f5650f6482e79d34ba50d8d71c588f40, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Railgun
+    second: {fileID: 2100000, guid: f04b0c23f1cc4364dbb179284bf37ff5, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

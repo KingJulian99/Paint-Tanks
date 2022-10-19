@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.ParticleSystem;
 using Random = UnityEngine.Random;
 
@@ -19,6 +21,15 @@ public class SpawnScript : MonoBehaviour
     private List<Color> teamColors;
 
     private List<GameObject> spawnedPlayers;
+    private List<GameObject> heathBars;
+    private GameObject timer;
+
+
+    private float initialPhaseTime;
+    private bool initialPhase;
+    private bool keyboardSpawned;
+
+    private int playerCount = 0;
 
     public event SpawnNotify SpawnDone;
     public event RespawnNotify RespawnDone;
@@ -26,27 +37,83 @@ public class SpawnScript : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        GameObject gm = GameObject.Find("GameManager");
-        GameManager gameManager = gm.GetComponent<GameManager>();
-        spawnedPlayers = new List<GameObject>();
+        //GameObject gm = GameObject.Find("GameManager");
+        //GameManager gameManager = gm.GetComponent<GameManager>();
 
-        gameManager.GameSetup += SpawnPlayers;
+        spawnedPlayers = new List<GameObject>();
+        heathBars = new List<GameObject>();
+
+        initialPhaseTime = 10f;
+        initialPhase = true;
+        keyboardSpawned = false;
+
+        //gameManager.GameSetup += SpawnPlayers;
+    }
+
+    void OnPlayerJoined()
+    {
+        //SpawnPlayer(0, Color.red, 0);
+    }
+
+    private void Update()
+    {
+        // Check if we're in the initial phase
+        if (!initialPhase) { return; }
+        if(initialPhaseTime <= 0)
+        {
+            //End phase
+            initialPhase = false;
+            SpawnAIs();
+        }
+
+        initialPhaseTime -= Time.deltaTime;
+        timer.transform.Find("Time").GetComponent<TextMeshProUGUI>().SetText("00:" + string.Format("{0:00}", initialPhaseTime));
+
+        // Check if a keyboard player has joined
+        if (keyboardSpawned) { return; }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            keyboardSpawned = true;
+
+            // Check if max players have joined
+            if (playerCount >= spawn_points.Length) { return; }
+
+            SpawnKeyboardPlayer(playerCount, teamColors[playerCount], playerCount);
+
+            playerCount++;
+        }
     }
 
     private void SpawnPlayers()
     {
-        SpawnPlayer(0, teamColors[0]);
+        SpawnKeyboardPlayer(0, teamColors[0], 0);
 
         // Spawn AI at subsequent spawn points
         for (int i = 1; i < spawn_points.Length; i++)
         {
-            SpawnAI(i, teamColors[i]);
+            SpawnAI(i, teamColors[i], i);
         }
 
         OnSpawnDone();
     }
 
-    private GameObject SpawnPlayer(int spawnPoint, Color teamColor)
+    private void SpawnAIs()
+    {
+        // Spawn AI at subsequent spawn points
+        for (int i = playerCount; i < spawn_points.Length; i++)
+        {
+            SpawnAI(i, teamColors[i], i);
+        }
+
+        OnSpawnDone();
+    }
+
+    public void SetHealthBars(List<GameObject> hBars)
+    {
+        this.heathBars = hBars;
+    }
+
+    private GameObject SpawnKeyboardPlayer(int spawnPoint, Color teamColor, int hBarNumber)
     {
         // Spawn Player at first spawn point
         GameObject p = Instantiate(player, spawn_points[spawnPoint].transform.position, spawn_points[spawnPoint].transform.rotation);
@@ -57,6 +124,9 @@ public class SpawnScript : MonoBehaviour
         // Set players team color
         p.transform.GetComponent<TankController>().SetTeamColor(teamColor);
 
+        // Set UI health bar
+        p.transform.GetComponent<TankController>().SetHealthBar(heathBars[hBarNumber], hBarNumber);
+
         // When Tank is Destroyed Respawn the player
         p.transform.GetComponent<TankController>().TankDestroyed += RespawnPlayer;
 
@@ -66,7 +136,7 @@ public class SpawnScript : MonoBehaviour
         return p;
     }
 
-    private GameObject SpawnAI(int spawnPoint, Color teamColor)
+    private GameObject SpawnAI(int spawnPoint, Color teamColor, int hBarNumber)
     {
         // Spawn Player at first spawn point
         GameObject p = Instantiate(ai, spawn_points[spawnPoint].transform.position, spawn_points[spawnPoint].transform.rotation);
@@ -76,6 +146,9 @@ public class SpawnScript : MonoBehaviour
 
         // Set players team color
         p.transform.GetComponent<TankAIController>().SetTeamColor(teamColor);
+
+        // Set UI health bar
+        p.transform.GetComponent<TankAIController>().SetHealthBar(heathBars[hBarNumber], hBarNumber);
 
         // When Tank is Destroyed Respawn the player
         //p.transform.GetComponent<TankAIController>().TankDestroyed += RespawnAI;
@@ -97,15 +170,11 @@ public class SpawnScript : MonoBehaviour
         RespawnDone?.Invoke(go);
     }
 
-    public void SetTeamColors(List<Color> teamColors)
-    {
-        this.teamColors = teamColors;
-    }
 
     private void RespawnPlayer(GameObject go)
     {
         int spwn = Random.Range(0, spawn_points.Length);
-        GameObject p = SpawnPlayer(spwn, go.transform.GetComponent<TankController>().teamColor);
+        GameObject p = SpawnKeyboardPlayer(spwn, go.transform.GetComponent<TankController>().teamColor, go.transform.GetComponent<TankController>().hBarNumber);
 
         OnRespawnDone(p);
     }
@@ -113,8 +182,17 @@ public class SpawnScript : MonoBehaviour
     private void RespawnAI(GameObject go)
     {
         int spwn = Random.Range(0, spawn_points.Length);
-        GameObject p = SpawnPlayer(spwn, go.transform.GetComponent<TankAIController>().teamColor);
+        GameObject p = SpawnKeyboardPlayer(spwn, go.transform.GetComponent<TankAIController>().teamColor, go.transform.GetComponent<TankController>().hBarNumber);
 
         OnRespawnDone(p);
+    }
+    public void SetTeamColors(List<Color> teamColors)
+    {
+        this.teamColors = teamColors;
+    }
+
+    public void SetTimer(GameObject timer)
+    {
+        this.timer = timer;
     }
 }

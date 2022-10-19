@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretController : MonoBehaviour
+public class FlamethrowerTurretController : MonoBehaviour
 {
     /*
         This GameObject is the turret of the tank, and is assumed to have the structure:
@@ -36,9 +36,11 @@ public class TurretController : MonoBehaviour
     private float reloadTime;
     private bool canShoot;
 
+    private float duration;
+
     void Start()
     {
-        this.barrel = this.gameObject.transform.GetChild(0).gameObject;
+        this.barrel = this.gameObject.transform.Find("FlamethrowerBarrel").gameObject;
         this.muzzle = this.barrel.transform.GetChild(0).gameObject;
         this.effectObject = this.muzzle.transform.GetChild(0).gameObject;
         this.shootingEffect = this.effectObject.GetComponent<ParticleSystem>();
@@ -50,11 +52,17 @@ public class TurretController : MonoBehaviour
         this.maxRotationSpeed = 10f;
         this.reloadTime = 1;
         this.canShoot = true;
+
+        duration = 30f;
     }
 
     void Update()
     {
-        // Debug.DrawLine(this.muzzle.transform.position, this.muzzle.transform.position + this.muzzle.transform.forward * 10, Color.red);
+        duration -= Time.deltaTime;
+        if (duration <= 0)
+        {
+            SpawnTurret(this.transform.parent.gameObject);
+        }
 
         Ray ray = viewCamera.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
@@ -131,5 +139,22 @@ public class TurretController : MonoBehaviour
 
     public void setTeamColor(Color teamColor) {
         this.teamColor = teamColor;
+    }
+
+    private void SpawnTurret(GameObject tank)
+    {
+        var t = Resources.Load("Turret", typeof(GameObject));
+
+        GameObject turret = tank.transform.Find("Flamethrower").gameObject;
+        Transform t_transform = turret.transform;
+
+        Destroy(turret);
+
+        if (t != null)
+        {
+            GameObject new_t = Instantiate(t, t_transform) as GameObject;
+            new_t.transform.SetParent(tank.transform);
+            new_t.GetComponent<TurretController>().setTeamColor(tank.transform.GetComponent<TankController>().teamColor);
+        }
     }
 }
