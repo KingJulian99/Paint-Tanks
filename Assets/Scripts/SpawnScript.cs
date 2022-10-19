@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.ParticleSystem;
@@ -20,8 +21,15 @@ public class SpawnScript : MonoBehaviour
     private List<Color> teamColors;
 
     private List<GameObject> spawnedPlayers;
-
     private List<GameObject> heathBars;
+    private GameObject timer;
+
+
+    private float initialPhaseTime;
+    private bool initialPhase;
+    private bool keyboardSpawned;
+
+    private int playerCount = 0;
 
     public event SpawnNotify SpawnDone;
     public event RespawnNotify RespawnDone;
@@ -29,18 +37,51 @@ public class SpawnScript : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        GameObject gm = GameObject.Find("GameManager");
-        GameManager gameManager = gm.GetComponent<GameManager>();
+        //GameObject gm = GameObject.Find("GameManager");
+        //GameManager gameManager = gm.GetComponent<GameManager>();
 
         spawnedPlayers = new List<GameObject>();
         heathBars = new List<GameObject>();
 
-        gameManager.GameSetup += SpawnPlayers;
+        initialPhaseTime = 10f;
+        initialPhase = true;
+        keyboardSpawned = false;
+
+        //gameManager.GameSetup += SpawnPlayers;
     }
 
     void OnPlayerJoined()
     {
         //SpawnPlayer(0, Color.red, 0);
+    }
+
+    private void Update()
+    {
+        // Check if we're in the initial phase
+        if (!initialPhase) { return; }
+        if(initialPhaseTime <= 0)
+        {
+            //End phase
+            initialPhase = false;
+            SpawnAIs();
+        }
+
+        initialPhaseTime -= Time.deltaTime;
+        timer.transform.Find("Time").GetComponent<TextMeshProUGUI>().SetText("00:" + string.Format("{0:00}", initialPhaseTime));
+
+        // Check if a keyboard player has joined
+        if (keyboardSpawned) { return; }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            keyboardSpawned = true;
+
+            // Check if max players have joined
+            if (playerCount >= spawn_points.Length) { return; }
+
+            SpawnKeyboardPlayer(playerCount, teamColors[playerCount], playerCount);
+
+            playerCount++;
+        }
     }
 
     private void SpawnPlayers()
@@ -49,6 +90,17 @@ public class SpawnScript : MonoBehaviour
 
         // Spawn AI at subsequent spawn points
         for (int i = 1; i < spawn_points.Length; i++)
+        {
+            SpawnAI(i, teamColors[i], i);
+        }
+
+        OnSpawnDone();
+    }
+
+    private void SpawnAIs()
+    {
+        // Spawn AI at subsequent spawn points
+        for (int i = playerCount; i < spawn_points.Length; i++)
         {
             SpawnAI(i, teamColors[i], i);
         }
@@ -118,10 +170,6 @@ public class SpawnScript : MonoBehaviour
         RespawnDone?.Invoke(go);
     }
 
-    public void SetTeamColors(List<Color> teamColors)
-    {
-        this.teamColors = teamColors;
-    }
 
     private void RespawnPlayer(GameObject go)
     {
@@ -137,5 +185,14 @@ public class SpawnScript : MonoBehaviour
         GameObject p = SpawnKeyboardPlayer(spwn, go.transform.GetComponent<TankAIController>().teamColor, go.transform.GetComponent<TankController>().hBarNumber);
 
         OnRespawnDone(p);
+    }
+    public void SetTeamColors(List<Color> teamColors)
+    {
+        this.teamColors = teamColors;
+    }
+
+    public void SetTimer(GameObject timer)
+    {
+        this.timer = timer;
     }
 }
