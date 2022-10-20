@@ -27,7 +27,7 @@ public class MapSelector : MonoBehaviour
             go.GetComponent<Image>().color = new Color(1f, 0f, 0f, 0.5f);
 
             //Deselect previously selected
-            if (previousSelected != null)
+            if (previousSelected != null && previousSelected != go)
             {
                 previousSelected.GetComponentInChildren<Toggle>().isOn = false;
                 previousSelected.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.5f);

@@ -14,6 +14,8 @@ public class BulletController : MonoBehaviour
     public Material splashMaterial;
 
     private int paintExplodeQuantity = 9;
+
+    public int damage;
     
     void Start()
     {
@@ -28,6 +30,7 @@ public class BulletController : MonoBehaviour
 
         this.SetColors();
 
+        damage = 20;
     }
 
     void SetColors() {
@@ -89,8 +92,8 @@ public class BulletController : MonoBehaviour
     void OnTriggerEnter(Collider other) {
         if(other.gameObject.tag == "Tank") {
             // Take health from the other tank 🔪 (if it's on a different team!)
-            if( !(other.gameObject.GetComponent<TankController>().teamColor == this.paintColor) ) {
-                other.gameObject.GetComponent<TankController>().health -= 20;
+            if((other.gameObject.GetComponent<TankController>().teamColor != this.paintColor)) {
+                other.gameObject.GetComponent<TankController>().health -= damage;
             }
 
             // Make this paintball explode
@@ -100,8 +103,8 @@ public class BulletController : MonoBehaviour
 
         if(other.gameObject.tag == "GamepadTank") {
             // Take health from the other tank 🔪 (if it's on a different team!)
-            if( !(other.gameObject.GetComponent<GamepadTankController>().teamColor == this.paintColor) ) {
-                other.gameObject.GetComponent<GamepadTankController>().health -= 50;
+            if((other.gameObject.GetComponent<GamepadTankController>().teamColor != this.paintColor)) {
+                other.gameObject.GetComponent<GamepadTankController>().health -= damage;
             }
 
             // Make this paintball explode
@@ -111,9 +114,9 @@ public class BulletController : MonoBehaviour
         
         if(other.gameObject.tag == "AI")
         {
-            if (!(other.gameObject.GetComponent<TankAIController>().teamColor == this.paintColor))
+            if ((other.gameObject.GetComponent<TankAIController>().teamColor != this.paintColor))
             {
-                other.gameObject.GetComponent<TankAIController>().health -= 20;
+                other.gameObject.GetComponent<TankAIController>().health -= damage;
             }
 
             this.bouncesLeft = 0;

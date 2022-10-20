@@ -35,8 +35,8 @@ public class TankAIController : MonoBehaviour
     public bool gotTargets = false;
 
     // UI fields
-    private GameObject healthBar;
-    public int hBarNumber;
+    //private GameObject healthBar;
+    //public int hBarNumber;
 
     public event VictoryNotify Victory;
 
@@ -83,7 +83,7 @@ public class TankAIController : MonoBehaviour
 
         ChangeTankColor();
 
-        healthBar.GetComponent<Image>().color = teamColor;
+        //healthBar.GetComponent<Image>().color = teamColor;
     }
 
     void Update()
@@ -91,13 +91,13 @@ public class TankAIController : MonoBehaviour
         // if there are no targets do nothing
         if (!gotTargets) { return; }
 
-        ChangeTankColor();
+        UpdateHealthVisual();
 
         GroundPaintCheck();
 
         UpdateTargets();
 
-        UpdateHealth();
+        //UpdateHealth();
 
         target = GetTarget();
 
@@ -329,41 +329,61 @@ public class TankAIController : MonoBehaviour
         this.gravity = gravity;
     }
 
-    void ChangeTankColor() {
+    void ChangeTankColor() 
+    {
+        ChangeTankColor(this.teamColor);
+    }
+
+    void ChangeTankColor(Color col)
+    {
         /*
             This method sets both the tank and turret prefab colors to the current teamColor.
         */
-        
+
         Material tankMaterial = GetComponent<Renderer>().material;
-        tankMaterial.SetColor("_BaseColor", this.teamColor);
+        tankMaterial.SetColor("_BaseColor", col);
         Material turretMaterial = this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material;
-        turretMaterial.SetColor("_BaseColor", this.teamColor);
+        turretMaterial.SetColor("_BaseColor", col);
     }
 
-    public void SetHealthBar(GameObject healthBar, int barNum)
+    private void UpdateHealthVisual()
     {
-        this.healthBar = healthBar;
-        this.hBarNumber = barNum;
-    }
+        float healthRatio = health / 100f;
 
-    private void UpdateHealth()
-    {
-        Transform barTransform = healthBar.transform.Find("Bar").GetComponent<Image>().transform;
-
-        if (health <= 0) 
+        if (healthRatio > 0.4f)
         {
-            barTransform.localScale = Vector3.zero;
+            ChangeTankColor(this.teamColor * healthRatio);
         }
         else
         {
-            float healthRatio = health / 100f;
-
-            barTransform.localScale = new Vector3(healthRatio * 0.5f, barTransform.localScale.y, barTransform.localScale.z);
-        }
-
-        if (health < 40)
-        {
-            healthBar.transform.Find("Bar").GetComponent<Image>().color = Color.red;
+            ChangeTankColor(this.teamColor * 0.4f);
         }
     }
+
+    //public void SetHealthBar(GameObject healthBar, int barNum)
+    //{
+    //    this.healthBar = healthBar;
+    //    this.hBarNumber = barNum;
+    //}
+
+    //private void UpdateHealth()
+    //{
+    //    Transform barTransform = healthBar.transform.Find("Bar").GetComponent<Image>().transform;
+
+    //    if (health <= 0) 
+    //    {
+    //        barTransform.localScale = Vector3.zero;
+    //    }
+    //    else
+    //    {
+    //        float healthRatio = health / 100f;
+
+    //        barTransform.localScale = new Vector3(healthRatio * 0.5f, barTransform.localScale.y, barTransform.localScale.z);
+    //    }
+
+    //    if (health < 40)
+    //    {
+    //        healthBar.transform.Find("Bar").GetComponent<Image>().color = Color.red;
+    //    }
+    //}
 }

@@ -18,7 +18,8 @@ public class TurretController : MonoBehaviour
         All aiming calculations assume that the tank is on a plane at (0,0,0) facing upwards.
         All aiming to towards a point on the plane, and no other objects are considered (walls, players etc.).
     */
-    
+    private const float RELOADTIME = 1f;
+
     public float maxRotationSpeed;
     public Camera viewCamera;
     public GameObject projectile;
@@ -48,7 +49,7 @@ public class TurretController : MonoBehaviour
         this.teamColor = tankController.teamColor;
         this.bounceNumber = tankController.bounceNumber;
         this.maxRotationSpeed = 10f;
-        this.reloadTime = 0.1f;
+        this.reloadTime = RELOADTIME;
         this.canShoot = true;
     }
 
@@ -80,7 +81,7 @@ public class TurretController : MonoBehaviour
             }
             else
             {
-                reloadTime = 0.1f;
+                reloadTime = RELOADTIME;
                 canShoot = true;
             }
         }

@@ -371,7 +371,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 280753295555314071}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -450,7 +450,7 @@ Transform:
   - {fileID: 790888524656756005}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &3864608856608140126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5345,7 +5345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ai: {fileID: 8383800240097368997, guid: f8afe663aea78654fa08facea017b3b3, type: 3}
-  player: {fileID: 8383800240097368997, guid: 4869d0807fa262047b6ce17c411ee5df, type: 3}
+  player: {fileID: 5949843834763458127, guid: f441c11d38378824aa9b3994b1ded455, type: 3}
   playerContainer: {fileID: 7537033575031858505}
   spawn_points:
   - {fileID: 3864608858005509063}

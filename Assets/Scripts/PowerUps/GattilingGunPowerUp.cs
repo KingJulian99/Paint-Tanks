@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-public class DoubleBarrelPowerUp : MonoBehaviour
+public class GattilingGunPowerUp : MonoBehaviour
 {
     private void OnTriggerEnter(Collider collider)
     {
@@ -17,7 +16,7 @@ public class DoubleBarrelPowerUp : MonoBehaviour
 
     private void SpawnTurret(GameObject tank)
     {
-        var t = Resources.Load("DoubleBarrel", typeof(GameObject));
+        var t = Resources.Load("GattlingGun", typeof(GameObject));
 
         GameObject turret = tank.transform.Find("Turret").gameObject;
         Transform t_transform = turret.transform;
@@ -28,8 +27,8 @@ public class DoubleBarrelPowerUp : MonoBehaviour
         {
             GameObject new_t = Instantiate(t, t_transform) as GameObject;
             new_t.transform.SetParent(tank.transform);
-            new_t.name = "DoubleBarrel";
-            new_t.GetComponent<DoubleBarrelTurretController>().setTeamColor(Color.black);
+            new_t.name = "GattlingGun";
+            new_t.GetComponent<GattlingGunTurretController>().setTeamColor(Color.magenta);
         }
     }
 
