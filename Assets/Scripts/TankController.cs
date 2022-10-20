@@ -65,8 +65,7 @@ public class TankController : MonoBehaviour
 
     void Update()
     {
-
-        ChangeTankColor(this.teamColor * (health/100f));
+        UpdateHealthVisual();
 
         GroundPaintCheck();
 
@@ -239,6 +238,20 @@ public class TankController : MonoBehaviour
         {
             Material turretMaterial = this.gameObject.transform.Find("Turret").GetComponent<Renderer>().material;
             turretMaterial.SetColor("_BaseColor", col);
+        }
+    }
+
+    private void UpdateHealthVisual()
+    {
+        float healthRatio = health / 100f;
+
+        if (healthRatio > 0.4f)
+        {
+            ChangeTankColor(this.teamColor * healthRatio);
+        }
+        else
+        {
+            ChangeTankColor(this.teamColor * 0.4f);
         }
     }
 

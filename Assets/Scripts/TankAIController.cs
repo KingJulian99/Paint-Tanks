@@ -91,7 +91,7 @@ public class TankAIController : MonoBehaviour
         // if there are no targets do nothing
         if (!gotTargets) { return; }
 
-        ChangeTankColor(this.teamColor * (health / 100f));
+        UpdateHealthVisual();
 
         GroundPaintCheck();
 
@@ -344,6 +344,20 @@ public class TankAIController : MonoBehaviour
         tankMaterial.SetColor("_BaseColor", col);
         Material turretMaterial = this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material;
         turretMaterial.SetColor("_BaseColor", col);
+    }
+
+    private void UpdateHealthVisual()
+    {
+        float healthRatio = health / 100f;
+
+        if (healthRatio > 0.4f)
+        {
+            ChangeTankColor(this.teamColor * healthRatio);
+        }
+        else
+        {
+            ChangeTankColor(this.teamColor * 0.4f);
+        }
     }
 
     //public void SetHealthBar(GameObject healthBar, int barNum)
