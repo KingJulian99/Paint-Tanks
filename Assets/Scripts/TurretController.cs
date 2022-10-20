@@ -48,7 +48,7 @@ public class TurretController : MonoBehaviour
         this.teamColor = tankController.teamColor;
         this.bounceNumber = tankController.bounceNumber;
         this.maxRotationSpeed = 10f;
-        this.reloadTime = 1;
+        this.reloadTime = 0.1f;
         this.canShoot = true;
     }
 
@@ -80,7 +80,7 @@ public class TurretController : MonoBehaviour
             }
             else
             {
-                reloadTime = 1;
+                reloadTime = 0.1f;
                 canShoot = true;
             }
         }
