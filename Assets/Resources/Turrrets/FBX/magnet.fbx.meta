@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 547fd877b7e5fd74596cd88b0d09ab45
+guid: b378659992751954eb6eb077b43d26da
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -8,22 +8,22 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: MagnetBase
-    second: {fileID: 2100000, guid: 5a27ff1a6441dd34dbac397cca50d358, type: 2}
+    second: {fileID: 2100000, guid: 7138bd62b996b5646b958aac4156b41d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material
-    second: {fileID: 2100000, guid: 42fd8c3071ec94442b179b515eed72ba, type: 2}
+    second: {fileID: 2100000, guid: 34b9338586733f040a8eb718c4ff3cf8, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: outline
-    second: {fileID: 2100000, guid: 14d76a9fcec50574f8eaf0a14beeb1a5, type: 2}
+    second: {fileID: 2100000, guid: ca05dd78b2a0c904c85ede09230d66b5, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: outline.001
-    second: {fileID: 2100000, guid: 43ab7f3f1d20f194e97912ec231b2f71, type: 2}
+    second: {fileID: 2100000, guid: cd893e1cc02ea0a4cbf99ee6eeaed181, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
