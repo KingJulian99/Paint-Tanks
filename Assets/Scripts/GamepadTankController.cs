@@ -63,13 +63,12 @@ public class GamepadTankController : MonoBehaviour
 
         GroundPaintCheck();
 
-        if ( !this.characterController.isGrounded ) {
+        if ( !this.characterController.isGrounded && this.alive ) {
             this.characterController.Move( new Vector3(0.0f, this.gravity * Time.deltaTime, 0.0f) ); // applies "gravity"
 
             if(this.rotatingUncontrollably) {
                 this.transform.Rotate(this.randomRotationSpeed * Time.deltaTime, this.randomRotationSpeed * Time.deltaTime, this.randomRotationSpeed * Time.deltaTime);
             }
-
         } 
         
         if(this.health <= 0 && this.alive) {
@@ -88,8 +87,6 @@ public class GamepadTankController : MonoBehaviour
                 }
             }
         }
-
-        
 
     }
 
@@ -176,18 +173,31 @@ public class GamepadTankController : MonoBehaviour
     }
 
     public void Explode() {
-
         // Play particlesystem
         this.explosion.Play();
 
-        // Raycast and paint
-        // Big one below:
-        
+        // Deactivate scripts that can get in the way.
+        Invoke("Deactivate", 0.4f);
 
-        // Destroy it all (can change in future) 
-        Destroy(this.transform.parent.gameObject, 0.45f);
-        Destroy(this.gameObject, 0.45f);
-        
+        // Send to the graveyard
+        Invoke("MoveToGraveyard", 0.45f);
+        Invoke("Revive", 0.45f);
+    }
+
+    private void Deactivate() {
+        this.transform.GetComponent<CharacterController>().enabled = false;
+        this.transform.GetComponent<TankMovement>().enabled = false;
+        this.transform.GetComponent<GamepadTankController>().enabled = false;
+    }
+
+    public void MoveToGraveyard() {
+        this.transform.position = new Vector3(0, -10, 0);
+    }
+
+    public void Revive() {
+        this.alive = true;
+        this.health = 100;
+        OnTankDestroyed();
     }
 
     protected virtual void OnTankDestroyed()

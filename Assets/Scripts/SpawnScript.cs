@@ -240,10 +240,22 @@ public class SpawnScript : MonoBehaviour
 
     private void RespawnPlayer(GameObject go)
     {
-        int spwn = Random.Range(0, spawn_points.Length);
-        GameObject p = SpawnKeyboardPlayer(spwn, go.transform.GetComponent<TankController>().teamColor);
+        if(go.tag == "Tank") {
 
-        OnRespawnDone(p);
+            int spwn = Random.Range(0, spawn_points.Length);
+            GameObject p = SpawnKeyboardPlayer(spwn, go.transform.GetComponent<TankController>().teamColor, go.transform.GetComponent<TankController>().hBarNumber);
+
+            OnRespawnDone(p);
+
+        } else if(go.tag == "GamepadTank") {
+
+            int spwn = Random.Range(0, spawn_points.Length);
+            VirtualSpawnGamepadTankPlayer(go, spwn, go.transform.GetComponent<GamepadTankController>().teamColor);
+
+            OnRespawnDone(go);
+
+        }
+        
     }
 
     private void RespawnAI(GameObject go)
