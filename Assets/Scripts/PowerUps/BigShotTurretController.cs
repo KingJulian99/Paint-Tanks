@@ -19,7 +19,8 @@ public class BigShotTurretController : MonoBehaviour
         All aiming calculations assume that the tank is on a plane at (0,0,0) facing upwards.
         All aiming to towards a point on the plane, and no other objects are considered (walls, players etc.).
     */
-    
+    private const float RELOADTIME = 1f;
+
     public float maxRotationSpeed;
     public Camera viewCamera;
     public GameObject projectile;
@@ -51,7 +52,7 @@ public class BigShotTurretController : MonoBehaviour
         this.teamColor = tankController.teamColor;
         this.bounceNumber = tankController.bounceNumber;
         this.maxRotationSpeed = 10f;
-        this.reloadTime = 1;
+        this.reloadTime = RELOADTIME;
         this.canShoot = true;
 
         duration = 20f;
@@ -65,7 +66,7 @@ public class BigShotTurretController : MonoBehaviour
             SpawnTurret(this.transform.parent.gameObject);
         }
 
-        UpdateDuration();
+        //UpdateDuration();
 
         Ray ray = viewCamera.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
@@ -93,7 +94,7 @@ public class BigShotTurretController : MonoBehaviour
             }
             else
             {
-                reloadTime = 1;
+                reloadTime = RELOADTIME;
                 canShoot = true;
             }
         }
@@ -145,6 +146,9 @@ public class BigShotTurretController : MonoBehaviour
 
     public void setTeamColor(Color teamColor) {
         this.teamColor = teamColor;
+
+        Material tm = gameObject.GetComponent<Renderer>().material;
+        tm.SetColor("_BaseColor", this.teamColor);
     }
 
     private void SpawnTurret(GameObject tank)
@@ -165,12 +169,12 @@ public class BigShotTurretController : MonoBehaviour
         }
     }
 
-    private void UpdateDuration()
-    {
-        Transform barTransform = gameObject.GetComponentInParent<TankController>().healthBar.transform.Find("PowerUp").GetComponent<Image>().transform;
+    //private void UpdateDuration()
+    //{
+    //    Transform barTransform = gameObject.GetComponentInParent<TankController>().healthBar.transform.Find("PowerUp").GetComponent<Image>().transform;
 
-        float durRatio = duration / 30f;
+    //    float durRatio = duration / 30f;
 
-        barTransform.localScale = new Vector3(durRatio * 0.2f, barTransform.localScale.y, barTransform.localScale.z);
-    }
+    //    barTransform.localScale = new Vector3(durRatio * 0.2f, barTransform.localScale.y, barTransform.localScale.z);
+    //}
 }

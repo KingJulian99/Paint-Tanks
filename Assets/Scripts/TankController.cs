@@ -25,8 +25,8 @@ public class TankController : MonoBehaviour
     private ParticleSystem explosion;
 
     // UI fields
-    public GameObject healthBar;
-    public int hBarNumber;
+    //public GameObject healthBar;
+    //public int hBarNumber;
 
     public event TankDestroyedNotify TankDestroyed;
     
@@ -60,13 +60,13 @@ public class TankController : MonoBehaviour
 
         ChangeTankColor();
 
-        healthBar.transform.Find("Color").GetComponent<Image>().color = teamColor;
+        //healthBar.transform.Find("Color").GetComponent<Image>().color = teamColor;
     }
 
     void Update()
     {
 
-        ChangeTankColor();
+        ChangeTankColor(this.teamColor * (health/100f));
 
         GroundPaintCheck();
 
@@ -222,44 +222,53 @@ public class TankController : MonoBehaviour
         this.gravity = gravity;
     }
 
-    void ChangeTankColor() {
+    void ChangeTankColor()
+    {
+        ChangeTankColor(this.teamColor);
+    }
+    void ChangeTankColor(Color col) {
         /*
             This method sets both the tank and turret prefab colors to the current teamColor.
         */
         
         Material tankMaterial = GetComponent<Renderer>().material;
-        tankMaterial.SetColor("_BaseColor", this.teamColor);
-        Material turretMaterial = this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material;
-        turretMaterial.SetColor("_BaseColor", this.teamColor);
+        tankMaterial.SetColor("_BaseColor", col);
+
+        // Change turrt color if it's a not power up
+        if (this.gameObject.transform.Find("Turret"))
+        {
+            Material turretMaterial = this.gameObject.transform.Find("Turret").GetComponent<Renderer>().material;
+            turretMaterial.SetColor("_BaseColor", col);
+        }
     }
 
-    public void SetHealthBar(GameObject healthBar, int barNum)
-    {
-        this.healthBar = healthBar;
-        this.hBarNumber = barNum;
-    }
+    //public void SetHealthBar(GameObject healthBar, int barNum)
+    //{
+    //    this.healthBar = healthBar;
+    //    this.hBarNumber = barNum;
+    //}
 
-    private void UpdateHealthBar()
-    {
-        Transform barTransform = healthBar.transform.Find("HealthBar").GetComponent<Image>().transform;
+    //private void UpdateHealthBar()
+    //{
+    //    Transform barTransform = healthBar.transform.Find("HealthBar").GetComponent<Image>().transform;
 
-        if (health <= 0)
-        {
-            barTransform.localScale = Vector3.zero;
-        }
-        else
-        {
-            float healthRatio = health / 100f;
+    //    if (health <= 0)
+    //    {
+    //        barTransform.localScale = Vector3.zero;
+    //    }
+    //    else
+    //    {
+    //        float healthRatio = health / 100f;
 
-            barTransform.localScale = new Vector3(healthRatio * 0.5f, barTransform.localScale.y, barTransform.localScale.z);
-        }
+    //        barTransform.localScale = new Vector3(healthRatio * 0.5f, barTransform.localScale.y, barTransform.localScale.z);
+    //    }
 
-        if (health < 40)
-        {
-            healthBar.transform.Find("HealthBar").GetComponent<Image>().color = Color.red;
-        }
+    //    if (health < 40)
+    //    {
+    //        healthBar.transform.Find("HealthBar").GetComponent<Image>().color = Color.red;
+    //    }
 
-    }
+    //}
 
     protected virtual void OnTankDestroyed()
     {
