@@ -25,7 +25,7 @@ public class TankController : MonoBehaviour
     private ParticleSystem explosion;
 
     // UI fields
-    private GameObject healthBar;
+    public GameObject healthBar;
     public int hBarNumber;
 
     public event TankDestroyedNotify TankDestroyed;
@@ -60,7 +60,7 @@ public class TankController : MonoBehaviour
 
         ChangeTankColor();
 
-        healthBar.GetComponent<Image>().color = teamColor;
+        healthBar.transform.Find("Color").GetComponent<Image>().color = teamColor;
     }
 
     void Update()
@@ -241,7 +241,7 @@ public class TankController : MonoBehaviour
 
     private void UpdateHealth()
     {
-        Transform barTransform = healthBar.transform.Find("Bar").GetComponent<Image>().transform;
+        Transform barTransform = healthBar.transform.Find("HealthBar").GetComponent<Image>().transform;
 
         if (health <= 0)
         {
@@ -256,7 +256,7 @@ public class TankController : MonoBehaviour
 
         if (health < 40)
         {
-            healthBar.transform.Find("Bar").GetComponent<Image>().color = Color.red;
+            healthBar.transform.Find("HealthBar").GetComponent<Image>().color = Color.red;
         }
 
     }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7639047856001881242}
   - component: {fileID: 2700426270428922054}
   - component: {fileID: 6895973769854034867}
+  - component: {fileID: 1521874074701315139}
   m_Layer: 0
   m_Name: PowerUp
   m_TagString: PowerUp
@@ -26,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1328567402100331687}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 19.259998, z: 0}
-  m_LocalScale: {x: 0.6, y: 12, z: 0.6}
+  m_LocalPosition: {x: 0, y: 27, z: 0}
+  m_LocalScale: {x: 1.2, y: 25, z: 1.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6053155204291278047}
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cd46ae44b98075a44b120f33a7bcca96, type: 2}
+  - {fileID: 2100000, guid: e6e1dc2dd1280d642bcaf1a997c44bca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,6 +84,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1521874074701315139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328567402100331687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a461c9d3526b4940897a2a82ca59ca5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5382502919576934914
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,9 +108,9 @@ GameObject:
   - component: {fileID: 257416681675911073}
   - component: {fileID: 8310811980085206415}
   - component: {fileID: 844419751718583802}
-  - component: {fileID: 3520768354685773708}
+  - component: {fileID: -6645770869257039656}
   m_Layer: 0
-  m_Name: DoubleBarrel
+  m_Name: BigShot
   m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,7 +195,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6, y: 25, z: 0.6}
   m_Center: {x: 0, y: 12.5, z: 0}
---- !u!114 &3520768354685773708
+--- !u!114 &-6645770869257039656
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,6 +204,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5382502919576934914}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06e5ef3fbdf2e54499eab00319f436c5, type: 3}
+  m_Script: {fileID: 11500000, guid: c39ff22cf9a7d204eb59843b2207c4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

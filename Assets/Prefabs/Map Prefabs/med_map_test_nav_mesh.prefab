@@ -5213,7 +5213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ai: {fileID: 8383800240097368997, guid: f8afe663aea78654fa08facea017b3b3, type: 3}
-  player: {fileID: 8383800240097368997, guid: 4869d0807fa262047b6ce17c411ee5df, type: 3}
+  player: {fileID: 5949843834763458127, guid: f441c11d38378824aa9b3994b1ded455, type: 3}
   playerContainer: {fileID: 7537033575031858505}
   spawn_points:
   - {fileID: 3864608858005509063}
