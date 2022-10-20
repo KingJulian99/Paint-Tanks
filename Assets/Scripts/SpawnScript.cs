@@ -243,7 +243,7 @@ public class SpawnScript : MonoBehaviour
         if(go.tag == "Tank") {
 
             int spwn = Random.Range(0, spawn_points.Length);
-            GameObject p = SpawnKeyboardPlayer(spwn, go.transform.GetComponent<TankController>().teamColor, go.transform.GetComponent<TankController>().hBarNumber);
+            GameObject p = SpawnKeyboardPlayer(spwn, go.transform.GetComponent<TankController>().teamColor);
 
             OnRespawnDone(p);
 
