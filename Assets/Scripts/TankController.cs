@@ -70,7 +70,7 @@ public class TankController : MonoBehaviour
 
         GroundPaintCheck();
 
-        UpdateHealth();
+        //UpdateHealthBar();
 
         if ( !this.characterController.isGrounded ) {
             this.characterController.Move( new Vector3(0.0f, this.gravity * Time.deltaTime, 0.0f) ); // applies "gravity"
@@ -239,7 +239,7 @@ public class TankController : MonoBehaviour
         this.hBarNumber = barNum;
     }
 
-    private void UpdateHealth()
+    private void UpdateHealthBar()
     {
         Transform barTransform = healthBar.transform.Find("Bar").GetComponent<Image>().transform;
 
