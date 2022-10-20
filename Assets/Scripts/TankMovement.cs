@@ -89,12 +89,6 @@ public class TankMovement : MonoBehaviour
         }
 
         if (this.GetComponent<CharacterController>().isGrounded) {
-            
-            // Forward and back movement
-            //this.GetComponent<CharacterController>().SimpleMove(this.transform.forward * this.shpeeeeed);
-
-            // Rotation
-            //this.transform.Rotate(0.0f, this.rotateSpeed * Time.deltaTime * this.rotateBodyDirection.x, 0.0f);
 
             // Single stick rotation
             if(this.drive){
