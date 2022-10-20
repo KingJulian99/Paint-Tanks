@@ -22,6 +22,7 @@ public class GamepadTankController : MonoBehaviour
     private ParticleSystem explosion;
     private TankMovement tankMovement;
 
+    public event TankDestroyedNotify TankDestroyed;
 
     void Start()
     {
@@ -184,8 +185,14 @@ public class GamepadTankController : MonoBehaviour
         
 
         // Destroy it all (can change in future) 
+        Destroy(this.transform.parent.gameObject, 0.45f);
         Destroy(this.gameObject, 0.45f);
         
+    }
+
+    protected virtual void OnTankDestroyed()
+    {
+        TankDestroyed?.Invoke(this.gameObject);
     }
 
     public void RotateUncontrollably() {
@@ -196,7 +203,7 @@ public class GamepadTankController : MonoBehaviour
         this.gravity = gravity;
     }
 
-    void ChangeTankColor() {
+    private void ChangeTankColor() {
         /*
             This method sets both the tank and turret prefab colors to the current teamColor.
         */

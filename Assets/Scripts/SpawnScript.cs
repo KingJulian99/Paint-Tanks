@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.ParticleSystem;
 using Random = UnityEngine.Random;
+using System.Runtime.CompilerServices;
 
 public delegate void SpawnNotify();
 public delegate void RespawnNotify(GameObject go);
@@ -37,6 +38,7 @@ public class SpawnScript : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        print("spawnscript awoken.");
         //GameObject gm = GameObject.Find("GameManager");
         //GameManager gameManager = gm.GetComponent<GameManager>();
 
@@ -50,15 +52,79 @@ public class SpawnScript : MonoBehaviour
         //gameManager.GameSetup += SpawnPlayers;
     }
 
-    void OnPlayerJoined()
-    {
-        //SpawnPlayer(0, Color.red, 0);
+    
+    void OnPlayerJoined(PlayerInput playerInput) {
+        print("Controller added");
+
+        DeactivateGamepadTankPlayer(playerInput.gameObject);
+
+        SendToPrison(playerInput.gameObject);
+        
+        if (playerCount >= spawn_points.Length) { return; }
+    
+        VirtualSpawnGamepadTankPlayer(playerInput.gameObject, playerCount, teamColors[playerCount]);
+
+        playerCount++;
+    }
+
+    
+    private void SendToPrison(GameObject gamepadTankPlayer) {
+        gamepadTankPlayer.transform.position = new Vector3(0,-10,0);
+    }
+
+    
+    private GameObject VirtualSpawnGamepadTankPlayer(GameObject playerInput, int spawnPoint, Color teamColor) {
+        // Sets-up the gamepad tank player as in SpawnKeyboardPlayer.
+        // "Virtually" since it is automatically instantiated beforehand by the player input controller.
+
+        // Move to spawn position
+        TeleportGamepadTankPlayer(playerInput, spawnPoint);
+
+        // Put player in container
+        playerInput.transform.SetParent(playerContainer.transform);
+
+        // Activate the player (This needs to be done in order to change the teamcolor!)
+        ActivateGamepadTankPlayer(playerInput);
+
+        // // Set players team color
+        playerInput.transform.GetComponent<GamepadTankController>().teamColor = teamColor; // This is not OOP and I'm not sorry!
+
+        // Haven't set healthbar yet..
+
+        // When Tank is Destroyed Respawn the player
+        playerInput.transform.GetComponent<GamepadTankController>().TankDestroyed += RespawnPlayer;
+
+        // Add player to list of spawned players
+        spawnedPlayers.Add(playerInput);
+
+        return playerInput;
+    }
+
+    
+    private void TeleportGamepadTankPlayer(GameObject gamepadTankPlayer, int spawnPoint) {
+        gamepadTankPlayer.transform.position = spawn_points[spawnPoint].transform.position;
+        gamepadTankPlayer.transform.rotation = spawn_points[spawnPoint].transform.rotation;
+    }
+
+    
+    private void ActivateGamepadTankPlayer(GameObject playerInput) {
+        playerInput.transform.GetComponent<CharacterController>().enabled = true;
+        playerInput.transform.GetComponent<TankMovement>().enabled = true;
+        playerInput.transform.GetComponent<GamepadTankController>().enabled = true;
+    }
+
+    
+    private void DeactivateGamepadTankPlayer(GameObject playerInput) {
+        playerInput.transform.GetComponent<CharacterController>().enabled = false;
+        playerInput.transform.GetComponent<GamepadTankController>().enabled = false;
+        playerInput.transform.GetComponent<TankMovement>().enabled = false;
     }
 
     private void Update()
     {
-        // Check if we're in the initial phase
+        // If not in initial phase, end. 
         if (!initialPhase) { return; }
+
         if(initialPhaseTime <= 0)
         {
             //End phase
@@ -69,8 +135,9 @@ public class SpawnScript : MonoBehaviour
         initialPhaseTime -= Time.deltaTime;
         timer.transform.Find("Time").GetComponent<TextMeshProUGUI>().SetText("00:" + string.Format("{0:00}", initialPhaseTime));
 
-        // Check if a keyboard player has joined
+        // Check if a keyboard player has joined, if so, end (because only one keyboard player can join)
         if (keyboardSpawned) { return; }
+
         if (Input.GetKey(KeyCode.Space))
         {
             keyboardSpawned = true;
