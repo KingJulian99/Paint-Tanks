@@ -199,6 +199,7 @@ public class GamepadTankController : MonoBehaviour
     }
 
     public void Revive() {
+        this.rotatingUncontrollably = false;
         this.alive = true;
         this.health = 100;
         OnTankDestroyed();
@@ -211,6 +212,7 @@ public class GamepadTankController : MonoBehaviour
 
     public void RotateUncontrollably() {
         this.rotatingUncontrollably = true;
+        Invoke("Explode", 2f);
     }
 
     public void SetGravity(float gravity) {

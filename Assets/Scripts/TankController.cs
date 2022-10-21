@@ -204,10 +204,6 @@ public class TankController : MonoBehaviour
         // Play particlesystem
         this.explosion.Play();
 
-        // Raycast and paint
-        // Big one below:
-        
-
         // Destroy it all (can change in future) 
         Destroy(this.gameObject, 0.45f);
         
@@ -215,6 +211,11 @@ public class TankController : MonoBehaviour
 
     public void RotateUncontrollably() {
         this.rotatingUncontrollably = true;
+        Invoke("SetHealthToZero", 2f);
+    }
+
+    public void SetHealthToZero() {
+        this.health = 0;
     }
 
     public void SetGravity(float gravity) {

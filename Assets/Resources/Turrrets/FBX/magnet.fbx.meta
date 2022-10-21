@@ -18,12 +18,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: outline
-    second: {fileID: 2100000, guid: ca05dd78b2a0c904c85ede09230d66b5, type: 2}
+    second: {fileID: 2100000, guid: 5d366f998a3e71542a6505543ea28055, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: outline.001
-    second: {fileID: 2100000, guid: cd893e1cc02ea0a4cbf99ee6eeaed181, type: 2}
+    second: {fileID: 2100000, guid: 5d366f998a3e71542a6505543ea28055, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
