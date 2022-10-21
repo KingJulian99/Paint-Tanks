@@ -357,6 +357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 625647465531972397}
   - component: {fileID: 3864608856608140126}
+  - component: {fileID: 8514865033477416867}
   m_Layer: 0
   m_Name: med_map_test_nav_mesh
   m_TagString: Untagged
@@ -481,6 +482,19 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: e589e0e3df3395840a973d3daa7388e4, type: 2}
   m_BuildHeightMesh: 0
+--- !u!114 &8514865033477416867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280753295555314071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80aeb2abe08391d4c89e3eb1fc3dbabf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paintableObject: {fileID: 1248795150786503100}
 --- !u!1 &308019585948680541
 GameObject:
   m_ObjectHideFlags: 0

@@ -260,7 +260,6 @@ public class SpawnScript : MonoBehaviour
 
     private void RespawnPlayers()
     {
-        Debug.Log(respawnQueueKeyboard.Count);
         foreach(Color keyboard in respawnQueueKeyboard)
         {
             int spwn = Random.Range(0, spawn_points.Length);
@@ -270,7 +269,6 @@ public class SpawnScript : MonoBehaviour
             OnRespawnDone(p);
         }
 
-        Debug.Log(respawnQueueGamePad.Count);
         foreach (GameObject gamepad in respawnQueueGamePad)
         {
             int spwn = Random.Range(0, spawn_points.Length);

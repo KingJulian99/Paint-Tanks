@@ -7,12 +7,13 @@ public class PaintCoverageDecider : MonoBehaviour
     public GameObject paintableObject; // (needs to be paintable and all)
     private double[] scores; // Array holding scores for each color R, G and B. 
 
-    // public void Update() {
-    //     if (Input.GetKeyDown("space"))
-    //     {
-    //         print(DecideWinner());
-    //     }
-    // }
+    public void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            print(DecideWinner());
+        }
+    }
 
     public string DecideWinner() {
         scores = new double[3];
