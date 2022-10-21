@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using TMPro;
 using Unity.Multiplayer.Samples.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     private bool gameStart;
     public float gameTime;
+    public GameObject timer;
 
     public GameObject map;
     public GameObject currentMap;
@@ -50,6 +53,11 @@ public class GameManager : MonoBehaviour
         if(gameTime > 0)
         {
             gameTime -= Time.deltaTime;
+
+            float minutes = Mathf.Floor(gameTime/60);
+            float seconds = Mathf.Floor(gameTime % 60);
+
+            timer.transform.Find("Time").GetComponent<TextMeshProUGUI>().SetText(string.Format("{0:00}", minutes) + ":" + string.Format("{0:00}", seconds));
         }
         else
         {

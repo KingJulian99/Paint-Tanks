@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GattlingGunTurretController : MonoBehaviour
+public class GatlingTurretController : MonoBehaviour
 {
     /*
         This GameObject is the turret of the tank, and is assumed to have the structure:
@@ -42,7 +42,7 @@ public class GattlingGunTurretController : MonoBehaviour
 
     void Start()
     {
-        this.barrel = this.gameObject.transform.Find("Barrel").gameObject;
+        this.barrel = this.gameObject.transform.Find("GatlingBase").transform.Find("GatlingBarrels").gameObject;
         this.muzzle = this.barrel.transform.GetChild(0).gameObject;
         this.effectObject = this.muzzle.transform.GetChild(0).gameObject;
         this.shootingEffect = this.effectObject.GetComponent<ParticleSystem>();
@@ -137,7 +137,10 @@ public class GattlingGunTurretController : MonoBehaviour
         shot.GetComponent<BulletController>().Setup(this.teamColor, this.bounceNumber);
         
         // set bullet damage
-        shot.GetComponent<BulletController>().damage = 10;
+        shot.GetComponent<BulletController>().damage = 5;
+
+        // Set paint radius
+        shot.GetComponent<BulletController>().radius *= 0.3f;
     }
 
     public void setBounceNumber(int bounceLimit) {
@@ -155,7 +158,7 @@ public class GattlingGunTurretController : MonoBehaviour
     {
         var t = Resources.Load("Turret", typeof(GameObject));
 
-        GameObject turret = tank.transform.Find("GattlingGun").gameObject;
+        GameObject turret = tank.transform.Find("GatlingTurret").gameObject;
         Transform t_transform = turret.transform;
 
         Destroy(turret);

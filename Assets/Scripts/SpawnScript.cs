@@ -28,6 +28,8 @@ public class SpawnScript : MonoBehaviour
     private GameObject respawnTimer;
     private float respawn;
 
+    private List<Color> respawnQueueKeyboard;
+    private List<GameObject> respawnQueueGamePad;
 
     private float initialPhaseTime;
     private bool initialPhase;
@@ -44,6 +46,8 @@ public class SpawnScript : MonoBehaviour
         print("spawnscript awoken.");
 
         spawnedPlayers = new List<GameObject>();
+        respawnQueueKeyboard = new List<Color>();
+        respawnQueueGamePad = new List<GameObject>();
 
         respawn = RESPAWNTIME;
 
@@ -92,7 +96,7 @@ public class SpawnScript : MonoBehaviour
         // Haven't set healthbar yet..
 
         // When Tank is Destroyed Respawn the player
-        playerInput.transform.GetComponent<GamepadTankController>().TankDestroyed += RespawnPlayer;
+        playerInput.transform.GetComponent<GamepadTankController>().TankDestroyed += RespawnQueue;
 
         // Add player to list of spawned players
         spawnedPlayers.Add(playerInput);
@@ -122,6 +126,19 @@ public class SpawnScript : MonoBehaviour
 
     private void Update()
     {
+        if (!initialPhase)
+        {
+            respawn -= Time.deltaTime;
+            respawnTimer.transform.Find("Time").GetComponent<TextMeshProUGUI>().SetText("00:" + string.Format("{0:00}", respawn));
+
+            if (respawn <= 0)
+            {
+                RespawnPlayers();
+                Debug.Log("Respawn Players");
+                respawn = RESPAWNTIME;
+            }
+        }
+
         // If not in initial phase, end. 
         if (!initialPhase) { return; }
 
@@ -129,6 +146,9 @@ public class SpawnScript : MonoBehaviour
         {
             //End phase
             initialPhase = false;
+
+            timer.transform.Find("Label").GetComponent<TextMeshProUGUI>().SetText("Time:");
+
             SpawnAIs();
         }
 
@@ -195,7 +215,7 @@ public class SpawnScript : MonoBehaviour
         //p.transform.GetComponent<TankController>().SetHealthBar(heathBars[hBarNumber], hBarNumber);
 
         // When Tank is Destroyed Respawn the player
-        p.transform.GetComponent<TankController>().TankDestroyed += RespawnPlayer;
+        p.transform.GetComponent<TankController>().TankDestroyed += RespawnQueue;
 
         // Add player to list of spawned players
         spawnedPlayers.Add(p);
@@ -238,24 +258,39 @@ public class SpawnScript : MonoBehaviour
     }
 
 
-    private void RespawnPlayer(GameObject go)
+    private void RespawnPlayers()
     {
-        if(go.tag == "Tank") {
-
+        Debug.Log(respawnQueueKeyboard.Count);
+        foreach(Color keyboard in respawnQueueKeyboard)
+        {
             int spwn = Random.Range(0, spawn_points.Length);
-            GameObject p = SpawnKeyboardPlayer(spwn, go.transform.GetComponent<TankController>().teamColor);
+            GameObject p = SpawnKeyboardPlayer(spwn, keyboard);
+            respawnQueueKeyboard.Remove(keyboard);
 
             OnRespawnDone(p);
-
-        } else if(go.tag == "GamepadTank") {
-
-            int spwn = Random.Range(0, spawn_points.Length);
-            VirtualSpawnGamepadTankPlayer(go, spwn, go.transform.GetComponent<GamepadTankController>().teamColor);
-
-            OnRespawnDone(go);
-
         }
-        
+
+        Debug.Log(respawnQueueGamePad.Count);
+        foreach (GameObject gamepad in respawnQueueGamePad)
+        {
+            int spwn = Random.Range(0, spawn_points.Length);
+            VirtualSpawnGamepadTankPlayer(gamepad, spwn, gamepad.transform.GetComponent<GamepadTankController>().teamColor);
+            respawnQueueGamePad.Remove(gamepad);
+
+            OnRespawnDone(gamepad);
+        }        
+    }
+
+    private void RespawnQueue(GameObject go)
+    {
+        if (go.tag == "Tank")
+        {
+            respawnQueueKeyboard.Add(go.transform.GetComponent<TankController>().teamColor);
+        }
+        else if (go.tag == "GamepadTank")
+        {
+            respawnQueueGamePad.Add(go);
+        }
     }
 
     private void RespawnAI(GameObject go)

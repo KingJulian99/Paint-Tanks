@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 844419751718583802}
   - component: {fileID: 7668803792099679078}
   m_Layer: 0
-  m_Name: GattlingGunPowerUp
+  m_Name: GatlingTurretPowerUp
   m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

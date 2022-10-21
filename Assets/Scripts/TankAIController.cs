@@ -185,7 +185,6 @@ public class TankAIController : MonoBehaviour
         // Check if target is not dead
         if (target != null) { return target; }
 
-        Debug.Log(targets.Count);
         // Assign new target
         if (targets.Count > 0)
         {
@@ -221,7 +220,6 @@ public class TankAIController : MonoBehaviour
 
     protected virtual void OnVictory()
     {
-        Debug.Log("Victory");
         Victory?.Invoke();
     }
 

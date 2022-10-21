@@ -42,7 +42,7 @@ public class BigShotTurretController : MonoBehaviour
 
     void Start()
     {
-        this.barrel = this.gameObject.transform.Find("Barrel").gameObject;
+        this.barrel = this.gameObject.transform.Find("BigShotBase").transform.Find("BigShotBarrel").gameObject;
         this.muzzle = this.barrel.transform.GetChild(0).gameObject;
         this.effectObject = this.muzzle.transform.GetChild(0).gameObject;
         this.shootingEffect = this.effectObject.GetComponent<ParticleSystem>();
@@ -138,6 +138,9 @@ public class BigShotTurretController : MonoBehaviour
         
         // set bullet damage
         shot.GetComponent<BulletController>().damage = 50;
+
+        // Set paint radius
+        shot.GetComponent<BulletController>().radius *= 2;
     }
 
     public void setBounceNumber(int bounceLimit) {
