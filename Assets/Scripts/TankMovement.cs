@@ -9,6 +9,9 @@ public class TankMovement : MonoBehaviour
 
     // public PlayerControls controls;
 
+    public float RELOADTIME = 0.1f;
+    private float reloadTime;
+
     private GamepadTurretController turretController;
 
     private bool forward;
@@ -30,12 +33,29 @@ public class TankMovement : MonoBehaviour
     private Vector3 driveTarget;
     private bool drive;
 
+    private bool canShoot;
+
     void Awake() {
         turretController = this.transform.GetChild(0).GetComponent<GamepadTurretController>();
+        canShoot = true;
+        reloadTime = RELOADTIME;
     }
 
 
     void Update() {
+
+        if (!canShoot)
+        {
+            if (reloadTime > 0)
+            {
+                reloadTime -= Time.deltaTime;
+            }
+            else
+            {
+                reloadTime = RELOADTIME;
+                canShoot = true;
+            }
+        }
 
         if (m_PlayerInput == null)
         {
@@ -73,7 +93,10 @@ public class TankMovement : MonoBehaviour
         };
 
         m_Shoot.performed += context => {
-            this.turretController.Shoot();
+            if(canShoot) {
+                this.turretController.Shoot();
+                canShoot = false;
+            }
         };
 
         

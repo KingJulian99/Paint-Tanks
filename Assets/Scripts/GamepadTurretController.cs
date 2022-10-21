@@ -48,7 +48,7 @@ public class GamepadTurretController : MonoBehaviour
         this.tankController = this.gameObject.transform.parent.gameObject.GetComponent<GamepadTankController>();
         this.teamColor = tankController.teamColor;
         this.bounceNumber = tankController.bounceNumber;
-        this.maxRotationSpeed = 10f;
+        this.maxRotationSpeed = 30f;
     }
 
     void Update()
@@ -66,7 +66,7 @@ public class GamepadTurretController : MonoBehaviour
 
         // Debug.DrawLine(this.transform.position, this.transform.position + this.transform.forward * 10, Color.red);
 
-        this.transform.Rotate(new Vector3(0, this.GetAngleBetweenBarrelAndPoint(heightCorrectedPoint) * this.maxRotationSpeed * Time.deltaTime * (distanceToTarget * 0.5f), 0));
+        this.transform.Rotate(new Vector3(0, this.GetAngleBetweenBarrelAndPoint(heightCorrectedPoint) * this.maxRotationSpeed * Time.deltaTime * (distanceToTarget * 0.8f), 0));
 
     }
 

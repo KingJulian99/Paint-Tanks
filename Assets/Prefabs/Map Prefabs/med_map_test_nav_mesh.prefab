@@ -1395,7 +1395,7 @@ GameObject:
   - component: {fileID: 1099999089407351226}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -5385,7 +5385,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 8383800240097368997, guid: d15e5a75ec150a74783b6dff4c61c092, type: 3}
+  m_PlayerPrefab: {fileID: 5949843834763458127, guid: e2604915e1569f040aa6a8cb0c726c94, type: 3}
   m_SplitScreen: 0
   m_MaintainAspectRatioInSplitScreen: 0
   m_FixedNumberOfSplitScreens: -1

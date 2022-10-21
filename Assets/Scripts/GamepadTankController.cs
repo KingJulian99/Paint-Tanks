@@ -91,6 +91,7 @@ public class GamepadTankController : MonoBehaviour
     }
 
     public void GroundPaintCheck() {
+        print("groundpaint check for gamepad tank");
         /*
             This function casts a ray below the center of the tank, getting the color directly below.
             If the color is deemed to be that of another team, the tank is slowed.
@@ -106,7 +107,11 @@ public class GamepadTankController : MonoBehaviour
         // Do check here
         if(hit.collider.tag == "Ground") {
 
+            print("hit ground");
+
             if (rend == null || rend.sharedMaterial == null || rend.sharedMaterial.GetTexture("_MaskTexture") == null || meshCollider == null) {return;}
+
+            print("passed checks");
 
             RenderTexture rendTex = rend.material.GetTexture("_MaskTexture") as RenderTexture;
             RenderTexture.active = rendTex;
@@ -122,8 +127,8 @@ public class GamepadTankController : MonoBehaviour
 
             // Do color difference.
             string colorBelow = GetTeamColor(tex.GetPixel((int)pixelUV.x, (int)pixelUV.y));
+            print(colorBelow);
             if(colorBelow != "none" && colorBelow != GetTeamColor(this.teamColor)) {
-                this.driveSpeed = 3.0f;
                 this.tankMovement.slowDown = 2.0f;
                 if(!this.alertEffect.isPlaying) {
                     this.alertEffect.Play();
@@ -132,8 +137,7 @@ public class GamepadTankController : MonoBehaviour
                     this.alertEffectRemove.Pause();
                     this.alertEffectRemove.Clear();
                 }
-            } else {
-                this.driveSpeed = 5.0f; 
+            } else { 
                 this.tankMovement.slowDown = 0.0f;
                 if(this.alertEffect.isPlaying) {
                     this.alertEffect.Pause();
