@@ -24,7 +24,7 @@ public class MainMenuBGM : MonoBehaviour
 
         mainMenuBGM = GetComponent<AudioSource>();
         mainMenuBGM.volume = bmgvolume;
-        mainMenuBGM.Play();
+        mainMenuBGM.Play(); //startplaying the BGM on a loop
 
     }
 
