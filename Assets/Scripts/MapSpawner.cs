@@ -8,10 +8,10 @@ public class MapSpawner : MonoBehaviour
 {
     [SerializeField]
     private GameObject paintManager;
-    //[SerializeField]
-    //private List<GameObject> healthBars;
     [SerializeField]
     private GameObject timer;
+    [SerializeField]
+    private GameObject respawnTimer;
 
     private GameManager manager;
 
@@ -23,7 +23,7 @@ public class MapSpawner : MonoBehaviour
         Instantiate(paintManager);
 
         // Create map
-        manager.currentMap = Instantiate(manager.map, new Vector3(0, 0, 0), manager.map.transform.rotation);
+        manager.currentMap = Instantiate(manager.map, manager.map.transform.position, manager.map.transform.rotation);
 
         manager.teamColors = new List<Color>();
 
@@ -38,8 +38,8 @@ public class MapSpawner : MonoBehaviour
         //}
 
         manager.currentMap.transform.Find("SpawnManager").GetComponent<SpawnScript>().SetTeamColors(manager.teamColors);
-        //manager.currentMap.transform.Find("SpawnManager").GetComponent< SpawnScript>().SetHealthBars(healthBars);
         manager.currentMap.transform.Find("SpawnManager").GetComponent<SpawnScript>().SetTimer(timer);
+        manager.currentMap.transform.Find("SpawnManager").GetComponent<SpawnScript>().SetRespawnTimer(respawnTimer);
 
         // Load Powerups
         manager.powerUps = Resources.LoadAll("PowerUps", typeof(GameObject));

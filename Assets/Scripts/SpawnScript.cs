@@ -13,6 +13,8 @@ public delegate void RespawnNotify(GameObject go);
 
 public class SpawnScript : MonoBehaviour
 {
+    private const float RESPAWNTIME = 10f;
+
     [SerializeField]
     private GameObject ai, player, playerContainer;
 
@@ -22,8 +24,9 @@ public class SpawnScript : MonoBehaviour
     private List<Color> teamColors;
 
     private List<GameObject> spawnedPlayers;
-    //private List<GameObject> heathBars;
     private GameObject timer;
+    private GameObject respawnTimer;
+    private float respawn;
 
 
     private float initialPhaseTime;
@@ -39,17 +42,14 @@ public class SpawnScript : MonoBehaviour
     private void Awake()
     {
         print("spawnscript awoken.");
-        //GameObject gm = GameObject.Find("GameManager");
-        //GameManager gameManager = gm.GetComponent<GameManager>();
 
         spawnedPlayers = new List<GameObject>();
-        //heathBars = new List<GameObject>();
+
+        respawn = RESPAWNTIME;
 
         initialPhaseTime = 10f;
         initialPhase = true;
         keyboardSpawned = false;
-
-        //gameManager.GameSetup += SpawnPlayers;
     }
 
     
@@ -273,5 +273,10 @@ public class SpawnScript : MonoBehaviour
     public void SetTimer(GameObject timer)
     {
         this.timer = timer;
+    }
+
+    public void SetRespawnTimer(GameObject respawnTimer)
+    {
+        this.respawnTimer = respawnTimer;
     }
 }
