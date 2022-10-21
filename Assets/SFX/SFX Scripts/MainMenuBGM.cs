@@ -31,4 +31,13 @@ public class MainMenuBGM : MonoBehaviour
     public void MuteBGM(){
         mainMenuBGM.volume = 0.0f;
     }
+
+    void Update(){
+        float musicVolume;
+        if (PlayerPrefs.HasKey("bgmvolume"))
+        {
+            musicVolume = PlayerPrefs.GetFloat("bgmvolume");
+            mainMenuBGM.volume = musicVolume;
+        }
+    }
 }
