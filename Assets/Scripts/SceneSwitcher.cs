@@ -37,4 +37,8 @@ public class SceneSwitcher : MonoBehaviour
     public void LoadPowersMenu(){
         SceneManager.LoadScene("PowersMenu");
     }
+    //to go to the powerups menu
+    public void LoadPowerupsMenu(){
+        SceneManager.LoadScene("Powerups");
+    }
 }
