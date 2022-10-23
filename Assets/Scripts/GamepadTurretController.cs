@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GamepadTurretController : MonoBehaviour
 {
@@ -34,6 +35,12 @@ public class GamepadTurretController : MonoBehaviour
     private GamepadTankController tankController;
     private int bounceNumber;
     private Color teamColor;
+
+    private PlayerInput m_PlayerInput;
+    private InputAction m_Shoot;
+    public float RELOADTIME = 0.1f;
+    private float reloadTime;
+    private bool canShoot;
     
     
     void Start()
@@ -49,11 +56,41 @@ public class GamepadTurretController : MonoBehaviour
         this.teamColor = tankController.teamColor;
         this.bounceNumber = tankController.bounceNumber;
         this.maxRotationSpeed = 30f;
+
+        canShoot = true;
+        reloadTime = RELOADTIME;
     }
 
     void Update()
     {
         this.LookAt();
+
+        if (!canShoot)
+        {
+            if (reloadTime > 0)
+            {
+                reloadTime -= Time.deltaTime;
+            }
+            else
+            {
+                reloadTime = RELOADTIME;
+                canShoot = true;
+            }
+        }
+
+        if (m_PlayerInput == null)
+        {
+            m_PlayerInput = this.transform.parent.GetComponent<PlayerInput>();
+            m_Shoot = m_PlayerInput.actions["Shoot"];
+        }
+
+        m_Shoot.performed += Shoot;
+    }
+
+    void OnDestroy() {
+
+        m_Shoot.performed -= Shoot;
+
     }
 
     void LookAt() {
@@ -78,24 +115,32 @@ public class GamepadTurretController : MonoBehaviour
         return -Vector3.SignedAngle(directionToPoint, this.transform.forward, Vector3.up);
     }
 
-    public void Shoot() {
-        // Smoke 😎🚬
-        this.shootingEffect.Play();
+    public void Shoot(InputAction.CallbackContext ctx) {
 
-        // Animate
-        this.barrel.GetComponent<Animator>().SetTrigger("Shoot");
+        if(canShoot) {
 
-        // Get number of bounces
-        this.setBounceNumber(this.tankController.bounceNumber);
+            // Smoke 😎🚬
+            this.shootingEffect.Play();
 
-        // Set team color
-        this.setTeamColor(this.tankController.teamColor);
+            // Animate
+            this.barrel.GetComponent<Animator>().SetTrigger("Shoot");
 
-        // Skiet mos
-        GameObject shot = Instantiate(projectile, this.muzzle.transform.position, this.muzzle.transform.rotation);
+            // Get number of bounces
+            this.setBounceNumber(this.tankController.bounceNumber);
 
-        // Set Color for the bullet, paint, paint explosion and amount of bounces left.
-        shot.GetComponent<BulletController>().Setup(this.teamColor, this.bounceNumber);
+            // Set team color
+            this.setTeamColor(this.tankController.teamColor);
+
+            // Skiet mos
+            GameObject shot = Instantiate(projectile, this.muzzle.transform.position, this.muzzle.transform.rotation);
+
+            // Set Color for the bullet, paint, paint explosion and amount of bounces left.
+            shot.GetComponent<BulletController>().Setup(this.teamColor, this.bounceNumber);
+
+            // Bro chill
+            canShoot = false;
+
+        }
        
     }
 

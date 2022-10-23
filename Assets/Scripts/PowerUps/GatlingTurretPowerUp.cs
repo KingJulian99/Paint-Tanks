@@ -12,6 +12,13 @@ public class GatlingTurretPowerUp : MonoBehaviour
 
             DespawnPowerUp();
         }
+
+        if (collider.gameObject.tag == "GamepadTank" && collider.gameObject.transform.Find("Turret").gameObject != null)
+        {
+            SpawnGamepadTurret(collider.gameObject);
+
+            DespawnPowerUp();
+        }
     }
 
     private void SpawnTurret(GameObject tank)
@@ -29,6 +36,24 @@ public class GatlingTurretPowerUp : MonoBehaviour
             new_t.transform.SetParent(tank.transform);
             new_t.name = "GatlingTurret";
             new_t.GetComponent<GatlingTurretController>().setTeamColor(Color.magenta);
+        }
+    }
+
+    private void SpawnGamepadTurret(GameObject tank)
+    {
+        var t = Resources.Load("GamepadGatlingTurret", typeof(GameObject));
+
+        GameObject turret = tank.transform.Find("Turret").gameObject;
+        Transform t_transform = turret.transform;
+
+        Destroy(turret);
+
+        if (t != null)
+        {
+            GameObject new_t = Instantiate(t, t_transform) as GameObject;
+            new_t.transform.SetParent(tank.transform);
+            new_t.name = "GamepadGatlingTurret";
+            new_t.GetComponent<GamepadGatlingTurretController>().setTeamColor(Color.magenta);
         }
     }
 

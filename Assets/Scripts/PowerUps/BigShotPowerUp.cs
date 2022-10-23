@@ -12,6 +12,32 @@ public class BigShotPowerUp : MonoBehaviour
 
             DespawnPowerUp();
         }
+
+        if (collider.gameObject.tag == "GamepadTank" && collider.gameObject.transform.Find("Turret").gameObject != null) // cant pickup second
+        {
+            SpawnGamepadTurret(collider.gameObject);
+
+            DespawnPowerUp();
+        }
+    }
+
+    private void SpawnGamepadTurret(GameObject tank) {
+
+        var t = Resources.Load("GamepadBigShot", typeof(GameObject));
+
+        GameObject turret = tank.transform.Find("Turret").gameObject;
+        Transform t_transform = turret.transform;
+
+        Destroy(turret);
+
+        if (t != null)
+        {
+            GameObject new_t = Instantiate(t, t_transform) as GameObject;
+            new_t.transform.SetParent(tank.transform);
+            new_t.name = "GamepadBigShot";
+            new_t.GetComponent<GamepadBigShotTurretController>().setTeamColor(Color.magenta);
+        }
+
     }
 
     private void SpawnTurret(GameObject tank)
