@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public delegate void GameSetupNotify();
+public delegate void GameOverNotify(out string winner);
 
 public class GameManager : MonoBehaviour
 {
@@ -28,18 +29,22 @@ public class GameManager : MonoBehaviour
 
     public List<Color> teamColors;
 
+    private string winner;
+
     public event GameSetupNotify GameSetup;
+    public event GameOverNotify GameOver;
 
     // Start is called before the first frame update
     void Start()
     {
         gameStart = false;
+        gameTime = 20f;
 
         if (playButton != null)
         {
             playButton.onClick.AddListener(() =>
             {
-                this.SetupGame(180f);
+                this.SetupGame();
             });
         }
 
@@ -62,11 +67,16 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            GameOver();
+            // What happens when the game ends after the timer hits 0
+            OnGameOver();
+
+            SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
+
+            gameStart = false;
         }
     }
 
-    public void SetupGame(float gameTime)
+    public void SetupGame()
     {
         map = mapPanel.GetComponent<MapSelector>().GetSelectedMap();
         mapName = mapPanel.GetComponent<MapSelector>().mapName;
@@ -80,10 +90,14 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
     }
 
-    // What happens when the game ends after the timer hits 0
-    private void GameOver()
+    private void OnGameOver()
     {
-        Debug.Log("Game Over");
+        GameOver?.Invoke(out winner);
+    }
+
+    public string GetWinner()
+    {
+        return winner;
     }
 
     public virtual void OnGameSetup()

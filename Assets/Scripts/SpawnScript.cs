@@ -43,8 +43,6 @@ public class SpawnScript : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        print("spawnscript awoken.");
-
         spawnedPlayers = new List<GameObject>();
         respawnQueueKeyboard = new List<Color>();
         respawnQueueGamePad = new List<GameObject>();

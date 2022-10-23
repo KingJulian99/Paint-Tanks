@@ -48,7 +48,6 @@ public class MapSpawner : MonoBehaviour
         manager.powerUps = Resources.LoadAll("PowerUps", typeof(GameObject));
         manager.currentMap.transform.Find("PowerUpSpawner").GetComponent<PowerUpSpawnerScript>().SetPowerUps(manager.powerUps);
 
-        manager.gameTime = 180f;
         manager.timer = timer;
 
         manager.OnGameSetup();

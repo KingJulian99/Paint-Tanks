@@ -7,15 +7,21 @@ public class PaintCoverageDecider : MonoBehaviour
     public GameObject paintableObject; // (needs to be paintable and all)
     private double[] scores; // Array holding scores for each color R, G and B. 
 
-    public void Update()
+    //public void Update()
+    //{
+    //    if (Input.GetKeyDown("space"))
+    //    {
+    //        print(DecideWinner());
+    //    }
+    //}
+
+    private void Start()
     {
-        if (Input.GetKeyDown("space"))
-        {
-            print(DecideWinner());
-        }
+        GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gm.GameOver += DecideWinner;
     }
 
-    public string DecideWinner() {
+    public void DecideWinner(out string winner) {
         scores = new double[3];
 
         RenderTexture renderTex = paintableObject.GetComponent<Renderer>().material.GetTexture("_MaskTexture") as RenderTexture;
@@ -38,16 +44,18 @@ public class PaintCoverageDecider : MonoBehaviour
 
         // Return winner!
         if(scores[0] == 0 && scores[1] == 0 && scores[2] == 0) {
-            return "none";
+            winner = "none";
         } else if(scores[0] >= scores[1] && scores[0] >= scores[2]) {
-            return "red";
+            winner = "red";
         } else if(scores[1] >= scores[0] && scores[1] >= scores[2]) {
-            return "green";
+            winner = "green";
         } else if(scores[2] >= scores[0] && scores[2] >= scores[1]) {
-            return "blue";
+            winner = "blue";
         }
-
-        return "none";
+        else
+        {
+            winner = "none";
+        }
     }
 
     private int GetTeamCodeColor(Color32 color) {

@@ -7,7 +7,7 @@ public class TripleBarrelPowerUp : MonoBehaviour
 {
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == "Tank" && collider.gameObject.transform.Find("Turret").gameObject != null)
+        if (collider.gameObject.tag == "Tank" && collider.gameObject.transform.Find("Turret") != null)
         {
             SpawnTurret(collider.gameObject);
 
