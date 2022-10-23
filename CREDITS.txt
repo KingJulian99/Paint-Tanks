@@ -1,0 +1,32 @@
+Paint Tanks
+____________________________________________
+Outside Sources
+
+Paint System
+Skeleton of implimentation came from TNTC at https://www.youtube.com/watch?v=YUWfHX_ZNCw (notable the shader specific method)
+With alterations by us to get it into a working and usable state for the other mechanics.
+
+.wavs
+FREE Sound assets were all taken from unity asset store. Licenses for these sounds can be found in Assets/SFX.
+Only ~8 .wavs were used.
+
+Art
+Thanks to Dall-e-2 for making the endscreen splash art ("winner!") and the paint tank background art.
+For free of course.
+https://openai.com/dall-e-2/
+
+____________________________________________
+Team
+
+Julian:
+Paint system, Controllers
+
+Reece:
+Assets, sounds, design.
+
+Hezekiah:
+Ai, Powerups
+
+____________________________________________
+
+#ALL 3D/2D assets (tanks, powerups, maps, button sprites etc) were made by us.
