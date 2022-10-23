@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gameStart = false;
-        gameTime = 20f;
+        gameTime = 180f;
 
         if (playButton != null)
         {

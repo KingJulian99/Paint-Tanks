@@ -183,19 +183,38 @@ public class TankAIController : MonoBehaviour
     private GameObject GetTarget()
     {
         // Check if target is not dead
-        if (target != null) { return target; }
+        //if (target != null) { return target; }
 
         // Assign new target
         if (targets.Count > 0)
         {
-            int spwn = Random.Range(0, targets.Count);
-            GameObject t = targets[spwn];
+            GameObject t = GetClosest();
 
             return t;
         }
 
         OnVictory();
         return null;
+    }
+
+    private GameObject GetClosest()
+    {
+        List<float> distance = new List<float>();
+        foreach(GameObject t in targets)
+        {
+            distance.Add(Vector3.Distance(gameObject.transform.position, t.transform.position));
+        }
+
+        int min = 0;
+        for (int i = 0; i < targets.Count; i++)
+        {
+            if (distance[i] <= distance[min])
+            {
+                min = i;
+            }
+        }
+
+        return targets[min];
     }
 
     // Updates the list of targets by removing players that aren't
