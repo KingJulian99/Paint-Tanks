@@ -29,4 +29,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game Maps/LargeJapan.unity
     guid: b4ff01ef36295194eb7cdfbf8f31237d
+  - enabled: 1
+    path: Assets/Scenes/OptionsMenu.unity
+    guid: d834f51a8bd6c4d499232c84cca39eb2
+  - enabled: 1
+    path: Assets/Scenes/Powerups.unity
+    guid: 5ad36f43bac086d47944c45a8a04b442
   m_configObjects: {}

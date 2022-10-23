@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b378659992751954eb6eb077b43d26da
+guid: 03e483f0e74ece64f835550577fb0df3
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,13 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: MagnetBase
-    second: {fileID: 2100000, guid: 7138bd62b996b5646b958aac4156b41d, type: 2}
+      name: Material
+    second: {fileID: 2100000, guid: 5e05e898ffa456141ba98a5fd35584a6, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: 34b9338586733f040a8eb718c4ff3cf8, type: 2}
+      name: Railgun
+    second: {fileID: 2100000, guid: 9bec449008f18ca4da9f01bafd8b0d64, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
