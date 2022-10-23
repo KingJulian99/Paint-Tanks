@@ -29,16 +29,16 @@ public class SceneSwitcher : MonoBehaviour
     public void LoadOptionsMenu(){
         SceneManager.LoadScene("OptionsMenu");
     }
-    //to go to the tips section
-    public void LoadTipsMenu(){
-        SceneManager.LoadScene("TipsMenu");
-    }
     //to go to the powerups menu
     public void LoadPowerupsMenu(){
         SceneManager.LoadScene("Powerups");
     }
-    //to go back to main menu
+    //to go back to game setup
     public void LoadSettings(){
         SceneManager.LoadScene("GameSettings");
+    }
+    //to go back to tips
+    public void LoadTips(){
+        SceneManager.LoadScene("Tips");
     }
 }
