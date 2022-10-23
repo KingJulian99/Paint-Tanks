@@ -9,10 +9,10 @@ public class TankMovement : MonoBehaviour
 
     // public PlayerControls controls;
 
-    public float RELOADTIME = 0.1f;
-    private float reloadTime;
+    // public float RELOADTIME = 0.1f;
+    // private float reloadTime;
 
-    private GamepadTurretController turretController;
+    // private GamepadTurretController turretController;
 
     private bool forward;
     private bool backward;
@@ -28,34 +28,34 @@ public class TankMovement : MonoBehaviour
     private InputAction m_ForwardAction;
     private InputAction m_BackwardAction;
     private InputAction m_RotateBody;
-    private InputAction m_Shoot;
+    // private InputAction m_Shoot;
 
     private Vector3 driveTarget;
     private bool drive;
 
-    private bool canShoot;
+    // private bool canShoot;
 
     void Awake() {
-        turretController = this.transform.GetChild(0).GetComponent<GamepadTurretController>();
-        canShoot = true;
-        reloadTime = RELOADTIME;
+        // turretController = this.transform.GetChild(0).GetComponent<GamepadTurretController>();
+        // canShoot = true;
+        // reloadTime = RELOADTIME;
     }
 
 
     void Update() {
 
-        if (!canShoot)
-        {
-            if (reloadTime > 0)
-            {
-                reloadTime -= Time.deltaTime;
-            }
-            else
-            {
-                reloadTime = RELOADTIME;
-                canShoot = true;
-            }
-        }
+        // if (!canShoot)
+        // {
+        //     if (reloadTime > 0)
+        //     {
+        //         reloadTime -= Time.deltaTime;
+        //     }
+        //     else
+        //     {
+        //         reloadTime = RELOADTIME;
+        //         canShoot = true;
+        //     }
+        // }
 
         if (m_PlayerInput == null)
         {
@@ -63,7 +63,7 @@ public class TankMovement : MonoBehaviour
             m_ForwardAction = m_PlayerInput.actions["Forward"];
             m_BackwardAction = m_PlayerInput.actions["Backward"];
             m_RotateBody = m_PlayerInput.actions["RotateBody"];
-            m_Shoot = m_PlayerInput.actions["Shoot"];
+            // m_Shoot = m_PlayerInput.actions["Shoot"];
         }
 
         m_ForwardAction.performed += context => {
@@ -92,12 +92,12 @@ public class TankMovement : MonoBehaviour
             this.rotateBodyDirection = Vector2.zero;
         };
 
-        m_Shoot.performed += context => {
-            if(canShoot) {
-                this.turretController.Shoot();
-                canShoot = false;
-            }
-        };
+        // m_Shoot.performed += context => {
+        //     if(canShoot) {
+        //         this.turretController.Shoot();
+        //         canShoot = false;
+        //     }
+        // };
 
         
         //Tank movements
