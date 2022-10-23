@@ -34,9 +34,11 @@ public class AutoAim : MonoBehaviour
         }
         else
         {
-            GetComponent<AutoAimTurretController>().enabled = true;
-            GetComponent<TurretController>().enabled = false;
-            autoAim = true;
+            if (PlayerPrefs.GetFloat("autoaim") == 1){
+                GetComponent<AutoAimTurretController>().enabled = true;
+                GetComponent<TurretController>().enabled = false;
+                autoAim = true;
+            }
         }
     }
 }
