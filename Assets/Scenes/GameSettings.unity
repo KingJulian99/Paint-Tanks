@@ -2056,6 +2056,7 @@ MonoBehaviour:
   playButton: {fileID: 612220098}
   mapPanel: {fileID: 762834088}
   gameTime: 0
+  timer: {fileID: 0}
   map: {fileID: 0}
   currentMap: {fileID: 0}
   powerUps: []
