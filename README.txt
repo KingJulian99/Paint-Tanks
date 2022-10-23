@@ -1,0 +1,1 @@
+Nothing Special. Start from 'mainmenu' scene in assets/scenes.
