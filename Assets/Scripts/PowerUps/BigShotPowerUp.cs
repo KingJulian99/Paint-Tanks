@@ -13,7 +13,7 @@ public class BigShotPowerUp : MonoBehaviour
             DespawnPowerUp();
         }
 
-        if (collider.gameObject.tag == "GamepadTank" && collider.gameObject.transform.Find("Turret").gameObject != null)
+        if (collider.gameObject.tag == "GamepadTank" && collider.gameObject.transform.Find("Turret").gameObject != null) // cant pickup second
         {
             SpawnGamepadTurret(collider.gameObject);
 
