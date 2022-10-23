@@ -5368,7 +5368,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0e8d10608a83134891d5a945028bd14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RELOADTIME: 1
   slowDown: 0
 --- !u!114 &6307112822596709506
 MonoBehaviour:
@@ -10401,7 +10400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8540841165860928547, guid: acc73a9d825b91d4e833911cb7cb50e6, type: 3}
       propertyPath: m_Name
-      value: Turret
+      value: GamepadTurret
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1923140751600086039, guid: acc73a9d825b91d4e833911cb7cb50e6, type: 3}
@@ -10428,6 +10427,7 @@ MonoBehaviour:
   maxRotationSpeed: 0
   viewCamera: {fileID: 0}
   projectile: {fileID: 8711198788665320963, guid: b78524c424e58194f88eef765c96a4ec, type: 3}
+  RELOADTIME: 0.1
 --- !u!4 &7645208779328106666 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1549923007441793306, guid: acc73a9d825b91d4e833911cb7cb50e6, type: 3}

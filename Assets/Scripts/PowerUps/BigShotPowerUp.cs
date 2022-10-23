@@ -13,7 +13,7 @@ public class BigShotPowerUp : MonoBehaviour
             DespawnPowerUp();
         }
 
-        if (collider.gameObject.tag == "GamepadTank" && collider.gameObject.transform.Find("Turret").gameObject != null) // cant pickup second
+        if (collider.gameObject.tag == "GamepadTank" && collider.gameObject.transform.Find("GamepadTurret").gameObject != null) // cant pickup second
         {
             SpawnGamepadTurret(collider.gameObject);
 
@@ -25,7 +25,7 @@ public class BigShotPowerUp : MonoBehaviour
 
         var t = Resources.Load("GamepadBigShot", typeof(GameObject));
 
-        GameObject turret = tank.transform.Find("Turret").gameObject;
+        GameObject turret = tank.transform.Find("GamepadTurret").gameObject;
         Transform t_transform = turret.transform;
 
         Destroy(turret);
@@ -35,7 +35,7 @@ public class BigShotPowerUp : MonoBehaviour
             GameObject new_t = Instantiate(t, t_transform) as GameObject;
             new_t.transform.SetParent(tank.transform);
             new_t.name = "GamepadBigShot";
-            new_t.GetComponent<GamepadBigShotTurretController>().setTeamColor(Color.magenta);
+            // new_t.GetComponent<GamepadBigShotTurretController>().setTeamColor(Color.magenta);
         }
 
     }
