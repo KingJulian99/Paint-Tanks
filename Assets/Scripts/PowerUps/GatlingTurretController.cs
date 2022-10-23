@@ -83,6 +83,7 @@ public class GatlingTurretController : MonoBehaviour
         // Check if reload is complete 
         if(Input.GetMouseButtonDown(0) && canShoot) {
             this.Shoot();
+            TankSounds.PlayMggun();
             canShoot = false;
         }
 

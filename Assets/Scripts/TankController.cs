@@ -102,6 +102,7 @@ public class TankController : MonoBehaviour
             
             OnTankDestroyed();
             Explode();
+            TankSounds.PlayDeath(); // death sound
         }
 
         if(this.health <= 0) {

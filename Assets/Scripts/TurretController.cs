@@ -70,6 +70,7 @@ public class TurretController : MonoBehaviour
         // Check if reload is complete 
         if(Input.GetMouseButtonDown(0) && canShoot) {
             this.Shoot();
+            TankSounds.PlayShoot();
             canShoot = false;
         }
 

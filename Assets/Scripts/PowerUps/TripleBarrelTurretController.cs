@@ -93,6 +93,9 @@ public class TripleBarrelTurretController : MonoBehaviour
         // Check if reload is complete 
         if(Input.GetMouseButtonDown(0) && canShoot) {
             this.Shoot();
+            TankSounds.PlayShoot();
+            TankSounds.PlayShoot();
+            TankSounds.PlayShoot();
             canShoot = false;
         }
 

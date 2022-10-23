@@ -119,6 +119,7 @@ public class RailGunTurretController : MonoBehaviour
     void Shoot() {
         // Smoke 😎🚬
         this.shootingEffect.Play();
+        TankSounds.PlayElectric();
 
         // Animate
         this.barrel.GetComponent<Animator>().SetTrigger("Shoot");

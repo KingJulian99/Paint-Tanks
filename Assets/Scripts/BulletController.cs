@@ -63,6 +63,7 @@ public class BulletController : MonoBehaviour
 
         // Get other paintable object if available
         Paintable p = other.collider.GetComponent<Paintable>();
+        TankSounds.PlayBounce();
 
         this.bouncesLeft--;
 
@@ -91,6 +92,7 @@ public class BulletController : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         if(other.gameObject.tag == "Tank") {
+            TankSounds.PlayGettinghit();
             // Take health from the other tank 🔪 (if it's on a different team!)
             if((other.gameObject.GetComponent<TankController>().teamColor != this.paintColor)) {
                 other.gameObject.GetComponent<TankController>().health -= damage;
@@ -102,6 +104,7 @@ public class BulletController : MonoBehaviour
         }
 
         if(other.gameObject.tag == "GamepadTank") {
+            TankSounds.PlayGettinghit();
             // Take health from the other tank 🔪 (if it's on a different team!)
             if((other.gameObject.GetComponent<GamepadTankController>().teamColor != this.paintColor)) {
                 other.gameObject.GetComponent<GamepadTankController>().health -= damage;
@@ -114,6 +117,7 @@ public class BulletController : MonoBehaviour
         
         if(other.gameObject.tag == "AI")
         {
+            TankSounds.PlayGettinghit();
             if ((other.gameObject.GetComponent<TankAIController>().teamColor != this.paintColor))
             {
                 other.gameObject.GetComponent<TankAIController>().health -= damage;

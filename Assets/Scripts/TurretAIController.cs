@@ -75,6 +75,7 @@ public class TurretAIController : MonoBehaviour
         // and there is line of sight target
         if(this.angle < 10 && this.canShoot && this.lineOfSight) {
             this.Shoot();
+            TankSounds.PlayShoot();
             this.canShoot = false;
         }
 

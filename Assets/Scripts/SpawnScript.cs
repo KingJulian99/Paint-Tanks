@@ -176,6 +176,7 @@ public class SpawnScript : MonoBehaviour
         // Spawn AI at subsequent spawn points
         for (int i = 1; i < spawn_points.Length; i++)
         {
+            TankSounds.PlayHeal();
             SpawnAI(i, teamColors[i]);
         }
 
@@ -217,6 +218,7 @@ public class SpawnScript : MonoBehaviour
 
         // Add player to list of spawned players
         spawnedPlayers.Add(p);
+        TankSounds.PlayHeal();
 
         return p;
     }
@@ -240,6 +242,7 @@ public class SpawnScript : MonoBehaviour
 
         // Add player to list of spawned players
         spawnedPlayers.Add(p);
+        TankSounds.PlayHeal();
 
         return p;
     }
@@ -260,6 +263,7 @@ public class SpawnScript : MonoBehaviour
     {
         foreach(Color keyboard in respawnQueueKeyboard)
         {
+            TankSounds.PlayHeal();
             int spwn = Random.Range(0, spawn_points.Length);
             GameObject p = SpawnKeyboardPlayer(spwn, keyboard);
             respawnQueueKeyboard.Remove(keyboard);
@@ -269,6 +273,7 @@ public class SpawnScript : MonoBehaviour
 
         foreach (GameObject gamepad in respawnQueueGamePad)
         {
+            TankSounds.PlayHeal();
             int spwn = Random.Range(0, spawn_points.Length);
             VirtualSpawnGamepadTankPlayer(gamepad, spwn, gamepad.transform.GetComponent<GamepadTankController>().teamColor);
             respawnQueueGamePad.Remove(gamepad);
