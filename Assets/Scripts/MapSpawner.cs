@@ -25,21 +25,24 @@ public class MapSpawner : MonoBehaviour
         // Create map
         manager.currentMap = Instantiate(manager.map, manager.map.transform.position, manager.map.transform.rotation);
 
-        manager.teamColors = new List<Color>();
+        if(manager.mapName == "Japanese Large")
+        {
+            Camera.main.transform.position = new Vector3(-28, 60, -5);
+            Camera.main.transform.rotation = Quaternion.Euler(80,0,0);
+        }
 
-        manager.teamColors.Add(Color.red);
-        manager.teamColors.Add(Color.green);
-        manager.teamColors.Add(Color.blue);
+        manager.teamColors = new List<Color>
+        {
+            Color.red,
+            Color.green,
+            Color.blue
+        };
 
-        // Get team colors
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    teamColors.Add(new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f)));
-        //}
+        SpawnScript ss = manager.currentMap.transform.Find("SpawnManager").GetComponent<SpawnScript>();
 
-        manager.currentMap.transform.Find("SpawnManager").GetComponent<SpawnScript>().SetTeamColors(manager.teamColors);
-        manager.currentMap.transform.Find("SpawnManager").GetComponent<SpawnScript>().SetTimer(timer);
-        manager.currentMap.transform.Find("SpawnManager").GetComponent<SpawnScript>().SetRespawnTimer(respawnTimer);
+        ss.SetTeamColors(manager.teamColors);
+        ss.SetTimer(timer);
+        ss.SetRespawnTimer(respawnTimer);
 
         // Load Powerups
         manager.powerUps = Resources.LoadAll("PowerUps", typeof(GameObject));

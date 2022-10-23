@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MapSelector : MonoBehaviour
 {
     private GameObject map;
+    public string mapName;
     private GameObject previousSelected;
 
     // Start is called before the first frame update
@@ -34,6 +35,7 @@ public class MapSelector : MonoBehaviour
             }
 
             map = go.GetComponent<MapProperties>().map;
+            mapName = go.GetComponent<MapProperties>().mapName;
         }
         else
         {

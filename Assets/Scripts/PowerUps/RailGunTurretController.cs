@@ -133,7 +133,7 @@ public class RailGunTurretController : MonoBehaviour
         GameObject shot = Instantiate(projectile, this.muzzle.transform.position, this.muzzle.transform.rotation);
 
         // Set Color for the bullet, paint, paint explosion and amount of bounces left.
-        shot.GetComponent<BulletController>().Setup(new Color(0,0,0), this.bounceNumber);
+        shot.GetComponent<BulletController>().Setup(new Color(0,0,0,0), this.bounceNumber);
 
         // Set projectile speed
         shot.GetComponent<BulletController>().bulletSpeed = 10000f;

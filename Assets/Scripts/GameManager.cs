@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public GameObject timer;
 
     public GameObject map;
+    public string mapName;
     public GameObject currentMap;
     public Object[] powerUps;
 
@@ -68,8 +69,9 @@ public class GameManager : MonoBehaviour
     public void SetupGame(float gameTime)
     {
         map = mapPanel.GetComponent<MapSelector>().GetSelectedMap();
+        mapName = mapPanel.GetComponent<MapSelector>().mapName;
 
-        if(map == null)
+        if (map == null)
         {
             Debug.Log("Select map.");
             return;
