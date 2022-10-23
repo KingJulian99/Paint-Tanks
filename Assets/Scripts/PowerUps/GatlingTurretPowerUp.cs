@@ -13,7 +13,7 @@ public class GatlingTurretPowerUp : MonoBehaviour
             DespawnPowerUp();
         }
 
-        if (collider.gameObject.tag == "GamepadTank" && collider.gameObject.transform.Find("Turret").gameObject != null)
+        if (collider.gameObject.tag == "GamepadTank" && collider.gameObject.transform.Find("GamepadTurret").gameObject != null)
         {
             SpawnGamepadTurret(collider.gameObject);
 
@@ -43,7 +43,7 @@ public class GatlingTurretPowerUp : MonoBehaviour
     {
         var t = Resources.Load("GamepadGatlingTurret", typeof(GameObject));
 
-        GameObject turret = tank.transform.Find("Turret").gameObject;
+        GameObject turret = tank.transform.Find("GamepadTurret").gameObject;
         Transform t_transform = turret.transform;
 
         Destroy(turret);
