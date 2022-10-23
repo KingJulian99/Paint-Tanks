@@ -108,6 +108,9 @@ GameObject:
   - component: {fileID: 6904911906113701133}
   - component: {fileID: 8662633762134503879}
   - component: {fileID: 8262782484041470041}
+  - component: {fileID: 15300709459992278}
+  - component: {fileID: 8753367319243458258}
+  - component: {fileID: 6552711482652645425}
   m_Layer: 0
   m_Name: TripleBarrel
   m_TagString: Untagged
@@ -199,6 +202,56 @@ MonoBehaviour:
   viewCamera: {fileID: 0}
   projectile: {fileID: 8711198788665320963, guid: b78524c424e58194f88eef765c96a4ec, type: 3}
   barrel: {fileID: 9164163182169861108}
+--- !u!114 &15300709459992278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7149226856594182162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5aa881be76a3ff4db2fcd76d4059100, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxRotationSpeed: 0
+  viewCamera: {fileID: 0}
+  projectile: {fileID: 8711198788665320963, guid: b78524c424e58194f88eef765c96a4ec, type: 3}
+  barrel: {fileID: 9164163182169861108}
+--- !u!114 &8753367319243458258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7149226856594182162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398f379cb41494c4c9bded431c7d4e97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!195 &6552711482652645425
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7149226856594182162}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.0029908004
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.007831275
+  m_BaseOffset: 0.0039156377
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &8175323244694521948
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 4137683615576431673}
   - component: {fileID: 2200279012074580211}
   - component: {fileID: 6098309917274747245}
+  - component: {fileID: 8614964466281551332}
+  - component: {fileID: 7834884281116494951}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -102,6 +104,33 @@ MonoBehaviour:
   maxRotationSpeed: 0
   viewCamera: {fileID: 0}
   projectile: {fileID: 8711198788665320963, guid: b78524c424e58194f88eef765c96a4ec, type: 3}
+--- !u!114 &8614964466281551332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398580020355549478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d63a838e6dd1e34690a24fe06a5f0f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxRotationSpeed: 0
+  viewCamera: {fileID: 0}
+  projectile: {fileID: 8711198788665320963, guid: b78524c424e58194f88eef765c96a4ec, type: 3}
+--- !u!114 &7834884281116494951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398580020355549478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 228cc5dcaea91764399a1bb3d90f170d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1714667171447312744
 GameObject:
   m_ObjectHideFlags: 0

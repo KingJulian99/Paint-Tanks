@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Powerups.unity
     guid: 5ad36f43bac086d47944c45a8a04b442
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: b8cc78dc66933fb4db0ec7a5828b2494
   m_configObjects: {}

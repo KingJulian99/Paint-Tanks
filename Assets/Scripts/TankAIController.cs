@@ -34,10 +34,6 @@ public class TankAIController : MonoBehaviour
     public bool lineOfSight;
     public bool gotTargets = false;
 
-    // UI fields
-    //private GameObject healthBar;
-    //public int hBarNumber;
-
     public event VictoryNotify Victory;
 
     private void Awake()
@@ -96,8 +92,6 @@ public class TankAIController : MonoBehaviour
         GroundPaintCheck();
 
         UpdateTargets();
-
-        //UpdateHealth();
 
         target = GetTarget();
 
@@ -233,7 +227,6 @@ public class TankAIController : MonoBehaviour
     // When a player respawns add them to the list of targets
     private void AddToTargets(GameObject go)
     {
-        Debug.Log("Added new target");
         targets.Add(go);
     }
 
