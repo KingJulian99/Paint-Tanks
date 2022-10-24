@@ -1092,7 +1092,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: b3e67e28e12843f4c91b5f8e6b8abbde, type: 3}
+  m_Texture: {fileID: 2800000, guid: 2b552fef22b4d0d43a067d14cc06153e, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -2739,7 +2739,6 @@ GameObject:
   - component: {fileID: 2100743669}
   - component: {fileID: 2100743673}
   - component: {fileID: 2100743672}
-  - component: {fileID: 2100743671}
   - component: {fileID: 2100743670}
   m_Layer: 5
   m_Name: Map_3
@@ -2784,20 +2783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 273287441155649709, guid: 9561c7569d57c734ca274a9a78eb8fea, type: 3}
-  mapName: WIP
---- !u!114 &2100743671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2100743668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3133b32198b32264089c399b8e47b9b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates: []
+  mapName: Coming Soon
 --- !u!114 &2100743672
 MonoBehaviour:
   m_ObjectHideFlags: 0
