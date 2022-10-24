@@ -26,6 +26,8 @@ public class TankAIController : MonoBehaviour
     private ParticleSystem alertEffectRemove;
     private ParticleSystem explosion;
 
+    private SpawnScript s;
+
     // AI fields
     private NavMeshAgent navAgent;
     private List<GameObject> targets;
@@ -35,6 +37,7 @@ public class TankAIController : MonoBehaviour
     public bool gotTargets = false;
 
     public event VictoryNotify Victory;
+    public event TankDestroyedNotify TankAIDestroyed;
 
     private void Awake()
     {
@@ -42,9 +45,8 @@ public class TankAIController : MonoBehaviour
         playerContainer = GameObject.Find("PlayerContainer");
         lineOfSight = false;
 
-        SpawnScript s = GameObject.Find("SpawnManager").GetComponent<SpawnScript>();
+        s = GameObject.Find("SpawnManager").GetComponent<SpawnScript>();
         s.SpawnDone += SetUpAI;
-        s.RespawnDone += AddToTargets;
     }
 
     void Start()
@@ -103,7 +105,6 @@ public class TankAIController : MonoBehaviour
             }
 
         } else {
-            
 
             if (target != null && !LineOfSight())
             {
@@ -122,7 +123,7 @@ public class TankAIController : MonoBehaviour
             Debug.Log("Dead");
             this.alive = false;
 
-            //OnTankAIDestroyed();
+            OnTankDestroyed();
             Explode();
         }
 
@@ -143,7 +144,7 @@ public class TankAIController : MonoBehaviour
 
     // Executes when all players and ai are spawned
     // Gets the list of targets
-    private void SetUpAI()
+    public void SetUpAI()
     {
         targets = new List<GameObject>();
 
@@ -156,6 +157,8 @@ public class TankAIController : MonoBehaviour
         }
 
         gotTargets = true;
+
+        s.RespawnDone += AddToTargets;
     }
 
     // Checks whether the AI has line of sight of its target
@@ -176,9 +179,6 @@ public class TankAIController : MonoBehaviour
     // Randomly get target from list of spawned players and AI
     private GameObject GetTarget()
     {
-        // Check if target is not dead
-        //if (target != null) { return target; }
-
         // Assign new target
         if (targets.Count > 0)
         {
@@ -227,6 +227,7 @@ public class TankAIController : MonoBehaviour
     // When a player respawns add them to the list of targets
     private void AddToTargets(GameObject go)
     {
+        if(go == gameObject) { return; }
         targets.Add(go);
     }
 
@@ -370,30 +371,15 @@ public class TankAIController : MonoBehaviour
         }
     }
 
-    //public void SetHealthBar(GameObject healthBar, int barNum)
-    //{
-    //    this.healthBar = healthBar;
-    //    this.hBarNumber = barNum;
-    //}
+    protected virtual void OnTankDestroyed()
+    {
+        s.RespawnDone -= Disable;
 
-    //private void UpdateHealth()
-    //{
-    //    Transform barTransform = healthBar.transform.Find("Bar").GetComponent<Image>().transform;
+        TankAIDestroyed?.Invoke(this.gameObject);
+    }
 
-    //    if (health <= 0) 
-    //    {
-    //        barTransform.localScale = Vector3.zero;
-    //    }
-    //    else
-    //    {
-    //        float healthRatio = health / 100f;
-
-    //        barTransform.localScale = new Vector3(healthRatio * 0.5f, barTransform.localScale.y, barTransform.localScale.z);
-    //    }
-
-    //    if (health < 40)
-    //    {
-    //        healthBar.transform.Find("Bar").GetComponent<Image>().color = Color.red;
-    //    }
-    //}
+    private void Disable(GameObject go)
+    {
+        lineOfSight = false;
+    }
 }

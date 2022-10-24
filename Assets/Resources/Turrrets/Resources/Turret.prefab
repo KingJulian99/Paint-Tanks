@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6098309917274747245}
   - component: {fileID: 8614964466281551332}
   - component: {fileID: 7834884281116494951}
+  - component: {fileID: 1391773672223949697}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -131,6 +132,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 228cc5dcaea91764399a1bb3d90f170d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!195 &1391773672223949697
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398580020355549478}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.0029908004
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 0
+  m_AutoBraking: 0
+  m_AutoRepath: 0
+  m_Height: 0.007831275
+  m_BaseOffset: 0.0039156377
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 0
 --- !u!1 &1714667171447312744
 GameObject:
   m_ObjectHideFlags: 0

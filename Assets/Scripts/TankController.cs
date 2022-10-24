@@ -257,34 +257,6 @@ public class TankController : MonoBehaviour
         }
     }
 
-    //public void SetHealthBar(GameObject healthBar, int barNum)
-    //{
-    //    this.healthBar = healthBar;
-    //    this.hBarNumber = barNum;
-    //}
-
-    //private void UpdateHealthBar()
-    //{
-    //    Transform barTransform = healthBar.transform.Find("HealthBar").GetComponent<Image>().transform;
-
-    //    if (health <= 0)
-    //    {
-    //        barTransform.localScale = Vector3.zero;
-    //    }
-    //    else
-    //    {
-    //        float healthRatio = health / 100f;
-
-    //        barTransform.localScale = new Vector3(healthRatio * 0.5f, barTransform.localScale.y, barTransform.localScale.z);
-    //    }
-
-    //    if (health < 40)
-    //    {
-    //        healthBar.transform.Find("HealthBar").GetComponent<Image>().color = Color.red;
-    //    }
-
-    //}
-
     protected virtual void OnTankDestroyed()
     {
         TankDestroyed?.Invoke(this.gameObject);

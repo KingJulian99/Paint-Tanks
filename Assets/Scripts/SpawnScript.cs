@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using static UnityEngine.ParticleSystem;
 using Random = UnityEngine.Random;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 public delegate void SpawnNotify();
 public delegate void RespawnNotify(GameObject go);
@@ -29,6 +30,7 @@ public class SpawnScript : MonoBehaviour
     private float respawn;
 
     private List<Color> respawnQueueKeyboard;
+    private List<Color> respawnQueueAI;
     private List<GameObject> respawnQueueGamePad;
 
     private float initialPhaseTime;
@@ -45,6 +47,7 @@ public class SpawnScript : MonoBehaviour
     {
         spawnedPlayers = new List<GameObject>();
         respawnQueueKeyboard = new List<Color>();
+        respawnQueueAI = new List<Color>();
         respawnQueueGamePad = new List<GameObject>();
 
         respawn = RESPAWNTIME;
@@ -234,11 +237,8 @@ public class SpawnScript : MonoBehaviour
         // Set players team color
         p.transform.GetComponent<TankAIController>().SetTeamColor(teamColor);
 
-        // Set UI health bar
-        //p.transform.GetComponent<TankAIController>().SetHealthBar(heathBars[hBarNumber], hBarNumber);
-
         // When Tank is Destroyed Respawn the player
-        //p.transform.GetComponent<TankAIController>().TankDestroyed += RespawnAI;
+        p.transform.GetComponent<TankAIController>().TankAIDestroyed += RespawnQueue;
 
         // Add player to list of spawned players
         spawnedPlayers.Add(p);
@@ -254,14 +254,13 @@ public class SpawnScript : MonoBehaviour
 
     protected virtual void OnRespawnDone(GameObject go)
     {
-        Debug.Log("Done Respawning");
         RespawnDone?.Invoke(go);
     }
 
 
     private void RespawnPlayers()
     {
-        foreach(Color keyboard in respawnQueueKeyboard)
+        foreach(Color keyboard in respawnQueueKeyboard.ToList())
         {
             TankSounds.PlayHeal();
             int spwn = Random.Range(0, spawn_points.Length);
@@ -271,7 +270,7 @@ public class SpawnScript : MonoBehaviour
             OnRespawnDone(p);
         }
 
-        foreach (GameObject gamepad in respawnQueueGamePad)
+        foreach (GameObject gamepad in respawnQueueGamePad.ToList())
         {
             TankSounds.PlayHeal();
             int spwn = Random.Range(0, spawn_points.Length);
@@ -279,27 +278,34 @@ public class SpawnScript : MonoBehaviour
             respawnQueueGamePad.Remove(gamepad);
 
             OnRespawnDone(gamepad);
-        }        
+        }
+
+        foreach (Color aiCol in respawnQueueAI.ToList())
+        {
+            TankSounds.PlayHeal();
+            int spwn = Random.Range(0, spawn_points.Length);
+            GameObject p = SpawnAI(spwn, aiCol);
+            respawnQueueAI.Remove(aiCol);
+
+            p.GetComponent<TankAIController>().SetUpAI();
+            OnRespawnDone(p);
+        }
     }
 
     private void RespawnQueue(GameObject go)
     {
-        if (go.tag == "Tank")
+        if (go.CompareTag("Tank"))
         {
             respawnQueueKeyboard.Add(go.transform.GetComponent<TankController>().teamColor);
         }
-        else if (go.tag == "GamepadTank")
+        else if (go.CompareTag("GamepadTank"))
         {
             respawnQueueGamePad.Add(go);
         }
-    }
-
-    private void RespawnAI(GameObject go)
-    {
-        int spwn = Random.Range(0, spawn_points.Length);
-        GameObject p = SpawnKeyboardPlayer(spwn, go.transform.GetComponent<TankAIController>().teamColor);
-
-        OnRespawnDone(p);
+        else
+        {
+            respawnQueueAI.Add(go.transform.GetComponent<TankAIController>().teamColor);
+        }
     }
     public void SetTeamColors(List<Color> teamColors)
     {
