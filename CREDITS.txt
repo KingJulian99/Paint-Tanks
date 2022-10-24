@@ -6,6 +6,11 @@ Paint System
 Skeleton of implimentation came from TNTC at https://www.youtube.com/watch?v=YUWfHX_ZNCw (notable the shader specific method)
 With alterations by us to get it into a working and usable state for the other mechanics.
 
+AI Systems
+Components for the AI systems were implemented using an extention of Unity's NavMesh system: the NavMeshComponents system for 
+building NavMeshs at runtime. The components can be found at https://github.com/Unity-Technologies/NavMeshComponents. The AI system
+uses the NavMeshSurface component to build the NavMesh when loading the map at runtime.
+
 .wavs
 FREE Sound assets were all taken from unity asset store. Licenses for these sounds can be found in Assets/SFX.
 Only ~8 .wavs were used.
